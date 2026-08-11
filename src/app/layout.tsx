@@ -9,7 +9,12 @@ const geistSans = Geist({
   display: 'swap',
 });
 
+const SITE_URL = 'https://calisolidario.triadaaliados.com';
+
 export const metadata: Metadata = {
+  // Necesario para que la imagen de previsualización salga con URL absoluta:
+  // WhatsApp y Facebook descartan las relativas.
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'CaliSolidario — ayuda que llega',
     template: '%s · CaliSolidario',
@@ -17,11 +22,19 @@ export const metadata: Metadata = {
   description:
     'Tablero abierto para conectar a quien necesita ayuda en Cali con quien puede darla. Publica lo que necesitas o lo que ofreces.',
   openGraph: {
-    title: 'CaliSolidario',
+    title: 'CaliSolidario — ayuda que llega',
     description:
-      'Conecta a quien necesita ayuda en Cali con quien puede darla.',
+      'Quien necesita ayuda y quien puede darla, en el mismo lugar. Mira el tablero, pide lo que te falta u ofrece lo que tienes.',
+    url: SITE_URL,
+    siteName: 'CaliSolidario',
     locale: 'es_CO',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CaliSolidario — ayuda que llega',
+    description:
+      'Quien necesita ayuda y quien puede darla, en el mismo lugar.',
   },
 };
 
