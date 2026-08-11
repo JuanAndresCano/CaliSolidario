@@ -51,16 +51,22 @@ language plpgsql
 security definer
 set search_path = public
 as $$
+declare
+  name text;
 begin
-  insert into public.profiles (id, display_name)
-  values (
-    new.id,
-    coalesce(
-      nullif(trim(new.raw_user_meta_data ->> 'full_name'), ''),
-      nullif(trim(new.raw_user_meta_data ->> 'name'), ''),
-      split_part(new.email, '@', 1)
-    )
-  );
+  -- Recortado a 60 y con respaldo: un nombre de Google más largo que el check
+  -- de display_name rompería el alta del usuario en pleno OAuth.
+  name := left(trim(coalesce(
+    nullif(trim(new.raw_user_meta_data ->> 'full_name'), ''),
+    nullif(trim(new.raw_user_meta_data ->> 'name'), ''),
+    split_part(new.email, '@', 1)
+  )), 60);
+
+  if name is null or length(name) < 2 then
+    name := 'Alguien';
+  end if;
+
+  insert into public.profiles (id, display_name) values (new.id, name);
   return new;
 end;
 $$;
@@ -115,7 +121,9 @@ create trigger posts_touch_updated_at
   before update on posts
   for each row execute function touch_updated_at();
 
--- Campos que nadie puede reescribir después de crear el aviso.
+-- Campos que nadie reescribe tras crear el aviso, y transiciones de estado
+-- válidas para no-admins: cerrar sí, reabrir nunca. (is_admin() se define más
+-- abajo; plpgsql lo resuelve en ejecución, no al crear la función.)
 create function posts_guard_immutable()
 returns trigger language plpgsql as $$
 begin
@@ -124,6 +132,18 @@ begin
   or new.created_at is distinct from old.created_at then
     raise exception 'Estos campos no se pueden modificar';
   end if;
+
+  if new.status is distinct from old.status and not is_admin() then
+    -- open puede cerrarse (cumplido, retirado o vencido —el cron corre sin
+    -- sesión y cae aquí—); un aviso cerrado solo puede pasar a retirado.
+    if not (
+      (old.status = 'open' and new.status in ('fulfilled', 'removed', 'expired'))
+      or (old.status in ('fulfilled', 'expired') and new.status = 'removed')
+    ) then
+      raise exception 'Esa transición de estado no está permitida';
+    end if;
+  end if;
+
   return new;
 end;
 $$;
@@ -139,6 +159,10 @@ returns trigger language plpgsql as $$
 declare
   open_count int;
 begin
+  -- Serializa los inserts del mismo autor: sin el lock, dos peticiones
+  -- simultáneas cuentan 2 y terminan ambas dentro, quedando en 4.
+  perform pg_advisory_xact_lock(hashtext(new.author_id::text));
+
   select count(*) into open_count
     from posts
    where author_id = new.author_id
@@ -226,6 +250,33 @@ create trigger post_comments_sync_warnings
   after insert or update or delete on post_comments
   for each row execute function sync_warning_count();
 
+-- Freno al spam: 15 comentarios por hora por cuenta es más de lo que escribe
+-- cualquier persona real y menos de lo que necesita un bot.
+create index post_comments_author_recent_idx
+  on post_comments (author_id, created_at desc);
+
+create function post_comments_enforce_rate_limit()
+returns trigger language plpgsql as $$
+declare
+  recent int;
+begin
+  select count(*) into recent
+    from post_comments
+   where author_id = new.author_id
+     and created_at > now() - interval '1 hour';
+
+  if recent >= 15 then
+    raise exception 'Has escrito muchos comentarios en poco tiempo. Espera un rato.';
+  end if;
+
+  return new;
+end;
+$$;
+
+create trigger post_comments_enforce_rate_limit
+  before insert on post_comments
+  for each row execute function post_comments_enforce_rate_limit();
+
 -- ---------------------------------------------------------------------------
 -- Quién es administrador
 --
@@ -284,6 +335,25 @@ $$;
 revoke execute on function expire_old_posts() from anon, authenticated;
 
 -- ---------------------------------------------------------------------------
+-- Privilegios por columna
+--
+-- RLS decide qué FILAS toca cada quien; esto decide qué COLUMNAS. La app
+-- nunca edita un aviso después de crearlo, así que la API tampoco debe
+-- permitirlo: sin esto, el autor podría reescribir título y descripción
+-- después de acumular alertas, poner warning_count en 0 o extender
+-- expires_at. Los triggers security definer corren como dueño de la tabla y
+-- no los afecta.
+-- ---------------------------------------------------------------------------
+
+revoke update on posts from authenticated;
+grant update (status, fulfilled_at) on posts to authenticated;
+
+revoke update on profiles from authenticated;
+grant update (display_name, is_banned) on profiles to authenticated;
+-- (is_banned sigue gobernado por RLS: solo un admin pasa la política para
+--  cambiárselo a otros, y el CHECK de arriba impide auto-asignárselo.)
+
+-- ---------------------------------------------------------------------------
 -- Row Level Security
 -- ---------------------------------------------------------------------------
 
@@ -293,12 +363,17 @@ alter table post_contacts enable row level security;
 alter table post_comments enable row level security;
 alter table comment_votes enable row level security;
 
--- profiles: el nombre a mostrar es público; cada quien edita el suyo.
-create policy profiles_select_public on profiles
-  for select using (true);
+-- profiles: los nombres solo se leen con sesión (el tablero público no los
+-- muestra y un anónimo no tiene por qué listar usuarios ni saber quién es
+-- admin). El USING excluye a los bloqueados: sin eso, un baneado pasaría el
+-- USING (la fila es suya) y el CHECK (la fila nueva diría is_banned=false) y
+-- se desbloquearía solo.
+create policy profiles_select_authenticated on profiles
+  for select to authenticated using (true);
 
 create policy profiles_update_own on profiles
-  for update using (id = auth.uid())
+  for update to authenticated
+  using (id = auth.uid() and not is_banned)
   with check (id = auth.uid() and is_admin = false and is_banned = false);
 
 -- posts: lectura anónima de todo lo que no fue retirado.
@@ -319,9 +394,9 @@ create policy posts_update_own on posts
   using (author_id = auth.uid())
   with check (author_id = auth.uid());
 
-create policy posts_delete_own on posts
-  for delete to authenticated
-  using (author_id = auth.uid());
+-- Sin política de DELETE a propósito: "borrar" es soft-delete (status =
+-- 'removed'). Un DELETE físico arrastraría en cascada las alertas de la
+-- comunidad, o sea la evidencia contra un estafador.
 
 -- post_contacts: el dato de contacto solo con sesión iniciada.
 create policy post_contacts_select_authenticated on post_contacts

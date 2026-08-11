@@ -7,7 +7,14 @@ export const metadata: Metadata = {
 };
 
 /** Rutas internas permitidas como destino después de entrar. */
-const ALLOWED_NEXT = ['/', '/publicar', '/mis-avisos', '/necesidades', '/ofertas'];
+const ALLOWED_NEXT = [
+  '/',
+  '/publicar',
+  '/mis-avisos',
+  '/necesidades',
+  '/ofertas',
+  '/admin',
+];
 
 function safeNext(raw: string | undefined): string {
   if (!raw) return '/';

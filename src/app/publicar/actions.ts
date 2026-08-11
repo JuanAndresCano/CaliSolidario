@@ -132,8 +132,14 @@ export async function deletePost(formData: FormData) {
   if (typeof postId !== 'string') return;
 
   const supabase = await createClient();
-  // RLS se encarga de que solo el autor pueda borrar.
-  const { error } = await supabase.from('posts').delete().eq('id', postId);
+  // Soft-delete a propósito: un DELETE físico arrastraría las alertas de la
+  // comunidad en cascada, o sea la evidencia contra un estafador. Para el
+  // autor el efecto es el mismo: el aviso desaparece del tablero y de su
+  // lista (RLS esconde los 'removed'). RLS limita esto a los avisos propios.
+  const { error } = await supabase
+    .from('posts')
+    .update({ status: 'removed' })
+    .eq('id', postId);
 
   if (error) {
     console.error('[posts] no se pudo borrar:', error.message);

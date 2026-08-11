@@ -1,9 +1,15 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
-/** Mismo criterio que en /login: nunca redirigir fuera del sitio. */
+/**
+ * Mismo criterio que en /login: nunca redirigir fuera del sitio. El chequeo de
+ * backslash importa: los navegadores normalizan `/\evil.com` a `//evil.com`,
+ * que es una URL relativa de protocolo — o sea, otro dominio.
+ */
 function safeNext(raw: string | null): string {
-  if (!raw || !raw.startsWith('/') || raw.startsWith('//')) return '/';
+  if (!raw || !raw.startsWith('/') || raw.startsWith('//') || raw.includes('\\')) {
+    return '/';
+  }
   return raw;
 }
 

@@ -64,6 +64,43 @@ else
 fi
 
 echo
+echo "== 2b. RLS esconde datos sensibles a anónimos"
+check_empty() {
+  local table="$1" label="$2"
+  local code
+  code=$(status "$URL/rest/v1/$table?select=*&limit=5")
+  if [ "$code" = "200" ] && [ "$(cat /tmp/verif-body.txt)" = "[]" ]; then
+    echo "  OK    $label"
+  elif [ "$code" = "200" ]; then
+    echo "  FALLA un anónimo SÍ puede leer '$table': $(head -c 150 /tmp/verif-body.txt)"
+    fails=$((fails + 1))
+  else
+    echo "  ?     '$table' respondió $code"
+  fi
+}
+check_empty post_contacts "contactos invisibles sin sesión"
+check_empty post_comments "comentarios/alertas invisibles sin sesión"
+check_empty profiles "perfiles invisibles sin sesión"
+
+echo
+echo "== 2c. Un anónimo no puede modificar avisos"
+# `Prefer: return=representation` hace que PostgREST devuelva las filas que el
+# UPDATE realmente tocó: un 200 con [] significa que RLS filtró todo (bien).
+code=$(status -X PATCH "$URL/rest/v1/posts?status=eq.open" \
+  -H 'Content-Type: application/json' -H 'Prefer: return=representation' \
+  -d '{"status":"removed"}')
+if [ "$code" = "401" ] || [ "$code" = "403" ]; then
+  echo "  OK    update anónimo rechazado (HTTP $code)"
+elif { [ "$code" = "200" ] || [ "$code" = "204" ]; } && [ "$(cat /tmp/verif-body.txt)" = "[]" ]; then
+  echo "  OK    update anónimo no afectó ninguna fila (RLS filtró todo)"
+elif [ "$code" = "200" ] || [ "$code" = "204" ]; then
+  echo "  FALLA ¡un anónimo modificó filas!: $(head -c 200 /tmp/verif-body.txt)"
+  fails=$((fails + 1))
+else
+  echo "  ?     respondió $code: $(head -c 150 /tmp/verif-body.txt)"
+fi
+
+echo
 echo "== 3. RPC disponibles"
 # PostgREST devuelve 404 cuando la firma no coincide, así que hay que llamar
 # cada función con sus argumentos reales o el chequeo da un falso negativo.
