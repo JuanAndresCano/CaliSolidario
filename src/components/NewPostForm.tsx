@@ -2,14 +2,20 @@
 
 import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
-import { CATEGORIES, COMUNAS, CONTACT_METHODS, KINDS } from '@/lib/catalog';
+import {
+  CATEGORIES,
+  COMUNAS,
+  CONTACT_METHODS,
+  KINDS,
+  type Kind,
+} from '@/lib/catalog';
 import { createPost, type CreatePostState } from '@/app/publicar/actions';
 
 const INITIAL: CreatePostState = { error: null };
 
-export function NewPostForm() {
+export function NewPostForm({ initialKind }: { initialKind?: Kind }) {
   const [state, action] = useActionState(createPost, INITIAL);
-  const [kind, setKind] = useState<string>('need');
+  const [kind, setKind] = useState<string>(initialKind ?? 'need');
   const [method, setMethod] = useState<string>('whatsapp');
 
   const isPhone = method === 'whatsapp' || method === 'telefono';

@@ -22,6 +22,7 @@ function safeNext(raw: string | undefined): string {
   // un redirector abierto.
   if (ALLOWED_NEXT.includes(raw)) return raw;
   if (/^\/aviso\/[0-9a-f-]{36}$/i.test(raw)) return raw;
+  if (/^\/publicar\?tipo=(necesito|ofrezco)$/.test(raw)) return raw;
   return '/';
 }
 
