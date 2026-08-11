@@ -75,40 +75,51 @@ export async function createPost(
     return { error: 'Escribe cómo pueden contactarte (entre 5 y 120 caracteres).' };
   }
 
-  const { data: post, error: postError } = await supabase
-    .from('posts')
-    .insert({
-      author_id: user.id,
-      kind,
-      category,
-      title,
-      description,
-      quantity_text: quantity || null,
-      comuna: comuna || null,
-      barrio: barrio || null,
-      address: address || null,
-    })
-    .select('id')
-    .single();
+  // Un solo RPC en vez de dos inserts: el aviso y su contacto entran en la
+  // misma transacción. Antes, si el segundo insert fallaba, quedaba un aviso
+  // publicado sin forma de contactar a nadie.
+  const { error: createError } = await supabase.rpc('create_post_with_contact', {
+    p_kind: kind,
+    p_category: category,
+    p_title: title,
+    p_description: description,
+    p_quantity: quantity || null,
+    p_comuna: comuna || null,
+    p_barrio: barrio || null,
+    p_address: address || null,
+    p_method: method,
+    p_contact_value: contactValue,
+  });
 
-  if (postError) {
+  if (createError) {
     // El trigger de límite de avisos abiertos habla en español y su mensaje
     // sirve tal cual para el usuario.
-    return { error: postError.message };
-  }
-
-  const { error: contactError } = await supabase
-    .from('post_contacts')
-    .insert({ post_id: post.id, method, value: contactValue });
-
-  if (contactError) {
-    // Un aviso sin contacto no sirve para nada: se deshace la publicación.
-    await supabase.from('posts').delete().eq('id', post.id);
-    return { error: 'No se pudo guardar el dato de contacto. Intenta de nuevo.' };
+    return { error: createError.message };
   }
 
   refreshFeed();
   redirect('/mis-avisos?publicado=1');
+}
+
+/** Deshace un cierre hecho por error. RLS y el trigger impiden revivir un
+ *  aviso retirado por moderación. */
+export async function reopenPost(formData: FormData) {
+  const postId = formData.get('post_id');
+  if (typeof postId !== 'string') return;
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from('posts')
+    .update({ status: 'open', fulfilled_at: null })
+    .eq('id', postId);
+
+  if (error) {
+    console.error('[posts] no se pudo reabrir:', error.message);
+    return;
+  }
+
+  refreshFeed();
+  revalidatePath('/mis-avisos');
 }
 
 export async function markFulfilled(formData: FormData) {

@@ -31,3 +31,40 @@ export async function getFeed(kind?: Kind): Promise<FeedPost[]> {
 
   return (data ?? []) as FeedPost[];
 }
+
+export type ResolvedPost = FeedPost & { fulfilled_at: string | null };
+
+/**
+ * Ayudas ya concretadas. Sirven de prueba pública de que el tablero funciona:
+ * quien llega y ve solo peticiones abiertas no sabe si esto sirve para algo.
+ */
+export async function getResolved(limit = 60): Promise<ResolvedPost[]> {
+  const { data, error } = await supabasePublic
+    .from('posts')
+    .select(`${FEED_COLUMNS}, fulfilled_at`)
+    .eq('status', 'fulfilled')
+    .order('fulfilled_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('[feed] no se pudieron cargar las resueltas:', error.message);
+    return [];
+  }
+
+  return (data ?? []) as ResolvedPost[];
+}
+
+/** Cuántas ayudas se han concretado en total. Solo trae el conteo, no filas. */
+export async function countResolved(): Promise<number> {
+  const { count, error } = await supabasePublic
+    .from('posts')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'fulfilled');
+
+  if (error) {
+    console.error('[feed] no se pudo contar las resueltas:', error.message);
+    return 0;
+  }
+
+  return count ?? 0;
+}

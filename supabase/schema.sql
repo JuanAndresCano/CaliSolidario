@@ -126,6 +126,8 @@ create trigger posts_touch_updated_at
 -- abajo; plpgsql lo resuelve en ejecución, no al crear la función.)
 create function posts_guard_immutable()
 returns trigger language plpgsql as $$
+declare
+  open_count int;
 begin
   if new.author_id  is distinct from old.author_id
   or new.kind       is distinct from old.kind
@@ -134,13 +136,30 @@ begin
   end if;
 
   if new.status is distinct from old.status and not is_admin() then
-    -- open puede cerrarse (cumplido, retirado o vencido —el cron corre sin
-    -- sesión y cae aquí—); un aviso cerrado solo puede pasar a retirado.
+    -- Lo que no se puede deshacer es el cierre de un moderador: el autor
+    -- reabre lo que él mismo cerró (o lo que venció), nunca un 'removed'.
     if not (
       (old.status = 'open' and new.status in ('fulfilled', 'removed', 'expired'))
       or (old.status in ('fulfilled', 'expired') and new.status = 'removed')
+      or (old.status in ('fulfilled', 'expired') and new.status = 'open')
     ) then
       raise exception 'Esa transición de estado no está permitida';
+    end if;
+  end if;
+
+  -- Reabrir no puede saltarse el límite de 3 abiertos: el trigger que lo
+  -- vigila solo corre en INSERT.
+  if new.status = 'open' and old.status <> 'open' then
+    perform pg_advisory_xact_lock(hashtext(new.author_id::text));
+
+    select count(*) into open_count
+      from posts
+     where author_id = new.author_id
+       and status = 'open'
+       and id <> new.id;
+
+    if open_count >= 3 then
+      raise exception 'Ya tienes 3 avisos abiertos. Cierra uno para volver a publicar este.';
     end if;
   end if;
 

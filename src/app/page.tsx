@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { FeedList } from '@/components/FeedList';
 import { FeedTabs } from '@/components/FeedTabs';
 import { SafetyNote } from '@/components/SafetyNote';
-import { getFeed } from '@/lib/feed';
+import { countResolved, getFeed } from '@/lib/feed';
 
 /**
  * Una consulta a Postgres por minuto sirve a todos los visitantes: esta página
@@ -12,7 +12,7 @@ import { getFeed } from '@/lib/feed';
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const posts = await getFeed();
+  const [posts, resolvedCount] = await Promise.all([getFeed(), countResolved()]);
 
   return (
     <>
@@ -48,6 +48,23 @@ export default async function HomePage() {
           </span>
         </Link>
       </div>
+
+      {resolvedCount > 0 && (
+        <Link
+          href="/resueltas"
+          className="mb-4 flex items-center gap-2 rounded-xl bg-offer-bg px-3 py-2.5"
+        >
+          <span aria-hidden className="text-lg">✓</span>
+          <span className="text-sm font-semibold text-offer">
+            {resolvedCount === 1
+              ? '1 ayuda ya se concretó'
+              : `${resolvedCount} ayudas ya se concretaron`}
+          </span>
+          <span className="ml-auto text-sm text-offer underline underline-offset-4">
+            Ver
+          </span>
+        </Link>
+      )}
 
       <FeedTabs current="/" />
       <FeedList posts={posts} />

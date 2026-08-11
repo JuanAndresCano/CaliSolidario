@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { deletePost, markFulfilled } from '@/app/publicar/actions';
+import { deletePost, reopenPost } from '@/app/publicar/actions';
+import { ResolveButton } from '@/components/ResolveButton';
 import { CATEGORY_EMOJIS, CATEGORY_LABELS } from '@/lib/catalog';
 import { describePlace } from '@/lib/place';
 import { createClient } from '@/lib/supabase/server';
@@ -56,14 +57,26 @@ export default async function MyPostsPage({
       </div>
 
       {publicado && (
-        <p className="mt-3 rounded-xl bg-offer-bg px-3 py-2.5 text-sm font-semibold text-offer">
-          ✓ Tu aviso quedó publicado.
-        </p>
+        <div className="mt-3 rounded-xl bg-offer-bg px-3 py-3">
+          <p className="text-sm font-bold text-offer">
+            ✓ Listo, tu aviso ya está en el tablero
+          </p>
+          <p className="mt-0.5 text-sm text-offer">
+            No tienes que hacer nada más. La gente te va a contactar por el
+            medio que dejaste.
+          </p>
+          <Link
+            href="/"
+            className="mt-2 inline-block text-sm font-semibold text-offer underline underline-offset-4"
+          >
+            Ver el tablero
+          </Link>
+        </div>
       )}
 
       <p className="mt-2 text-sm text-muted">
-        {openCount} de 3 avisos activos. Marca uno como resuelto cuando
-        consigas lo que buscabas o entregues lo que ofrecías.
+        {openCount} de 3 avisos activos. Cierra uno solo cuando ya hayas
+        recibido o entregado la ayuda.
       </p>
 
       {posts.length === 0 ? (
@@ -108,18 +121,29 @@ export default async function MyPostsPage({
                 </p>
               </Link>
 
-              <div className="mt-3 flex gap-2">
+              {post.status === 'fulfilled' && (
+                <p className="mt-2 rounded-xl bg-need-bg px-3 py-2 text-xs text-need">
+                  Este aviso ya no aparece en el tablero.
+                </p>
+              )}
+
+              <div className="mt-3 flex flex-wrap gap-2">
                 {post.status === 'open' && (
-                  <form action={markFulfilled} className="flex-1">
+                  <ResolveButton postId={post.id} kind={post.kind} />
+                )}
+
+                {post.status === 'fulfilled' && (
+                  <form action={reopenPost} className="flex-1">
                     <input type="hidden" name="post_id" value={post.id} />
                     <button
                       type="submit"
                       className="w-full rounded-xl bg-brand px-3 text-sm font-semibold text-brand-ink"
                     >
-                      Marcar resuelto
+                      Volver a publicarlo
                     </button>
                   </form>
                 )}
+
                 <form action={deletePost} className="flex-1">
                   <input type="hidden" name="post_id" value={post.id} />
                   <button
