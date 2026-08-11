@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f7f5;
+  --surface: #ffffff;
+  --foreground: #17181a;
+  --muted: #62676e;
+  --border: #e2e3e0;
+
+  --brand: #0f6f5c;
+  --brand-ink: #ffffff;
+
+  --need: #b4501a;
+  --need-bg: #fdf1e8;
+  --offer: #14654f;
+  --offer-bg: #e9f4ef;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #101113;
+    --surface: #1a1c1f;
+    --foreground: #ececed;
+    --muted: #9aa0a8;
+    --border: #2b2e33;
+
+    --brand: #2ea88b;
+    --brand-ink: #06231c;
+
+    --need: #f0a06a;
+    --need-bg: #332013;
+    --offer: #6fd1ae;
+    --offer-bg: #102b23;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-line: var(--border);
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-need: var(--need);
+  --color-need-bg: var(--need-bg);
+  --color-offer: var(--offer);
+  --color-offer-bg: var(--offer-bg);
+  --font-sans: var(--font-geist-sans);
+}
+
+/*
+ * El texto escala con el ancho, pero el piso es 15px: esta app la va a usar
+ * gente mayor, con el celular en la mano y posiblemente a la intemperie.
+ * Nada aquí puede quedar más pequeño que eso.
+ */
+html {
+  font-size: clamp(15px, 4vw, 17px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overscroll-behavior-y: none;
+}
+
+/* Todo lo tocable respeta el mínimo de 44px de alto. */
+button,
+a[role="button"],
+input,
+select,
+textarea {
+  min-height: 2.75rem;
+}
+
+/* iOS hace zoom al enfocar un campo con fuente menor a 16px. */
+input,
+select,
+textarea {
+  font-size: max(1rem, 16px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,27 @@
+import type { Metadata } from 'next';
+import { FeedList } from '@/components/FeedList';
+import { FeedTabs } from '@/components/FeedTabs';
+import { SafetyNote } from '@/components/SafetyNote';
+import { getFeed } from '@/lib/feed';
+
+export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: 'Necesidades',
+  description: 'Lo que la gente en Cali está necesitando ahora mismo.',
+};
+
+export default async function NeedsPage() {
+  const posts = await getFeed('need');
+
+  return (
+    <>
+      <h1 className="mb-4 text-xl font-bold tracking-tight">
+        Lo que se necesita
+      </h1>
+      <FeedTabs current="/necesidades" />
+      <FeedList posts={posts} />
+      <SafetyNote />
+    </>
+  );
+}
