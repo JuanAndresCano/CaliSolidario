@@ -21,7 +21,12 @@ export async function generateMetadata({
     .eq('id', id)
     .maybeSingle();
 
-  return { title: data?.title ?? 'Aviso' };
+  return {
+    title: data?.title ?? 'Aviso',
+    // Un aviso caduca a los 7 días; su copia en la caché de un buscador, no.
+    // Ver src/app/robots.ts para el razonamiento completo.
+    robots: { index: false, follow: true },
+  };
 }
 
 export default async function PostPage({ params }: PageProps<'/aviso/[id]'>) {

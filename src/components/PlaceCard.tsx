@@ -1,0 +1,147 @@
+import { SERVICE_CATEGORY_MAP } from '@/lib/catalog';
+import { contactUrl, mapsUrl, type Place } from '@/lib/places';
+import { timeAgo } from '@/lib/time';
+
+export function PlaceCard({ place }: { place: Place }) {
+  const maps = mapsUrl(place);
+  const contact = contactUrl(place);
+  const service = place.service_category
+    ? SERVICE_CATEGORY_MAP[place.service_category]
+    : null;
+
+  return (
+    <li
+      className={
+        place.is_full
+          ? 'rounded-2xl border border-line bg-surface px-4 py-3.5 opacity-60'
+          : 'rounded-2xl border border-line bg-surface px-4 py-3.5'
+      }
+    >
+      <div className="flex flex-wrap items-center gap-2">
+        {place.kind === 'necesidad' && (
+          <span className="rounded-full bg-need px-2.5 py-1 text-xs font-bold text-white">
+            ⚠ No está llegando ayuda
+          </span>
+        )}
+        {place.is_verified && (
+          <span className="rounded-full bg-offer-bg px-2.5 py-1 text-xs font-bold text-offer">
+            ✓ Verificado
+          </span>
+        )}
+        {service && (
+          <span className="text-xs text-muted">
+            {service.emoji} {service.label}
+          </span>
+        )}
+        {place.is_full && (
+          <span className="rounded-full bg-need-bg px-2.5 py-1 text-xs font-bold text-need">
+            🔴 Lleno por ahora
+          </span>
+        )}
+      </div>
+
+      {/* Con miniatura queda como la tarjeta que arma WhatsApp al compartir un
+          enlace: imagen a la izquierda, título y organización a la derecha. */}
+      <div className="mt-2 flex items-start gap-3">
+        {place.image_url && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={place.image_url}
+            alt=""
+            width={72}
+            height={72}
+            loading="lazy"
+            decoding="async"
+            className="size-18 shrink-0 rounded-xl border border-line object-cover"
+          />
+        )}
+        <div className="min-w-0">
+          <h2 className="text-base font-semibold leading-snug">{place.name}</h2>
+          {place.org_name && (
+            <p className="text-xs text-muted">Por {place.org_name}</p>
+          )}
+        </div>
+      </div>
+
+      {place.description && (
+        <p className="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-muted">
+          {place.description}
+        </p>
+      )}
+
+      {(place.supplies_needed || place.supplies_surplus) && (
+        <div className="mt-3 flex flex-col gap-1.5">
+          {place.supplies_needed && (
+            <p className="rounded-xl bg-need-bg px-3 py-2 text-sm text-need">
+              <span className="font-bold">
+                {place.kind === 'necesidad' ? 'Necesitan:' : 'Les falta:'}
+              </span>{' '}
+              {place.supplies_needed}
+            </p>
+          )}
+          {place.supplies_surplus && (
+            <p className="rounded-xl bg-offer-bg px-3 py-2 text-sm text-offer">
+              <span className="font-bold">Ya tienen de sobra:</span>{' '}
+              {place.supplies_surplus}
+            </p>
+          )}
+        </div>
+      )}
+
+      <p className="mt-2.5 text-xs text-muted">
+        {place.address ? `📍 ${place.address}` : null}
+        {place.comuna ? ` · ${place.comuna}` : null}
+        {place.schedule ? ` · 🕐 ${place.schedule}` : null}
+      </p>
+
+      <p className="mt-1 text-xs text-muted" suppressHydrationWarning>
+        Confirmado {timeAgo(place.confirmed_at)}
+      </p>
+
+      {(maps || contact || place.website) && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {/* Si además hay WhatsApp o teléfono, ese es el canal real para
+              agendar y el sitio pasa a ser secundario: dos botones diciendo
+              "Agendar" mandarían a la gente por el camino largo. */}
+          {place.website && (
+            <a
+              href={place.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              role="button"
+              className={
+                contact
+                  ? 'flex flex-1 items-center justify-center rounded-xl border border-line px-3 text-sm font-semibold'
+                  : 'flex flex-1 items-center justify-center rounded-xl bg-brand px-3 text-sm font-semibold text-brand-ink'
+              }
+            >
+              {contact ? 'Ver su página' : 'Agendar'}
+            </a>
+          )}
+          {maps && (
+            <a
+              href={maps}
+              target="_blank"
+              rel="noopener noreferrer"
+              role="button"
+              className="flex flex-1 items-center justify-center rounded-xl border border-line px-3 text-sm font-semibold"
+            >
+              Cómo llegar
+            </a>
+          )}
+          {contact && (
+            <a
+              href={contact}
+              target="_blank"
+              rel="noopener noreferrer"
+              role="button"
+              className="flex flex-1 items-center justify-center rounded-xl bg-brand px-3 text-sm font-semibold text-brand-ink"
+            >
+              {place.contact_method === 'whatsapp' ? 'WhatsApp' : 'Llamar'}
+            </a>
+          )}
+        </div>
+      )}
+    </li>
+  );
+}

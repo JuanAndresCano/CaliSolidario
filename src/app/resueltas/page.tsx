@@ -18,6 +18,7 @@ export default async function ResolvedPage() {
 
   return (
     <div className="py-2">
+
       <h1 className="text-xl font-bold tracking-tight">Ya se concretaron</h1>
       <p className="mt-2 text-sm leading-relaxed text-muted">
         Cada uno de estos avisos lo cerró la persona que lo publicó, porque ya

@@ -18,6 +18,7 @@ export default async function HomePage() {
     <>
       <h1 className="sr-only">CaliSolidario — ayuda que llega, en Cali</h1>
 
+
       {/*
         Las dos acciones posibles, gigantes y arriba de todo. La gente llega
         estresada desde un enlace de WhatsApp: primero decide, después explora.

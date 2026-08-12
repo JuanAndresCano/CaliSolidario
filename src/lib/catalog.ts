@@ -2,7 +2,7 @@ export const CATEGORIES = [
   { value: 'agua', label: 'Agua', emoji: '💧' },
   { value: 'alimentos', label: 'Alimentos', emoji: '🍲' },
   { value: 'medicamentos', label: 'Medicamentos', emoji: '💊' },
-  { value: 'aseo', label: 'Aseo e higiene', emoji: '🧼' },
+  { value: 'aseo', label: 'Aseo e higiene', emoji: '🚿' },
   { value: 'panales', label: 'Pañales', emoji: '🍼' },
   { value: 'ropa', label: 'Ropa', emoji: '👕' },
   { value: 'cobijas_colchones', label: 'Cobijas y colchones', emoji: '🛏️' },
@@ -10,7 +10,7 @@ export const CATEGORIES = [
   { value: 'transporte', label: 'Transporte', emoji: '🚚' },
   { value: 'herramientas', label: 'Herramientas', emoji: '🔧' },
   { value: 'mano_de_obra', label: 'Mano de obra', emoji: '💪' },
-  { value: 'salud', label: 'Salud y apoyo psicológico', emoji: '🩺' },
+  { value: 'salud', label: 'Salud y apoyo psicológico', emoji: '🏥' },
   { value: 'mascotas', label: 'Mascotas', emoji: '🐾' },
   { value: 'otro', label: 'Otro', emoji: '📦' },
 ] as const;
@@ -67,6 +67,42 @@ export const COMMENT_KINDS = [
 ] as const;
 
 export type CommentKind = (typeof COMMENT_KINDS)[number]['value'];
+
+/**
+ * Los emoji son deliberadamente antiguos (Unicode 8 o anterior). Los añadidos
+ * en Unicode 11+ —🫂, 🩺, 🧰— se ven como un cuadro vacío en equipos con
+ * fuentes desactualizadas, y ya nos pasó en producción.
+ */
+export const SERVICE_CATEGORIES = [
+  {
+    value: 'salud_mental',
+    label: 'Apoyo emocional',
+    emoji: '💬',
+    caution: null,
+  },
+  {
+    value: 'estructural',
+    label: 'Revisión de vivienda',
+    emoji: '🏚️',
+    caution:
+      'Un dictamen sobre si una casa aguanta es trabajo de ingeniería civil. Pide siempre la tarjeta profesional (COPNIA) antes de confiar en una evaluación.',
+  },
+  {
+    value: 'salud_fisica',
+    label: 'Salud y fisioterapia',
+    emoji: '🏥',
+    caution: null,
+  },
+  { value: 'juridico', label: 'Asesoría legal', emoji: '⚖️', caution: null },
+  { value: 'veterinario', label: 'Veterinaria', emoji: '🐾', caution: null },
+  { value: 'otro', label: 'Otro servicio', emoji: '➕', caution: null },
+] as const;
+
+export type ServiceCategory = (typeof SERVICE_CATEGORIES)[number]['value'];
+
+export const SERVICE_CATEGORY_MAP = Object.fromEntries(
+  SERVICE_CATEGORIES.map((s) => [s.value, s]),
+) as Record<ServiceCategory, (typeof SERVICE_CATEGORIES)[number]>;
 
 export const KINDS = [
   { value: 'need', label: 'Necesito', plural: 'Necesidades' },
