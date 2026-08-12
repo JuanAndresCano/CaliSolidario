@@ -14,7 +14,7 @@
 
 insert into places (
   kind, name, description, address, comuna,
-  lat, lng, supplies_needed, is_verified, is_active
+  lat, lng, supplies_needed, safety_note, is_verified, is_active
 ) values
 (
   'necesidad',
@@ -25,12 +25,14 @@ insert into places (
   3.3747291564941406,
   -76.55164337158203,
   'Hidratación, comida, insumos médicos, metoclopramida, agua destilada, gasas y acetaminofén',
+  'Se han reportado varios hurtos en la zona desde ayer. Si vas, ve en grupo y de día, no lleves objetos de valor y no te separes de los demás. La necesidad allá es real: la advertencia es para que puedas ayudar sin exponerte.',
   false,
   true
 )
 on conflict (name) do update set
   description     = excluded.description,
   supplies_needed = excluded.supplies_needed,
+  safety_note     = excluded.safety_note,
   lat             = excluded.lat,
   lng             = excluded.lng,
   confirmed_at    = now();

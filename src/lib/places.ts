@@ -27,13 +27,15 @@ export type Place = {
   schedule: string | null;
   supplies_needed: string | null;
   supplies_surplus: string | null;
+  /** Advertencia de seguridad. Se muestra destacada, arriba de todo. */
+  safety_note: string | null;
   is_full: boolean;
   is_verified: boolean;
   confirmed_at: string;
 };
 
 const COLUMNS =
-  'id, kind, name, org_name, description, service_category, address, comuna, lat, lng, contact_method, contact_value, website, image_url, schedule, supplies_needed, supplies_surplus, is_full, is_verified, confirmed_at';
+  'id, kind, name, org_name, description, service_category, address, comuna, lat, lng, contact_method, contact_value, website, image_url, schedule, supplies_needed, supplies_surplus, safety_note, is_full, is_verified, confirmed_at';
 
 /**
  * Lugares curados por el equipo. Se consultan con el cliente anónimo desde

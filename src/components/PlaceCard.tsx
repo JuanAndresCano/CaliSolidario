@@ -63,6 +63,22 @@ export function PlaceCard({ place }: { place: Place }) {
         </div>
       </div>
 
+      {/* Va antes que la descripción y con el color más fuerte de la tarjeta:
+          es lo único que no se puede leer por encima. */}
+      {place.safety_note && (
+        <div
+          role="alert"
+          className="mt-3 rounded-xl border-2 border-need bg-need-bg px-3 py-3"
+        >
+          <p className="text-sm font-bold uppercase tracking-wide text-need">
+            ⚠ Antes de ir, lee esto
+          </p>
+          <p className="mt-1 text-sm font-medium leading-relaxed text-need">
+            {place.safety_note}
+          </p>
+        </div>
+      )}
+
       {place.description && (
         <p className="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-muted">
           {place.description}
