@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import { Geist } from 'next/font/google';
 import Link from 'next/link';
@@ -72,6 +73,17 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         </main>
 
         <BottomNav />
+
+        {/*
+          Medición del lado del cliente, y tiene que ser así: el tablero se
+          sirve desde el CDN, así que la mayoría de las visitas nunca ejecuta
+          una función y los logs del servidor no las verían.
+
+          No usa cookies ni identificadores persistentes, por eso no hace falta
+          banner de consentimiento ni cambia lo que el sitio le promete a la
+          gente sobre sus datos.
+        */}
+        <Analytics />
       </body>
     </html>
   );
