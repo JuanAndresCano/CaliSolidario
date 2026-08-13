@@ -28,6 +28,19 @@ insert into places (
   'Se han reportado varios hurtos en la zona desde ayer. Si vas, ve en grupo y de día, no lleves objetos de valor y no te separes de los demás. La necesidad allá es real: la advertencia es para que puedas ayudar sin exponerte.',
   false,
   true
+),
+(
+  'necesidad',
+  'Edificio Vanessa — Cra 44 con Calle 9',
+  'Están trabajando en el edificio y piden equipos concretos, no donaciones generales. Si tienes una motobomba o linternas potentes, ahí hacen falta.',
+  'Carrera 44 con Calle 9',
+  null,
+  null,
+  null,
+  'Motobombas y linternas',
+  null,
+  false,
+  true
 )
 on conflict (name) do update set
   description     = excluded.description,

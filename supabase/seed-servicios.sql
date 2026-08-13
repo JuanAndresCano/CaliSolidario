@@ -38,7 +38,32 @@ Es totalmente gratis: no se vende nada ni hay un programa pago después.',
   'Sesiones de 45 min · 20 cupos por semana',
   true,
   true
+),
+
+-- Universidad Icesi — cámara térmica -------------------------------------------
+-- Requiere la migración 0013 (categoría 'rescate') corrida ANTES y por
+-- separado.
+(
+  'servicio',
+  'Cámara térmica para búsqueda y rescate',
+  'Universidad Icesi',
+  'La Universidad Icesi pone a disposición una cámara térmica infrarroja Fluke TiX580 con tecnología IR-Fusion para apoyar labores de evaluación, búsqueda y rescate.
+
+La termografía permite identificar diferencias de temperatura y fuentes de calor en estructuras afectadas, lo que ayuda a localizar personas, detectar riesgos y priorizar qué zonas inspeccionar.
+
+Sirve para: búsqueda y rescate en estructuras colapsadas, detección de puntos críticos, evaluación rápida de edificaciones y apoyo a brigadas.
+
+Es un servicio dirigido a brigadas y equipos de emergencia, no una inspección para viviendas particulares. Contacto: Carlos González, solo por WhatsApp.',
+  'rescate',
+  'whatsapp',
+  '3043761705',
+  null,
+  null,
+  null,
+  true,
+  true
 )
+
 on conflict (name) do update set
   org_name       = excluded.org_name,
   description    = excluded.description,

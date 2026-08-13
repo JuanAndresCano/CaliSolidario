@@ -4,6 +4,7 @@ import { ReportarPunto } from '@/components/ReportarPunto';
 import { SERVICE_CATEGORIES } from '@/lib/catalog';
 import { getPlaces } from '@/lib/places';
 
+/** Red de seguridad; la frescura la da el webhook (/api/revalidar). */
 export const revalidate = 300;
 
 export const metadata: Metadata = {

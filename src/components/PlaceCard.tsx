@@ -87,19 +87,26 @@ export function PlaceCard({ place }: { place: Place }) {
 
       {(place.supplies_needed || place.supplies_surplus) && (
         <div className="mt-3 flex flex-col gap-1.5">
+          {/* `whitespace-pre-line` respeta los saltos: las listas largas se
+              cargan agrupadas (MEDICAMENTOS / INSUMOS) y así se pueden leer en
+              un móvil en vez de ser un párrafo corrido. */}
           {place.supplies_needed && (
-            <p className="rounded-xl bg-need-bg px-3 py-2 text-sm text-need">
-              <span className="font-bold">
+            <div className="rounded-xl bg-need-bg px-3 py-2 text-sm text-need">
+              <p className="font-bold">
                 {place.kind === 'necesidad' ? 'Necesitan:' : 'Les falta:'}
-              </span>{' '}
-              {place.supplies_needed}
-            </p>
+              </p>
+              <p className="mt-0.5 whitespace-pre-line leading-relaxed">
+                {place.supplies_needed}
+              </p>
+            </div>
           )}
           {place.supplies_surplus && (
-            <p className="rounded-xl bg-offer-bg px-3 py-2 text-sm text-offer">
-              <span className="font-bold">Ya tienen de sobra:</span>{' '}
-              {place.supplies_surplus}
-            </p>
+            <div className="rounded-xl bg-offer-bg px-3 py-2 text-sm text-offer">
+              <p className="font-bold">Ya tienen de sobra:</p>
+              <p className="mt-0.5 whitespace-pre-line leading-relaxed">
+                {place.supplies_surplus}
+              </p>
+            </div>
           )}
         </div>
       )}

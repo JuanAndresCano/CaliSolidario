@@ -66,11 +66,13 @@ El Consejo de Padres tiene además puntos de recolección en Pance, el Oeste, Qu
   true
 )
 
+-- OJO: `is_full` y `supplies_needed` quedan FUERA de esta lista a propósito.
+-- Son los campos que cambian a diario según lo que reporta la gente, y el
+-- estado vivo de la base manda sobre lo que diga este archivo. Si se
+-- incluyeran, re-ejecutar el seed devolvería a Coliseo El Pueblo a "lleno"
+-- cuando ya se sabe que está pidiendo voluntarios.
 on conflict (name) do update set
   org_name        = excluded.org_name,
-  description     = excluded.description,
   address         = excluded.address,
   schedule        = excluded.schedule,
-  supplies_needed = excluded.supplies_needed,
-  is_full         = excluded.is_full,
   confirmed_at    = now();

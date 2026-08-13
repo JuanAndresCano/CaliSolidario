@@ -93,6 +93,12 @@ export const SERVICE_CATEGORIES = [
     emoji: '🏥',
     caution: null,
   },
+  {
+    value: 'rescate',
+    label: 'Apoyo técnico a rescate',
+    emoji: '🚨',
+    caution: null,
+  },
   { value: 'juridico', label: 'Asesoría legal', emoji: '⚖️', caution: null },
   { value: 'veterinario', label: 'Veterinaria', emoji: '🐾', caution: null },
   { value: 'otro', label: 'Otro servicio', emoji: '➕', caution: null },
