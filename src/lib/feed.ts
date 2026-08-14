@@ -3,7 +3,7 @@ import { FEED_COLUMNS, type FeedPost } from './types';
 import type { Kind } from './catalog';
 
 /** Tope de avisos que viajan al cliente en una página del tablero. */
-export const FEED_LIMIT = 120;
+export const FEED_LIMIT = 500;
 
 /**
  * Trae los avisos abiertos. Se llama solo desde Server Components cacheados,
