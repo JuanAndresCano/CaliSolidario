@@ -1,38 +1,11 @@
 import { supabasePublic } from './supabase/public';
-import type { ContactMethod, ServiceCategory } from './catalog';
+import type { Place, PlaceKind } from './place-utils';
 
-export type PlaceKind =
-  /** Sitio organizado que recibe donaciones. */
-  | 'acopio'
-  /** Servicio profesional gratuito. */
-  | 'servicio'
-  /** Barrio o punto al que no está llegando la ayuda. */
-  | 'necesidad';
-
-export type Place = {
-  id: string;
-  kind: PlaceKind;
-  name: string;
-  org_name: string | null;
-  description: string | null;
-  service_category: ServiceCategory | null;
-  address: string | null;
-  comuna: string | null;
-  lat: number | null;
-  lng: number | null;
-  contact_method: ContactMethod | null;
-  contact_value: string | null;
-  website: string | null;
-  image_url: string | null;
-  schedule: string | null;
-  supplies_needed: string | null;
-  supplies_surplus: string | null;
-  /** Advertencia de seguridad. Se muestra destacada, arriba de todo. */
-  safety_note: string | null;
-  is_full: boolean;
-  is_verified: boolean;
-  confirmed_at: string;
-};
+// El tipo y las utilidades puras viven en place-utils para que los componentes
+// de cliente no arrastren el cliente de Supabase al navegador. Se reexportan
+// por comodidad de los componentes de servidor.
+export type { Place, PlaceKind } from './place-utils';
+export { mapsUrl, contactUrl } from './place-utils';
 
 const COLUMNS =
   'id, kind, name, org_name, description, service_category, address, comuna, lat, lng, contact_method, contact_value, website, image_url, schedule, supplies_needed, supplies_surplus, safety_note, is_full, is_verified, confirmed_at';
@@ -58,28 +31,4 @@ export async function getPlaces(kind: PlaceKind): Promise<Place[]> {
   }
 
   return (data ?? []) as Place[];
-}
-
-/** Enlace a Maps: usa coordenadas si las hay, y si no la dirección escrita. */
-export function mapsUrl(place: Place): string | null {
-  if (place.lat !== null && place.lng !== null) {
-    return `https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}`;
-  }
-  if (place.address) {
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      `${place.address}, Cali, Colombia`,
-    )}`;
-  }
-  return null;
-}
-
-/** Enlace de contacto directo según el medio declarado. */
-export function contactUrl(place: Place): string | null {
-  if (!place.contact_value) return null;
-  const digits = place.contact_value.replace(/\D/g, '');
-  const intl = digits.length === 10 ? `57${digits}` : digits;
-
-  if (place.contact_method === 'whatsapp') return `https://wa.me/${intl}`;
-  if (place.contact_method === 'telefono') return `tel:+${intl}`;
-  return null;
 }

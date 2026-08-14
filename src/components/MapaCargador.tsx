@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import type { Place } from '@/lib/places';
+import type { Place } from '@/lib/place-utils';
 
 /**
  * Leaflet toca `window` al importarse, así que no puede renderizarse en el

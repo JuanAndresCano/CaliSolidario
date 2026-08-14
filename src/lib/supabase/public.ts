@@ -16,9 +16,15 @@ import { createClient } from '@supabase/supabase-js';
  *
  * Con este mensaje, quien vea el log sabe qué configurar y dónde.
  */
-function requerido(nombre: string): string {
-  const valor = process.env[nombre];
-
+/**
+ * OJO: el valor se recibe como argumento y NO se lee con `process.env[nombre]`.
+ *
+ * Next sustituye las variables `NEXT_PUBLIC_` en el paquete del navegador solo
+ * cuando la referencia es literal. Con acceso dinámico no las reemplaza, así
+ * que quedan indefinidas en el cliente y este mismo guard revienta. Pasó en
+ * producción: tumbó el mapa entero.
+ */
+function requerido(valor: string | undefined, nombre: string): string {
   if (!valor) {
     throw new Error(
       `Falta la variable de entorno ${nombre}. ` +
@@ -32,7 +38,10 @@ function requerido(nombre: string): string {
 }
 
 export const supabasePublic = createClient(
-  requerido('NEXT_PUBLIC_SUPABASE_URL'),
-  requerido('NEXT_PUBLIC_SUPABASE_ANON_KEY'),
+  requerido(process.env.NEXT_PUBLIC_SUPABASE_URL, 'NEXT_PUBLIC_SUPABASE_URL'),
+  requerido(
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+  ),
   { auth: { persistSession: false, autoRefreshToken: false } },
 );
