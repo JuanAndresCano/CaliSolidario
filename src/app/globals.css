@@ -82,6 +82,124 @@ textarea {
   font-size: max(1rem, 16px);
 }
 
+/*
+ * Leaflet trae su propio tema claro cableado: popups blancos, controles
+ * blancos, atribución blanca. Sobre la interfaz oscura del sitio quedaba
+ * texto gris claro sobre fondo blanco, o sea ilegible.
+ *
+ * Todo cuelga de `.mapa-tema`, la clase que le ponemos al contenedor del mapa.
+ *
+ * Es necesario y no cosmético: las reglas de Leaflet son de una sola clase
+ * (`.leaflet-popup-content-wrapper`), así que una regla nuestra igual de
+ * específica EMPATA, y en un empate gana la que va después en la hoja — que
+ * es la de Leaflet, porque su CSS se importa dentro del componente. Al
+ * anteponer `.mapa-tema` subimos a dos clases y ganamos siempre.
+ */
+.mapa-tema.leaflet-container {
+  background: var(--background);
+  font-family: inherit;
+}
+
+.mapa-tema .leaflet-popup-content-wrapper,
+.mapa-tema .leaflet-popup-tip {
+  background: var(--surface);
+  color: var(--foreground);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.35);
+}
+
+.mapa-tema .leaflet-popup-content-wrapper {
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+}
+
+.mapa-tema .leaflet-popup-content {
+  margin: 0.85rem 1rem;
+  color: var(--foreground);
+}
+
+.mapa-tema a.leaflet-popup-close-button {
+  color: var(--muted);
+  padding: 0.5rem 0.5rem 0 0;
+}
+
+.mapa-tema a.leaflet-popup-close-button:hover {
+  color: var(--foreground);
+}
+
+/* Controles de zoom */
+.mapa-tema .leaflet-bar a,
+.mapa-tema .leaflet-bar a:hover {
+  background: var(--surface);
+  color: var(--foreground);
+  border-bottom-color: var(--border);
+}
+
+.mapa-tema .leaflet-bar {
+  border: 1px solid var(--border);
+}
+
+/*
+ * Botones dentro de los popups.
+ *
+ * Van como CSS y no como clases de Tailwind porque Leaflet colorea de azul
+ * todo enlace dentro del mapa con `.leaflet-container a`, que le gana en
+ * especificidad a una clase suelta: el texto del botón verde salía azul.
+ * Estos selectores tienen dos clases, así que ganan sin recurrir a
+ * !important.
+ */
+.mapa-tema .popup-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.mapa-tema .popup-btn-primario {
+  background: var(--brand);
+  color: var(--brand-ink);
+  border: 1px solid var(--brand);
+}
+
+.mapa-tema .popup-btn-secundario {
+  background: var(--surface);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+
+.mapa-tema .popup-enlace {
+  color: var(--foreground);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Atribución: obligatoria, pero no tiene por qué gritar */
+.mapa-tema .leaflet-control-attribution {
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  color: var(--muted);
+  font-size: 0.65rem;
+}
+
+.mapa-tema .leaflet-control-attribution a {
+  color: var(--muted);
+}
+
+/*
+ * Al llegar desde el mapa a /sitios#<id>, la tarjeta se resalta sola.
+ * `:target` lo hace el navegador sin una línea de JavaScript: sin esto, uno
+ * salta a mitad de una lista de nueve tarjetas y no sabe cuál venía a ver.
+ */
+.tarjeta-lugar:target {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
