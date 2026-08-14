@@ -13,13 +13,14 @@ import { getPlaces } from '@/lib/places';
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: 'Dónde llevar la ayuda',
+  title: 'Dónde dormir y dónde llevar la ayuda',
   description:
-    'Puntos de acopio en Cali con lo que le falta a cada uno, y zonas a las que no está llegando ayuda.',
+    'Albergues disponibles en Cali, puntos de acopio con lo que le falta a cada uno, y zonas a las que no está llegando ayuda.',
 };
 
 export default async function AcopioPage() {
-  const [places, zonas] = await Promise.all([
+  const [albergues, places, zonas] = await Promise.all([
+    getPlaces('albergue'),
     getPlaces('acopio'),
     getPlaces('necesidad'),
   ]);
@@ -29,14 +30,18 @@ export default async function AcopioPage() {
 
   // Cuántos se pueden ver en el mapa. Decirlo en el botón evita que alguien
   // entre esperando la ciudad llena de pines y encuentre uno solo.
-  const ubicados = [...places, ...zonas].filter((p) => p.lat !== null).length;
+  const ubicados = [...albergues, ...places, ...zonas].filter(
+    (p) => p.lat !== null,
+  ).length;
 
   return (
     <div className="py-2">
-      <h1 className="text-xl font-bold tracking-tight">Dónde llevar la ayuda</h1>
+      <h1 className="text-xl font-bold tracking-tight">
+        Dónde dormir y dónde llevar la ayuda
+      </h1>
       <p className="mt-2 text-sm leading-relaxed text-muted">
-        Mira qué le falta a cada punto antes de salir. Llevar lo que ya les
-        sobra ocupa manos y espacio que hacen falta en otra parte.
+        Si te quedaste sin casa, los albergues van de primeros. Si vas a donar,
+        mira qué le falta a cada punto antes de salir.
       </p>
 
       {/* El mapa es una página aparte a propósito: carga unos 40 KB de
@@ -44,10 +49,36 @@ export default async function AcopioPage() {
       <BotonMapa ubicados={ubicados} />
 
       {/*
-        Dos secciones que se leen como cosas distintas, no como una lista
-        larga: la de zonas va con banda roja y primero, porque es a donde no
-        está llegando nadie. Van en la misma página a propósito — quien va con
-        el carro lleno necesita comparar las dos para decidir.
+        Los albergues van de primeros de todo: quien perdió su casa tiene la
+        necesidad más urgente de esta página, y no debería tener que pasar por
+        una lista de puntos de donación para encontrar dónde dormir.
+      */}
+      {albergues.length > 0 && (
+        <section className="mt-6">
+          <div className="rounded-t-2xl bg-brand px-4 py-2.5">
+            <h2 className="text-sm font-bold uppercase tracking-wide text-brand-ink">
+              🛏 Dónde dormir
+            </h2>
+          </div>
+          <div className="rounded-b-2xl border border-t-0 border-line px-3 pb-3 pt-3">
+            <p className="mb-3 px-1 text-sm leading-relaxed text-muted">
+              Albergues abiertos para quien se quedó sin vivienda. Llama antes
+              de desplazarte: los cupos cambian de un momento a otro.
+            </p>
+            <ul className="flex flex-col gap-2.5">
+              {albergues.map((a) => (
+                <PlaceCard key={a.id} place={a} />
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {/*
+        Las secciones se leen como cosas distintas, no como una lista larga.
+        Las zonas van con banda roja porque es a donde no está llegando nadie.
+        Todas en la misma página a propósito: quien va con el carro lleno
+        necesita compararlas para decidir.
       */}
       {zonas.length > 0 && (
         <section className="mt-6">
@@ -58,9 +89,8 @@ export default async function AcopioPage() {
           </div>
           <div className="rounded-b-2xl border border-t-0 border-line px-3 pb-3 pt-3">
             <p className="mb-3 px-1 text-sm leading-relaxed text-muted">
-              No son puntos de acopio: son sitios donde hay gente esperando y no
-              hay una operación montada recibiendo. Si puedes llegar hasta allá,
-              aquí es donde más falta haces.
+              Sitios a los que no está llegando la ayuda organizada. Si puedes
+              llegar hasta allá, aquí es donde más falta haces.
             </p>
             <ul className="flex flex-col gap-2.5">
               {zonas.map((zona) => (

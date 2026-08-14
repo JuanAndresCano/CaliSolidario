@@ -5,7 +5,10 @@ import 'leaflet/dist/leaflet.css';
 import Link from 'next/link';
 import { useMemo, useSyncExternalStore } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import { contactUrl, mapsUrl, type Place } from '@/lib/places';
+// Desde place-utils y NO desde places: este componente corre en el navegador,
+// y places arrastra el cliente de Supabase al paquete. Eso tumbó el mapa en
+// producción el 14 de agosto.
+import { contactUrl, mapsUrl, type Place } from '@/lib/place-utils';
 
 /** Centro de Cali, por si no hay ningún punto con coordenadas. */
 const CALI: [number, number] = [3.4516, -76.532];

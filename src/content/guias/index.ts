@@ -21,6 +21,8 @@
  * profesional.
  */
 import { COMUNIDAD_Y_SENTIDO } from './comunidad-y-sentido';
+import { CUIDARTE_EN_LA_ZONA } from './cuidarte-en-la-zona';
+import { DONACIONES_QUE_LLEGAN } from './donaciones-que-llegan';
 import { HERRAMIENTAS_PARA_ACOMPANAR } from './herramientas-para-acompanar';
 import { LOS_DUELOS } from './los-duelos';
 import { NINOS_Y_ADOLESCENTES } from './ninos-y-adolescentes';
@@ -29,8 +31,14 @@ import type { Guide } from './tipos';
 
 export type { Guide, GuideBlock, GuideSection, GuideAuthor } from './tipos';
 
-/** El orden importa: es el que ve la gente, de lo más urgente a lo más reposado. */
+/**
+ * El orden importa: es el que ve la gente, de lo más accionable hoy a lo más
+ * reposado. Las dos primeras son de acción inmediata para quien va a salir a
+ * ayudar; las demás acompañan un proceso más largo.
+ */
 export const GUIDES: Guide[] = [
+  CUIDARTE_EN_LA_ZONA,
+  DONACIONES_QUE_LLEGAN,
   PRIMEROS_AUXILIOS_EMOCIONALES,
   LOS_DUELOS,
   HERRAMIENTAS_PARA_ACOMPANAR,

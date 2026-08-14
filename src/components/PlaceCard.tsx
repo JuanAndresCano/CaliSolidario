@@ -27,6 +27,11 @@ export function PlaceCard({ place }: { place: Place }) {
             ⚠ No está llegando ayuda
           </span>
         )}
+        {place.kind === 'albergue' && (
+          <span className="rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-brand-ink">
+            🛏 Albergue
+          </span>
+        )}
         {place.is_verified && (
           <span className="rounded-full bg-offer-bg px-2.5 py-1 text-xs font-bold text-offer">
             ✓ Verificado
