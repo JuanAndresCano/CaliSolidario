@@ -10,11 +10,15 @@ export function PlaceCard({ place }: { place: Place }) {
     : null;
 
   return (
+    // El id permite llegar directo desde el mapa con /sitios#<id>. El
+    // `scroll-mt` deja aire para el encabezado fijo, que si no tapa la tarjeta
+    // justo después de saltar.
     <li
+      id={place.id}
       className={
         place.is_full
-          ? 'rounded-2xl border border-line bg-surface px-4 py-3.5 opacity-60'
-          : 'rounded-2xl border border-line bg-surface px-4 py-3.5'
+          ? 'tarjeta-lugar scroll-mt-24 rounded-2xl border border-line bg-surface px-4 py-3.5 opacity-60'
+          : 'tarjeta-lugar scroll-mt-24 rounded-2xl border border-line bg-surface px-4 py-3.5'
       }
     >
       <div className="flex flex-wrap items-center gap-2">
