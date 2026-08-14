@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { BotonMapa } from '@/components/BotonMapa';
 import { PlaceCard } from '@/components/PlaceCard';
 import { ReportarPunto } from '@/components/ReportarPunto';
 import { getPlaces } from '@/lib/places';
@@ -26,6 +27,10 @@ export default async function AcopioPage() {
   const open = places.filter((p) => !p.is_full);
   const full = places.filter((p) => p.is_full);
 
+  // Cuántos se pueden ver en el mapa. Decirlo en el botón evita que alguien
+  // entre esperando la ciudad llena de pines y encuentre uno solo.
+  const ubicados = [...places, ...zonas].filter((p) => p.lat !== null).length;
+
   return (
     <div className="py-2">
       <h1 className="text-xl font-bold tracking-tight">Dónde llevar la ayuda</h1>
@@ -33,6 +38,10 @@ export default async function AcopioPage() {
         Mira qué le falta a cada punto antes de salir. Llevar lo que ya les
         sobra ocupa manos y espacio que hacen falta en otra parte.
       </p>
+
+      {/* El mapa es una página aparte a propósito: carga unos 40 KB de
+          JavaScript y esta lista no necesita ninguno. Quien lo quiere, entra. */}
+      <BotonMapa ubicados={ubicados} />
 
       {/*
         Dos secciones que se leen como cosas distintas, no como una lista
