@@ -1,8 +1,13 @@
 # CaliSolidario
 
+[![CI](https://github.com/JuanAndresCano/CaliSolidario/actions/workflows/ci.yml/badge.svg)](https://github.com/JuanAndresCano/CaliSolidario/actions/workflows/ci.yml)
+
 Tablero abierto para conectar a quien necesita ayuda en Cali con quien puede
 darla. Cualquiera puede mirar; para publicar un aviso, ver un contacto o marcar
 algo como resuelto hay que entrar con Google.
+
+Nació el 11 de agosto de 2026, un día después del sismo, y tiene usuarios
+reales publicando necesidades y ofertas de ayuda.
 
 Next.js 16 · React 19 · Tailwind v4 · Supabase (Postgres + Auth) · Vercel.
 
@@ -45,6 +50,28 @@ Los avisos nacen con `expires_at` a 7 días. Para que salgan del tablero solos
 hay que llamar a `expire_old_posts()` una vez al día — con `pg_cron` en Supabase
 o con un cron de Vercel. Mientras no esté programado, los vencidos siguen
 apareciendo.
+
+## Flujo de trabajo
+
+Rama única `main`, protegida. Todo cambio entra por pull request desde una rama
+`feat/...`, que Vercel despliega en una preview propia para probarla antes de
+fusionar.
+
+El CI corre en cada PR: `next typegen`, `tsc --noEmit`, `eslint` y el build de
+producción. Cada uno va como paso aparte, así el nombre del que falle dice qué
+se rompió.
+
+Opcionalmente, en Settings → Secrets and variables → Actions → Variables se
+pueden definir `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+(son públicas por diseño). Sin ellas el build usa valores de relleno y valida
+compilación y rutas; con ellas valida además que las consultas a Supabase
+sigan funcionando.
+
+Antes de un commit, lo mismo en local:
+
+```bash
+bash scripts/verificar-codigo.sh
+```
 
 ## Decisiones
 

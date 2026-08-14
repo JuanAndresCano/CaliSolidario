@@ -1,0 +1,67 @@
+name: CI
+
+# Corre en cada PR hacia main y también en main, para que la rama que despliega
+# nunca se quede sin verificar.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# Si empujas dos veces seguidas a un PR, cancela la corrida anterior en vez de
+# gastar minutos verificando código que ya quedó viejo.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    name: Typecheck, lint y build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      # Estos dos son públicos por diseño (viajan al navegador de cada
+      # visitante), así que van como Variables del repositorio y no como
+      # Secrets. Si no están configuradas, se usa un dominio inexistente: el
+      # build igual pasa porque las consultas fallidas están controladas y
+      # devuelven listas vacías. Con las reales, además se valida que las
+      # consultas a Supabase sigan funcionando.
+      NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL || 'https://ci-placeholder.invalid' }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'clave-de-relleno-para-ci' }}
+
+    steps:
+      - name: Traer el código
+        uses: actions/checkout@v4
+
+      - name: Preparar Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Avisar si el build corre sin credenciales reales
+        run: |
+          if [ "$NEXT_PUBLIC_SUPABASE_URL" = "https://ci-placeholder.invalid" ]; then
+            echo "::notice::Sin credenciales de Supabase: el build valida"\
+                 "compilación y rutas, pero no que las consultas funcionen."\
+                 "Para validarlas, define NEXT_PUBLIC_SUPABASE_URL y"\
+                 "NEXT_PUBLIC_SUPABASE_ANON_KEY en Settings → Variables."
+          fi
+
+      # Cada paso va aparte para que el nombre del que falle diga qué se rompió,
+      # en vez de un único "build failed" que toca ir a leer al log.
+      - name: Generar tipos de rutas
+        run: npx next typegen
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npx eslint src
+
+      - name: Build de producción
+        run: npm run build
