@@ -91,6 +91,11 @@ function leerLugar(form: FormData):
       is_full: form.get('is_full') === 'on',
       is_verified: form.get('is_verified') === 'on',
       is_active: form.get('is_active') === 'on',
+      // Se fuerza a falso fuera de los servicios: el CHECK de la base lo
+      // exige, y un acopio visible en otro municipio mandaría gente a
+      // atravesar el país con un mercado.
+      disponible_en_todos:
+        kind === 'servicio' && form.get('disponible_en_todos') === 'on',
     },
   };
 }

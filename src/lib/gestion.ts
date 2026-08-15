@@ -47,10 +47,21 @@ export async function permisosDeGestion(
   const esAdmin = Boolean(data?.is_admin);
   const gestorDe = (data?.gestor_municipio as string | null) ?? null;
 
+  /*
+   * El panel administra SIEMPRE el municipio del sitio en el que estás, nunca
+   * el del perfil.
+   *
+   * Antes devolvía el municipio del gestor, así que alguien con
+   * gestor_municipio = 'filandia' entraba a /gestion desde el sitio de Cali y
+   * veía —y podía editar— los lugares de Filandia. Para administrar Cali hay
+   * que ser admin o gestor de Cali; si no, esta pantalla no existe.
+   */
+  const puedeGestionar = esAdmin || gestorDe === municipioDespliegue;
+
   return {
     haySesion: true,
-    puedeGestionar: esAdmin || gestorDe !== null,
-    municipio: esAdmin ? municipioDespliegue : gestorDe,
+    puedeGestionar,
+    municipio: puedeGestionar ? municipioDespliegue : null,
     esAdmin,
   };
 }

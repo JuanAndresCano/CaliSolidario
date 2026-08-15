@@ -54,6 +54,12 @@ async function municipioDelCambio(request: NextRequest): Promise<string | null> 
   try {
     const cuerpo = await request.json();
     const fila = cuerpo?.record ?? cuerpo?.old_record;
+
+    // Una ficha marcada como disponible en todos los municipios se ve en todos
+    // los sitios, así que su cambio le importa a todos: se devuelve `null`
+    // para que ninguno lo omita.
+    if (fila?.disponible_en_todos === true) return null;
+
     const municipio = fila?.municipio;
     return typeof municipio === 'string' ? municipio : null;
   } catch {

@@ -47,6 +47,12 @@ export function PlaceCard({ place }: { place: Place }) {
             🔴 Lleno por ahora
           </span>
         )}
+        {/* Explica por qué una organización de otra ciudad aparece aquí. */}
+        {place.disponible_en_todos && (
+          <span className="rounded-full border border-line px-2.5 py-1 text-xs font-bold text-muted">
+            Atención virtual
+          </span>
+        )}
       </div>
 
       {/* Con miniatura queda como la tarjeta que arma WhatsApp al compartir un

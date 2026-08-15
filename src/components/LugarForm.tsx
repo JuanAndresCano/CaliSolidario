@@ -283,6 +283,16 @@ export function LugarForm({ lugar }: { lugar?: Place }) {
           label="Verificado"
           ayuda="Márcalo solo si alguien llamó y confirmó. El sello pierde valor si se pone por defecto."
         />
+        {/* Solo tiene sentido en servicios: un acopio tiene dirección física y
+            mostrarlo en otro municipio mandaría gente a cruzar el país. */}
+        {kind === 'servicio' && (
+          <Casilla
+            name="disponible_en_todos"
+            defecto={lugar?.disponible_en_todos ?? false}
+            label="Se atiende desde cualquier municipio"
+            ayuda="Para servicios virtuales. Aparece en todos los sitios, no solo en este, pero lo sigues administrando tú."
+          />
+        )}
       </fieldset>
 
       {estado.error && (

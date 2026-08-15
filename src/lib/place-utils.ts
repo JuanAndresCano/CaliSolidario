@@ -46,6 +46,11 @@ export type Place = {
   safety_note: string | null;
   is_full: boolean;
   is_verified: boolean;
+  /**
+   * Se muestra en todos los municipios, no solo en el suyo. Para servicios sin
+   * sede física: una videollamada no está en ninguna ciudad en particular.
+   */
+  disponible_en_todos: boolean;
   /** Retirado sin borrar. El sitio público solo muestra los activos. */
   is_active: boolean;
   confirmed_at: string;
