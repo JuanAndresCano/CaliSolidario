@@ -33,6 +33,9 @@ llamar "cambio de filandia (debe omitir)" \
 llamar "sin municipio (revalida por si acaso)" \
   '{"type":"UPDATE","table":"places"}'
 
+llamar "servicio virtual de otro municipio (debe revalidar igual)" \
+  '{"type":"UPDATE","table":"places","record":{"municipio":"filandia","disponible_en_todos":true}}'
+
 echo "== sin secreto (debe dar 401)"
 curl -s -o /dev/null -w "   HTTP %{http_code}\n" -m 20 \
   -X POST "http://localhost:$PUERTO/api/revalidar"
