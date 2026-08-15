@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { deletePost, reopenPost } from '@/app/publicar/actions';
+import { MUNICIPIO } from '@/config/municipios';
 import { ResolveButton } from '@/components/ResolveButton';
 import { CATEGORY_EMOJIS, CATEGORY_LABELS } from '@/lib/catalog';
 import { describePlace } from '@/lib/place';
@@ -37,6 +38,9 @@ export default async function MyPostsPage({
     .from('posts')
     .select('*')
     .eq('author_id', user.id)
+    // Solo los de este municipio: la cuenta es la misma en todos los sitios,
+    // pero desde Filandia no tiene sentido ver ni cerrar avisos de Cali.
+    .eq('municipio', MUNICIPIO.id)
     .order('created_at', { ascending: false });
 
   const posts = (data ?? []) as Post[];

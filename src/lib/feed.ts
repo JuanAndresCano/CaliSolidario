@@ -1,9 +1,20 @@
+import { MUNICIPIO } from '@/config/municipios';
 import { supabasePublic } from './supabase/public';
 import { FEED_COLUMNS, type FeedPost } from './types';
 import type { Kind } from './catalog';
 
 /** Tope de avisos que viajan al cliente en una página del tablero. */
 export const FEED_LIMIT = 500;
+
+/**
+ * Todas las consultas del tablero filtran por el municipio de este despliegue.
+ * La base es compartida entre municipios: sin este filtro, el sitio de
+ * Filandia mostraría los avisos de Cali.
+ *
+ * La separación en lectura vive aquí y no en RLS a propósito: los avisos son
+ * públicos de todos modos, así que mezclarlos sería un error de correctitud,
+ * no una fuga de datos. Donde sí la impone RLS es en escritura (ver 0017).
+ */
 
 /**
  * Trae los avisos abiertos. Se llama solo desde Server Components cacheados,
@@ -14,6 +25,7 @@ export async function getFeed(kind?: Kind): Promise<FeedPost[]> {
   let query = supabasePublic
     .from('posts')
     .select(FEED_COLUMNS)
+    .eq('municipio', MUNICIPIO.id)
     .eq('status', 'open')
     .order('created_at', { ascending: false })
     .limit(FEED_LIMIT);
@@ -42,6 +54,7 @@ export async function getResolved(limit = 60): Promise<ResolvedPost[]> {
   const { data, error } = await supabasePublic
     .from('posts')
     .select(`${FEED_COLUMNS}, fulfilled_at`)
+    .eq('municipio', MUNICIPIO.id)
     .eq('status', 'fulfilled')
     .order('fulfilled_at', { ascending: false })
     .limit(limit);
@@ -59,6 +72,7 @@ export async function countResolved(): Promise<number> {
   const { count, error } = await supabasePublic
     .from('posts')
     .select('id', { count: 'exact', head: true })
+    .eq('municipio', MUNICIPIO.id)
     .eq('status', 'fulfilled');
 
   if (error) {

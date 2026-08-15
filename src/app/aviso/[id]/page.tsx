@@ -9,6 +9,7 @@ import { CATEGORY_EMOJIS, CATEGORY_LABELS } from '@/lib/catalog';
 import { createClient } from '@/lib/supabase/server';
 import { timeAgo } from '@/lib/time';
 import type { Post, PostContact } from '@/lib/types';
+import { MUNICIPIO } from '@/config/municipios';
 
 export async function generateMetadata({
   params,
@@ -102,7 +103,7 @@ export default async function PostPage({ params }: PageProps<'/aviso/[id]'>) {
             <dd>
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                  `${typedPost.address}, Cali, Colombia`,
+                  `${typedPost.address}, ${MUNICIPIO.contextoMapa}`,
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"

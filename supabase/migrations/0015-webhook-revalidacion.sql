@@ -16,30 +16,50 @@
 
 create extension if not exists pg_net;
 
+-- Alternativa en SQL al webhook del panel. Si ya lo configuraste por el panel,
+-- NO corras esta parte: tendrías el aviso duplicado.
+--
+-- Con varios municipios hay que avisarle a cada despliegue: Supabase no sabe
+-- cuál corresponde. Cada sitio recibe el aviso, mira el `municipio` de la fila
+-- y decide si le toca regenerar. Por eso el cuerpo incluye la fila.
+
 create or replace function notificar_revalidacion()
 returns trigger
 language plpgsql
 security definer
 set search_path = public, net
 as $$
+declare
+  destinos text[] := array[
+    'https://calisolidario.triadaaliados.com/api/revalidar',
+    'https://filandiasolidario.triadaaliados.com/api/revalidar'
+  ];
+  destino text;
+  fila jsonb := to_jsonb(coalesce(new, old));
 begin
-  perform net.http_post(
-    url := 'https://calisolidario.triadaaliados.com/api/revalidar',
-    headers := jsonb_build_object(
-      'Content-Type', 'application/json',
-      'x-revalidate-secret', 'EL_SECRETO'
-    ),
-    body := jsonb_build_object(
-      'tabla', tg_table_name,
-      'evento', tg_op
-    )
-  );
+  foreach destino in array destinos loop
+    perform net.http_post(
+      url := destino,
+      headers := jsonb_build_object(
+        'Content-Type', 'application/json',
+        'x-revalidate-secret', 'EL_SECRETO'
+      ),
+      body := jsonb_build_object(
+        'table', tg_table_name,
+        'type', tg_op,
+        'record', fila
+      )
+    );
+  end loop;
   return null;
 end;
 $$;
 
 -- `for each statement` y no `for each row`: un update masivo debe disparar UNA
 -- petición, no una por fila. Purgar la caché dos veces da lo mismo que una.
+--
+-- OJO: con `for each statement`, `new` y `old` son NULL, así que la fila va
+-- vacía y cada sitio revalida por si acaso. Es el comportamiento seguro.
 
 drop trigger if exists places_revalidar on places;
 create trigger places_revalidar

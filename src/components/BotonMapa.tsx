@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { MUNICIPIO } from '@/config/municipios';
 
 /**
  * Entrada al mapa desde la lista.
@@ -23,8 +24,8 @@ export function BotonMapa({ ubicados }: { ubicados: number }) {
           {ubicados === 0
             ? 'Todavía sin sitios ubicados'
             : ubicados === 1
-              ? '1 sitio ubicado en Cali'
-              : `${ubicados} sitios ubicados en Cali`}
+              ? `1 sitio ubicado en ${MUNICIPIO.nombre}`
+              : `${ubicados} sitios ubicados en ${MUNICIPIO.nombre}`}
         </span>
       </span>
       <svg

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
+import { MUNICIPIO } from '@/config/municipios';
 import { createClient } from '@/lib/supabase/server';
 import { timeAgo } from '@/lib/time';
 import type { Post, PostComment } from '@/lib/types';
@@ -39,10 +40,16 @@ export default async function AdminPage() {
   // 404 y no 403: quien no es moderador no tiene por qué saber que esto existe.
   if (!profile?.is_admin) notFound();
 
+  // `posts!inner` convierte la relación en un INNER JOIN, que es lo que
+  // permite filtrar por una columna del aviso. Sin eso, la moderación de Cali
+  // mostraría también las alertas de Filandia.
   const { data } = await supabase
     .from('post_comments')
-    .select('*, profiles(display_name), posts(id, title, status, author_id)')
+    .select(
+      '*, profiles(display_name), posts!inner(id, title, status, author_id, municipio)',
+    )
     .eq('kind', 'warning')
+    .eq('posts.municipio', MUNICIPIO.id)
     .order('created_at', { ascending: false })
     .limit(100);
 

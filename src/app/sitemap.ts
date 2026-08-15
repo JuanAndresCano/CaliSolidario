@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
+import { MUNICIPIO } from '@/config/municipios';
 
-const SITE = 'https://calisolidario.triadaaliados.com';
+const SITE = MUNICIPIO.url;
 
 /** Solo los paneles. Los avisos individuales quedan fuera a propósito: ver robots.ts */
 export default function sitemap(): MetadataRoute.Sitemap {

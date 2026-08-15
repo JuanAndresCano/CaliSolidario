@@ -3,12 +3,13 @@ import { FeedList } from '@/components/FeedList';
 import { FeedTabs } from '@/components/FeedTabs';
 import { SafetyNote } from '@/components/SafetyNote';
 import { getFeed } from '@/lib/feed';
+import { MUNICIPIO } from '@/config/municipios';
 
 export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Ofertas',
-  description: 'Lo que la gente en Cali está ofreciendo donar o prestar.',
+  description: `Lo que la gente en ${MUNICIPIO.nombre} está ofreciendo donar o prestar.`,
 };
 
 export default async function OffersPage() {

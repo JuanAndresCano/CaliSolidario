@@ -1,3 +1,4 @@
+import { MUNICIPIO } from '@/config/municipios';
 import type { ContactMethod, ServiceCategory } from './catalog';
 
 /**
@@ -23,6 +24,8 @@ export type PlaceKind =
 
 export type Place = {
   id: string;
+  /** Municipio dueño del lugar. La base es compartida entre despliegues. */
+  municipio: string;
   kind: PlaceKind;
   name: string;
   org_name: string | null;
@@ -43,6 +46,8 @@ export type Place = {
   safety_note: string | null;
   is_full: boolean;
   is_verified: boolean;
+  /** Retirado sin borrar. El sitio público solo muestra los activos. */
+  is_active: boolean;
   confirmed_at: string;
 };
 
@@ -53,7 +58,7 @@ export function mapsUrl(place: Place): string | null {
   }
   if (place.address) {
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      `${place.address}, Cali, Colombia`,
+      `${place.address}, ${MUNICIPIO.contextoMapa}`,
     )}`;
   }
   return null;

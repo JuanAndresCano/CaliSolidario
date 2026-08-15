@@ -1,6 +1,8 @@
+import { MUNICIPIO } from '@/config/municipios';
+
 /**
  * Texto de ubicación para el tablero. Los tres campos son opcionales, así que
- * se arma con lo que haya y cae en "Cali" si no hay nada.
+ * se arma con lo que haya y cae en el nombre del municipio si no hay nada.
  */
 export function describePlace(
   address: string | null,
@@ -8,5 +10,5 @@ export function describePlace(
   comuna: string | null,
 ): string {
   const parts = [address, barrio, comuna].filter(Boolean);
-  return parts.length > 0 ? parts.join(' · ') : 'Cali';
+  return parts.length > 0 ? parts.join(' · ') : MUNICIPIO.nombre;
 }

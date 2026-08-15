@@ -25,25 +25,12 @@ export const CATEGORY_EMOJIS = Object.fromEntries(
   CATEGORIES.map((c) => [c.value, c.emoji]),
 ) as Record<Category, string>;
 
-/** Las 22 comunas y los 15 corregimientos de Cali. */
-export const COMUNAS = [
-  ...Array.from({ length: 22 }, (_, i) => `Comuna ${i + 1}`),
-  'Corregimiento Golondrinas',
-  'Corregimiento La Paz',
-  'Corregimiento Montebello',
-  'Corregimiento La Castilla',
-  'Corregimiento Los Andes',
-  'Corregimiento Pichindé',
-  'Corregimiento La Leonera',
-  'Corregimiento Felidia',
-  'Corregimiento El Saladito',
-  'Corregimiento La Elvira',
-  'Corregimiento Villacarmelo',
-  'Corregimiento La Buitrera',
-  'Corregimiento Pance',
-  'Corregimiento El Hormiguero',
-  'Corregimiento Navarro',
-] as const;
+/**
+ * La división territorial se mudó a `src/config/municipios.ts`: depende del
+ * municipio, no del catálogo de categorías. Se reexporta para no romper lo que
+ * ya la importaba de aquí.
+ */
+export { MUNICIPIO } from '@/config/municipios';
 
 export const CONTACT_METHODS = [
   { value: 'whatsapp', label: 'WhatsApp' },

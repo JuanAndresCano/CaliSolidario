@@ -1,7 +1,8 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { CATEGORIES, CATEGORY_LABELS, COMUNAS } from '@/lib/catalog';
+import { MUNICIPIO } from '@/config/municipios';
+import { CATEGORIES, CATEGORY_LABELS } from '@/lib/catalog';
 import { matchesQuery } from '@/lib/search';
 import type { FeedPost } from '@/lib/types';
 import { PostCard } from './PostCard';
@@ -42,9 +43,16 @@ export function FeedList({ posts }: { posts: FeedPost[] }) {
     return CATEGORIES.filter((c) => present.has(c.value));
   }, [posts]);
 
+  /**
+   * Las zonas que realmente aparecen en los avisos. Se toman de los propios
+   * avisos y no de la lista del municipio, para que funcione igual donde la
+   * zona se escribe a mano porque no hay división configurada.
+   */
   const usedComunas = useMemo(() => {
-    const present = new Set(posts.map((p) => p.comuna));
-    return COMUNAS.filter((c) => present.has(c));
+    const present = [
+      ...new Set(posts.map((p) => p.comuna).filter(Boolean)),
+    ] as string[];
+    return present.sort((a, b) => a.localeCompare(b, 'es'));
   }, [posts]);
 
   if (posts.length === 0) {
@@ -91,13 +99,15 @@ export function FeedList({ posts }: { posts: FeedPost[] }) {
 
       {usedComunas.length > 1 && (
         <label className="mb-3 block">
-          <span className="sr-only">Filtrar por comuna</span>
+          <span className="sr-only">
+            Filtrar por {MUNICIPIO.divisiones.etiqueta.toLowerCase()}
+          </span>
           <select
             value={comuna}
             onChange={(e) => setComuna(e.target.value)}
             className="w-full rounded-xl border border-line bg-surface px-3 py-2"
           >
-            <option value="">Toda la ciudad</option>
+            <option value="">Todo {MUNICIPIO.nombre}</option>
             {usedComunas.map((c) => (
               <option key={c} value={c}>
                 {c}

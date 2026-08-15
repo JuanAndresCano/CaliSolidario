@@ -3,6 +3,7 @@ import { BotonMapa } from '@/components/BotonMapa';
 import { PlaceCard } from '@/components/PlaceCard';
 import { ReportarPunto } from '@/components/ReportarPunto';
 import { getPlaces } from '@/lib/places';
+import { MUNICIPIO } from '@/config/municipios';
 
 /**
  * La frescura real la da el webhook de Supabase (/api/revalidar): al editar
@@ -15,7 +16,7 @@ export const revalidate = 300;
 export const metadata: Metadata = {
   title: 'Dónde dormir y dónde llevar la ayuda',
   description:
-    'Albergues disponibles en Cali, puntos de acopio con lo que le falta a cada uno, y zonas a las que no está llegando ayuda.',
+    `Albergues disponibles en ${MUNICIPIO.nombre}, puntos de acopio con lo que le falta a cada uno, y zonas a las que no está llegando ayuda.`,
 };
 
 export default async function AcopioPage() {

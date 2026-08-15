@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og';
+import { MUNICIPIO } from '@/config/municipios';
 
 /**
  * Tarjeta que se ve al pegar el enlace en WhatsApp, Instagram o Facebook.
@@ -6,7 +7,7 @@ import { ImageResponse } from 'next/og';
  * una línea de texto y casi nadie lo abre.
  */
 export const alt =
-  'CaliSolidario — conecta a quien necesita ayuda en Cali con quien puede darla';
+  `${MUNICIPIO.marca.join('')} — conecta a quien necesita ayuda en ${MUNICIPIO.nombre} con quien puede darla`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -27,7 +28,7 @@ export default async function Image() {
         }}
       >
         <div style={{ display: 'flex', fontSize: 92, fontWeight: 800, letterSpacing: -2 }}>
-          CaliSolidario
+          {MUNICIPIO.marca.join('')}
         </div>
 
         <div
@@ -71,7 +72,7 @@ export default async function Image() {
         </div>
 
         <div style={{ display: 'flex', marginTop: 'auto', fontSize: 30, opacity: 0.85 }}>
-          calisolidario.triadaaliados.com
+          {MUNICIPIO.url.replace('https://', '')}
         </div>
       </div>
     ),
