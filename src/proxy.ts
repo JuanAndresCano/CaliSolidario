@@ -44,6 +44,7 @@ export const config = {
     '/mis-avisos/:path*',
     '/aviso/:path*',
     '/admin/:path*',
+    '/gestion/:path*',
     '/login',
   ],
 };

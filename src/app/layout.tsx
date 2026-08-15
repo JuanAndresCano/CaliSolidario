@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { Geist } from 'next/font/google';
 import Link from 'next/link';
 import { BottomNav } from '@/components/BottomNav';
+import { MUNICIPIO } from '@/config/municipios';
 import './globals.css';
 
 const geistSans = Geist({
@@ -11,30 +12,30 @@ const geistSans = Geist({
   display: 'swap',
 });
 
-const SITE_URL = 'https://calisolidario.triadaaliados.com';
+const SITIO = MUNICIPIO.marca.join('');
+const TITULO = `${SITIO} — ayuda que llega`;
 
 export const metadata: Metadata = {
   // Necesario para que la imagen de previsualización salga con URL absoluta:
   // WhatsApp y Facebook descartan las relativas.
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(MUNICIPIO.url),
   title: {
-    default: 'CaliSolidario — ayuda que llega',
-    template: '%s · CaliSolidario',
+    default: TITULO,
+    template: `%s · ${SITIO}`,
   },
-  description:
-    'Tablero abierto para conectar a quien necesita ayuda en Cali con quien puede darla. Publica lo que necesitas o lo que ofreces.',
+  description: `Tablero abierto para conectar a quien necesita ayuda en ${MUNICIPIO.nombre} con quien puede darla. Publica lo que necesitas o lo que ofreces.`,
   openGraph: {
-    title: 'CaliSolidario — ayuda que llega',
+    title: TITULO,
     description:
       'Quien necesita ayuda y quien puede darla, en el mismo lugar. Mira el tablero, pide lo que te falta u ofrece lo que tienes.',
-    url: SITE_URL,
-    siteName: 'CaliSolidario',
+    url: MUNICIPIO.url,
+    siteName: SITIO,
     locale: 'es_CO',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CaliSolidario — ayuda que llega',
+    title: TITULO,
     description:
       'Quien necesita ayuda y quien puede darla, en el mismo lugar.',
   },
@@ -57,7 +58,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         <header className="sticky top-0 z-20 border-b border-line bg-surface/95 backdrop-blur">
           <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-3 px-4 py-2">
             <Link href="/" className="text-lg font-bold tracking-tight">
-              Cali<span className="text-brand">Solidario</span>
+              {MUNICIPIO.marca[0]}
+              <span className="text-brand">{MUNICIPIO.marca[1]}</span>
             </Link>
             <Link
               href="/mis-avisos"

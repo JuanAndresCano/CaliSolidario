@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { MUNICIPIO } from '@/config/municipios';
 
 /**
  * El tablero se indexa a propósito: que Google lo encuentre es parte de que
@@ -18,6 +19,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/aviso/', '/mis-avisos', '/publicar', '/admin', '/auth/'],
     },
-    sitemap: 'https://calisolidario.triadaaliados.com/sitemap.xml',
+    sitemap: `${MUNICIPIO.url}/sitemap.xml`,
   };
 }

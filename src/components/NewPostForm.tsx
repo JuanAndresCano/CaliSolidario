@@ -2,9 +2,9 @@
 
 import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
+import { MUNICIPIO } from '@/config/municipios';
 import {
   CATEGORIES,
-  COMUNAS,
   CONTACT_METHODS,
   KINDS,
   type Kind,
@@ -139,24 +139,38 @@ export function NewPostForm({ initialKind }: { initialKind?: Kind }) {
         />
       </Field>
 
+      {/* Donde el municipio tiene división configurada se ofrece la lista;
+          donde no, un campo libre. Es preferible a obligar a la gente a elegir
+          entre divisiones que no existen en su municipio. */}
       <Field
-        label="Comuna (si la sabes)"
+        label={`${MUNICIPIO.divisiones.etiqueta} (si la sabes)`}
         htmlFor="comuna"
         hint="Sirve para que la gente filtre por zona. Si no la tienes clara, déjala en blanco."
       >
-        <select
-          id="comuna"
-          name="comuna"
-          defaultValue=""
-          className="w-full rounded-xl border border-line bg-surface px-3"
-        >
-          <option value="">No la sé</option>
-          {COMUNAS.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
+        {MUNICIPIO.divisiones.opciones.length > 0 ? (
+          <select
+            id="comuna"
+            name="comuna"
+            defaultValue=""
+            className="w-full rounded-xl border border-line bg-surface px-3"
+          >
+            <option value="">No la sé</option>
+            {MUNICIPIO.divisiones.opciones.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <input
+            id="comuna"
+            name="comuna"
+            type="text"
+            maxLength={60}
+            placeholder={`Nombre de la ${MUNICIPIO.divisiones.etiqueta.toLowerCase()}`}
+            className="w-full rounded-xl border border-line bg-surface px-3"
+          />
+        )}
       </Field>
 
       <fieldset>

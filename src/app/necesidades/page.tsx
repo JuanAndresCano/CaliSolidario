@@ -3,12 +3,13 @@ import { FeedList } from '@/components/FeedList';
 import { FeedTabs } from '@/components/FeedTabs';
 import { SafetyNote } from '@/components/SafetyNote';
 import { getFeed } from '@/lib/feed';
+import { MUNICIPIO } from '@/config/municipios';
 
 export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Necesidades',
-  description: 'Lo que la gente en Cali está necesitando ahora mismo.',
+  description: `Lo que la gente en ${MUNICIPIO.nombre} está necesitando ahora mismo.`,
 };
 
 export default async function NeedsPage() {

@@ -27,6 +27,10 @@ check "0002  posts.address"        "posts?select=address&limit=1"
 check "0003  post_comments"        "post_comments?select=id&limit=1"
 check "0003  posts.warning_count"  "posts?select=warning_count&limit=1"
 check "0007  places"               "places?select=id&limit=1"
+check "0011  places.image_url"     "places?select=image_url&limit=1"
+check "0012  places.safety_note"   "places?select=safety_note&limit=1"
+check "0017  posts.municipio"      "posts?select=municipio&limit=1"
+check "0017  places.municipio"     "places?select=municipio&limit=1"
 
 # 0004, 0005 y 0006 no se pueden comprobar con la anon key: cambian políticas,
 # triggers y una función a la que anon no tiene permiso de ejecución (por eso

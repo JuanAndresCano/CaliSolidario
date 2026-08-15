@@ -9,9 +9,13 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 // y places arrastra el cliente de Supabase al paquete. Eso tumbó el mapa en
 // producción el 14 de agosto.
 import { contactUrl, mapsUrl, type Place } from '@/lib/place-utils';
+import { MUNICIPIO } from '@/config/municipios';
 
-/** Centro de Cali, por si no hay ningún punto con coordenadas. */
-const CALI: [number, number] = [3.4516, -76.532];
+/** Vista inicial, por si no hay ningún punto con coordenadas. */
+const CENTRO: [number, number] = [
+  MUNICIPIO.centroMapa.lat,
+  MUNICIPIO.centroMapa.lng,
+];
 
 /**
  * Teselas de CARTO: no exigen cuenta ni clave, a diferencia de la mayoría, y
@@ -97,8 +101,8 @@ export function Mapa({ places }: { places: Place[] }) {
 
   return (
     <MapContainer
-      center={CALI}
-      zoom={12}
+      center={CENTRO}
+      zoom={MUNICIPIO.centroMapa.zoom}
       bounds={limites ?? undefined}
       scrollWheelZoom={false}
       // `mapa-tema` engancha los estilos de Leaflet a las variables del tema;

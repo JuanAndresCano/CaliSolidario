@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { MUNICIPIO } from '@/config/municipios';
 
 export const metadata: Metadata = {
   title: 'Otros recursos',
   description:
-    'Plataformas y canales oficiales para desaparecidos, mapas de emergencia y reportes de afectación en Cali.',
+    `Plataformas y canales oficiales para desaparecidos, mapas de emergencia y reportes de afectación en ${MUNICIPIO.nombre}.`,
 };
 
 type Recurso = {
@@ -57,7 +58,7 @@ const MAPAS: Recurso[] = [
   {
     nombre: 'ConectaColombia 7.4',
     descripcion:
-      'Red nacional de iniciativas ciudadanas, más allá de Cali.',
+      `Red nacional de iniciativas ciudadanas, más allá de ${MUNICIPIO.nombre}.`,
     url: 'https://www.conectacolombia.org',
   },
 ];

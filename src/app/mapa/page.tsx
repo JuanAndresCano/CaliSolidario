@@ -2,13 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { MapaCargador } from '@/components/MapaCargador';
 import { getPlaces } from '@/lib/places';
+import { MUNICIPIO } from '@/config/municipios';
 
 export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'Mapa',
   description:
-    'Mapa de Cali con los puntos de acopio y las zonas a las que no está llegando ayuda.',
+    `Mapa de ${MUNICIPIO.nombre} con los puntos de acopio y las zonas a las que no está llegando ayuda.`,
 };
 
 export default async function MapaPage() {

@@ -2,7 +2,8 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { CATEGORIES, COMUNAS, CONTACT_METHODS, KINDS } from '@/lib/catalog';
+import { MUNICIPIO } from '@/config/municipios';
+import { CATEGORIES, CONTACT_METHODS, KINDS } from '@/lib/catalog';
 import { createClient } from '@/lib/supabase/server';
 
 export type CreatePostState = { error: string | null };
@@ -10,7 +11,7 @@ export type CreatePostState = { error: string | null };
 const CATEGORY_VALUES = CATEGORIES.map((c) => c.value) as string[];
 const KIND_VALUES = KINDS.map((k) => k.value) as string[];
 const METHOD_VALUES = CONTACT_METHODS.map((m) => m.value) as string[];
-const COMUNA_VALUES = COMUNAS as readonly string[];
+const COMUNA_VALUES = MUNICIPIO.divisiones.opciones;
 
 function text(form: FormData, key: string): string {
   const value = form.get(key);
@@ -56,8 +57,16 @@ export async function createPost(
   if (description.length < 10 || description.length > 1000)
     return { error: 'La descripción debe tener entre 10 y 1000 caracteres.' };
   // La comuna es opcional, pero si viene tiene que ser una de la lista.
-  if (comuna && !COMUNA_VALUES.includes(comuna))
-    return { error: 'Esa comuna no existe en la lista.' };
+  // Si el municipio tiene lista, el valor debe salir de ella. Si no la tiene,
+  // la zona es texto libre y solo se limita el largo.
+  if (COMUNA_VALUES.length > 0) {
+    if (comuna && !COMUNA_VALUES.includes(comuna))
+      return {
+        error: `Esa ${MUNICIPIO.divisiones.etiqueta.toLowerCase()} no existe en la lista.`,
+      };
+  } else if (comuna.length > 60) {
+    return { error: 'El nombre de la zona es demasiado largo.' };
+  }
   if (address && (address.length < 5 || address.length > 160))
     return { error: 'La dirección debe tener entre 5 y 160 caracteres.' };
   if (!comuna && !address && !barrio)
@@ -89,6 +98,8 @@ export async function createPost(
     p_address: address || null,
     p_method: method,
     p_contact_value: contactValue,
+    // El aviso queda atado al municipio de este despliegue.
+    p_municipio: MUNICIPIO.id,
   });
 
   if (createError) {

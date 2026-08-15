@@ -14,6 +14,7 @@ const ALLOWED_NEXT = [
   '/necesidades',
   '/ofertas',
   '/admin',
+  '/gestion',
 ];
 
 function safeNext(raw: string | undefined): string {
