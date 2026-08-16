@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { Geist } from 'next/font/google';
 import Link from 'next/link';
 import { BottomNav } from '@/components/BottomNav';
-import { MUNICIPIO } from '@/config/municipios';
+import { MUNICIPIO, SITIO } from '@/config/municipios';
 import './globals.css';
 
 const geistSans = Geist({
@@ -12,7 +12,6 @@ const geistSans = Geist({
   display: 'swap',
 });
 
-const SITIO = MUNICIPIO.marca.join('');
 const TITULO = `${SITIO} — ayuda que llega`;
 
 export const metadata: Metadata = {

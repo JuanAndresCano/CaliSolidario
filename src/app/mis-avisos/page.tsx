@@ -5,6 +5,7 @@ import { deletePost, reopenPost } from '@/app/publicar/actions';
 import { MUNICIPIO } from '@/config/municipios';
 import { ResolveButton } from '@/components/ResolveButton';
 import { CATEGORY_EMOJIS, CATEGORY_LABELS } from '@/lib/catalog';
+import { permisosDeGestion } from '@/lib/gestion';
 import { describePlace } from '@/lib/place';
 import { createClient } from '@/lib/supabase/server';
 import { timeAgo } from '@/lib/time';
@@ -46,6 +47,14 @@ export default async function MyPostsPage({
   const posts = (data ?? []) as Post[];
   const openCount = posts.filter((p) => p.status === 'open').length;
 
+  // La puerta al panel de gestión vive aquí y no en el encabezado a propósito.
+  // El encabezado sale en TODAS las páginas, y comprobar la sesión ahí las
+  // volvería dinámicas a todas: adiós al CDN, que es lo que mantiene el sitio
+  // dentro del plan gratuito. Esta página ya exige sesión, así que la
+  // comprobación no cuesta nada, y el enlace "Mis avisos" del encabezado ya es
+  // el camino natural hacia lo propio de cada quien.
+  const permisos = await permisosDeGestion(MUNICIPIO.id);
+
   return (
     <div className="py-2">
       <div className="flex items-baseline justify-between gap-3">
@@ -59,6 +68,26 @@ export default async function MyPostsPage({
           </button>
         </form>
       </div>
+
+      {permisos.puedeGestionar && (
+        <Link
+          href="/gestion"
+          className="mt-3 flex items-center gap-3 rounded-2xl border border-brand bg-surface px-4 py-3.5 active:opacity-70"
+        >
+          <span aria-hidden className="text-2xl leading-none">
+            ⚙
+          </span>
+          <span>
+            <span className="block text-sm font-semibold">
+              Gestión de lugares
+            </span>
+            <span className="mt-0.5 block text-xs leading-snug text-muted">
+              Acopios, albergues y servicios de {MUNICIPIO.nombre}
+              {permisos.esAdmin ? '. Entras como administrador.' : '.'}
+            </span>
+          </span>
+        </Link>
+      )}
 
       {publicado && (
         <div className="mt-3 rounded-xl bg-offer-bg px-3 py-3">
