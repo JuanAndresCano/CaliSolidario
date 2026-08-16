@@ -1,3 +1,4 @@
+import { MUNICIPIO } from '@/config/municipios';
 import { whatsappLink } from '@/lib/site';
 
 /**
@@ -6,9 +7,15 @@ import { whatsappLink } from '@/lib/site';
  * El mensaje va prellenado con las preguntas exactas que hacen falta para
  * cargarlo. Sin eso llegan mensajes de una línea ("hay un punto en Siloé") que
  * obligan a tres idas y vueltas antes de poder publicar nada.
+ *
+ * El nombre del sitio se arma con la marca del municipio y no está escrito a
+ * mano: antes decía "CaliSolidario" también en el sitio de Filandia, así que
+ * a la alcaldía le llegaban reportes nombrando otra ciudad.
  */
+const SITIO = MUNICIPIO.marca.join('');
+
 const PLANTILLAS = {
-  acopio: `Hola, quiero reportar un PUNTO DE ACOPIO para CaliSolidario:
+  acopio: `Hola, quiero reportar un PUNTO DE ACOPIO para ${SITIO}:
 
 • Nombre del lugar:
 • Dirección:
@@ -18,14 +25,14 @@ const PLANTILLAS = {
 • Horario:
 • Teléfono de contacto:`,
 
-  necesidad: `Hola, quiero reportar una ZONA QUE NECESITA AYUDA para CaliSolidario:
+  necesidad: `Hola, quiero reportar una ZONA QUE NECESITA AYUDA para ${SITIO}:
 
 • Barrio o sector:
 • Dirección o punto de referencia:
 • Qué necesitan:
 • Cómo supiste (fuiste, te contaron, lo viste en redes):`,
 
-  servicio: `Hola, quiero ofrecer un SERVICIO GRATUITO en CaliSolidario:
+  servicio: `Hola, quiero ofrecer un SERVICIO GRATUITO en ${SITIO}:
 
 • Nombre del servicio:
 • Organización o profesional:
@@ -51,12 +58,12 @@ const TEXTOS = {
     'Lo revisamos y lo publicamos. No cobramos por aparecer ni recibimos comisión.',
 } as const;
 
-export function ReportarPunto({
+export async function ReportarPunto({
   tipo,
 }: {
   tipo: keyof typeof PLANTILLAS;
 }) {
-  const href = whatsappLink(PLANTILLAS[tipo]);
+  const href = await whatsappLink(PLANTILLAS[tipo]);
 
   // Sin número configurado no se muestra nada: un botón que no lleva a
   // ninguna parte es peor que la ausencia del botón.

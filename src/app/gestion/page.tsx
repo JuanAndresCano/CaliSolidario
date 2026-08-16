@@ -2,10 +2,20 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { MUNICIPIO } from '@/config/municipios';
-import { lugaresDelMunicipio, permisosDeGestion } from '@/lib/gestion';
+import {
+  configDelMunicipio,
+  lugaresDelMunicipio,
+  permisosDeGestion,
+  type MunicipioConfig,
+} from '@/lib/gestion';
 import type { Place } from '@/lib/place-utils';
 import { timeAgo } from '@/lib/time';
-import { alternarActivo, alternarLleno, confirmarVigencia } from './actions';
+import {
+  alternarActivo,
+  alternarLleno,
+  confirmarVigencia,
+  guardarContacto,
+} from './actions';
 
 export const metadata: Metadata = {
   title: 'Gestión de lugares',
@@ -22,7 +32,7 @@ const ETIQUETAS: Record<Place['kind'], string> = {
 export default async function GestionPage({
   searchParams,
 }: PageProps<'/gestion'>) {
-  const { creado, guardado } = await searchParams;
+  const { creado, guardado, contacto } = await searchParams;
 
   const permisos = await permisosDeGestion(MUNICIPIO.id);
 
@@ -32,7 +42,10 @@ export default async function GestionPage({
   if (!permisos.haySesion) redirect('/login?next=/gestion');
   if (!permisos.municipio) notFound();
 
-  const lugares = await lugaresDelMunicipio(permisos.municipio);
+  const [lugares, config] = await Promise.all([
+    lugaresDelMunicipio(permisos.municipio),
+    configDelMunicipio(permisos.municipio),
+  ]);
   const activos = lugares.filter((l) => l.is_active);
   const retirados = lugares.filter((l) => !l.is_active);
 
@@ -49,9 +62,22 @@ export default async function GestionPage({
         el dato.
       </p>
 
-      {(creado || guardado) && (
+      {(creado || guardado || contacto === '1') && (
         <p className="mt-3 rounded-xl bg-offer-bg px-3 py-2.5 text-sm font-semibold text-offer">
-          ✓ {creado ? 'Lugar creado.' : 'Cambios guardados.'}
+          ✓{' '}
+          {creado
+            ? 'Lugar creado.'
+            : guardado
+              ? 'Cambios guardados.'
+              : 'Contacto actualizado.'}
+        </p>
+      )}
+
+      {(contacto === 'invalido' || contacto === 'error') && (
+        <p className="mt-3 rounded-xl bg-need-bg px-3 py-2.5 text-sm font-semibold text-need">
+          {contacto === 'invalido'
+            ? 'Ese número no parece un celular. Escríbelo con los 10 dígitos.'
+            : 'No se pudo guardar el contacto. Vuelve a intentarlo.'}
         </p>
       )}
 
@@ -90,7 +116,86 @@ export default async function GestionPage({
           </ul>
         </>
       )}
+
+      <Contacto config={config} />
     </div>
+  );
+}
+
+/**
+ * Ajuste que no es del día a día pero que la alcaldía tiene que poder cambiar
+ * sola: a qué WhatsApp llegan los reportes de puntos nuevos. Va al final,
+ * después de los lugares, porque se toca cuando rota el turno y no cada día.
+ */
+function Contacto({ config }: { config: MunicipioConfig | null }) {
+  return (
+    <section className="mt-10 rounded-2xl border border-line bg-surface px-4 py-4">
+      <h2 className="text-base font-bold">Contacto para reportes</h2>
+      <p className="mt-1 text-sm leading-relaxed text-muted">
+        Es el WhatsApp de los botones “¿Conoces otro punto?”. Ahí llegan las
+        empresas que quieren ofrecer un servicio gratuito y quien reporta un
+        acopio nuevo. Cámbialo cuando rote el turno; el sitio lo toma de
+        inmediato, sin volver a desplegar.
+      </p>
+
+      {config === null ? (
+        <p className="mt-3 rounded-xl bg-need-bg px-3 py-2.5 text-sm font-medium text-need">
+          Este municipio todavía no está dado de alta en la configuración.
+          Escríbele a quien mantiene el sitio.
+        </p>
+      ) : (
+        <form action={guardarContacto} className="mt-4 flex flex-col gap-3">
+          <label className="flex flex-col gap-1.5">
+            <span className="text-sm font-semibold">WhatsApp</span>
+            <input
+              // `tel` abre el teclado numérico en el celular, que es desde
+              // donde se va a editar esto.
+              type="tel"
+              name="whatsapp_reportes"
+              inputMode="tel"
+              autoComplete="off"
+              defaultValue={config.whatsapp_reportes ?? ''}
+              placeholder="3113179404"
+              className="min-h-11 rounded-xl border border-line bg-bg px-3 text-base"
+            />
+            <span className="text-xs text-muted">
+              Con los 10 dígitos basta; el 57 se agrega solo. Déjalo vacío si
+              por ahora nadie está respondiendo: el botón desaparece del sitio
+              en vez de mandar mensajes a un número muerto.
+            </span>
+          </label>
+
+          <label className="flex flex-col gap-1.5">
+            <span className="text-sm font-semibold">Quién responde</span>
+            <input
+              type="text"
+              name="responsable"
+              maxLength={80}
+              autoComplete="off"
+              defaultValue={config.responsable ?? ''}
+              placeholder="Nombre y cargo"
+              className="min-h-11 rounded-xl border border-line bg-bg px-3 text-base"
+            />
+            <span className="text-xs text-muted">
+              No se publica. Sirve para que quien entre al turno sepa a quién
+              releva.
+            </span>
+          </label>
+
+          <div className="flex items-center gap-3">
+            <button
+              type="submit"
+              className="min-h-11 rounded-xl bg-brand px-4 font-bold text-brand-ink"
+            >
+              Guardar contacto
+            </button>
+            <span className="text-xs text-muted" suppressHydrationWarning>
+              Actualizado {timeAgo(config.updated_at)}
+            </span>
+          </div>
+        </form>
+      )}
+    </section>
   );
 }
 

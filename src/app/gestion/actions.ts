@@ -182,6 +182,49 @@ export async function confirmarVigencia(form: FormData) {
   refrescar();
 }
 
+/**
+ * Cambia el WhatsApp al que llegan los reportes de puntos nuevos.
+ *
+ * Existe para que una rotación de turno en la alcaldía no dependa de un
+ * despliegue. El municipio lo pone el servidor, nunca el formulario; RLS y los
+ * privilegios por columna lo rechazarían igual, pero mejor ni ofrecerlo.
+ */
+export async function guardarContacto(form: FormData) {
+  const crudo = texto(form, 'whatsapp_reportes');
+  const responsable = texto(form, 'responsable').slice(0, 80) || null;
+
+  // Se acepta como lo escriba la gente —"311 317 9404", "+57 311 3179404"— y
+  // se normaliza aquí. Un número con espacios rompe el enlace de wa.me, y no
+  // es razonable pedirle a alguien de una alcaldía que lo sepa.
+  const digitos = crudo.replace(/\D/g, '');
+  const numero = digitos.length === 10 ? `57${digitos}` : digitos;
+
+  if (numero && !/^[0-9]{10,15}$/.test(numero)) {
+    redirect('/gestion?contacto=invalido');
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('municipio_config')
+    .update({
+      whatsapp_reportes: numero || null,
+      responsable,
+    })
+    .eq('municipio', MUNICIPIO.id)
+    .select('municipio');
+
+  if (error || !data || data.length === 0) {
+    console.error(
+      '[gestion] no se pudo guardar el contacto:',
+      error?.message ?? 'ninguna fila afectada',
+    );
+    redirect('/gestion?contacto=error');
+  }
+
+  refrescar();
+  redirect('/gestion?contacto=1');
+}
+
 export async function alternarActivo(form: FormData) {
   const id = form.get('id');
   const activo = form.get('activo') === 'true';
