@@ -1,3 +1,4 @@
+import { SITIO } from '@/config/municipios';
 import type { Guide } from './tipos';
 
 export const DONACIONES_QUE_LLEGAN: Guide = {
@@ -70,7 +71,7 @@ export const DONACIONES_QUE_LLEGAN: Guide = {
         },
         {
           type: 'callout',
-          text: 'En CaliSolidario nadie debería pedirte dinero. Si un aviso te lo pide, repórtalo con el botón de alerta del propio aviso.',
+          text: `En ${SITIO} nadie debería pedirte dinero. Si un aviso te lo pide, repórtalo con el botón de alerta del propio aviso.`,
         },
       ],
     },

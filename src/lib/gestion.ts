@@ -115,9 +115,10 @@ export async function configDelMunicipio(
 
 export async function lugarPorId(id: string): Promise<Place | null> {
   const supabase = await createClient();
+  // Con los contactos anidados: el formulario los tiene que precargar.
   const { data } = await supabase
     .from('places')
-    .select('*')
+    .select('*, contacts:place_contacts(id, method, value, label, orden)')
     .eq('id', id)
     .maybeSingle();
 

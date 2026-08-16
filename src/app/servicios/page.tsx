@@ -26,9 +26,14 @@ export default async function ServiciosPage() {
 
       <h1 className="text-xl font-bold tracking-tight">Servicios gratuitos</h1>
       <p className="mt-2 text-sm leading-relaxed text-muted">
+        {/* Antes decía que estaban "todos revisados uno por uno", y no era
+            cierto de los recién cargados. Prometer verificación que no se hizo
+            es peor que no prometerla: aquí hay servicios jurídicos y de salud
+            donde la gente entrega datos sensibles. Ahora el sello es el que
+            habla, y por eso significa algo. */}
         Profesionales y empresas que pusieron sus servicios a disposición de
-        quien los necesite, sin cobrar. Todos revisados uno por uno por el
-        equipo de CaliSolidario.
+        quien los necesite, sin cobrar. Los que llevan ✓ Verificado los
+        confirmamos por teléfono; los demás están tal como nos los reportaron.
       </p>
 
       {cautions.map((c) => (

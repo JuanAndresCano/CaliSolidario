@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { FeedList } from '@/components/FeedList';
 import { FeedTabs } from '@/components/FeedTabs';
 import { SafetyNote } from '@/components/SafetyNote';
+import { MUNICIPIO, SITIO } from '@/config/municipios';
 import { countResolved, getFeed } from '@/lib/feed';
 
 /**
@@ -16,7 +17,9 @@ export default async function HomePage() {
 
   return (
     <>
-      <h1 className="sr-only">CaliSolidario — ayuda que llega, en Cali</h1>
+      <h1 className="sr-only">
+        {SITIO} — ayuda que llega, en {MUNICIPIO.nombre}
+      </h1>
 
 
       {/*

@@ -99,8 +99,8 @@ export const MUNICIPIOS: Record<string, Municipio> = {
     // una división inventada.
     divisiones: { etiqueta: 'Vereda', opciones: [] },
     // Respaldo. El número que se usa de verdad se cambia desde /gestion, y
-    // ahí es donde la alcaldía debe poner el suyo.
-    whatsappReportes: '573113179404',
+    // ahí es donde la alcaldía pone el suyo.
+    whatsappReportes: '573207259924',
     url: 'https://filandiasolidario.triadaaliados.com',
   },
 };
@@ -114,3 +114,12 @@ export const MUNICIPIOS: Record<string, Municipio> = {
 const seleccionado = process.env.NEXT_PUBLIC_MUNICIPIO ?? 'cali';
 
 export const MUNICIPIO: Municipio = MUNICIPIOS[seleccionado] ?? MUNICIPIOS.cali;
+
+/**
+ * Cómo se llama el sitio: "CaliSolidario", "FilandiaSolidario".
+ *
+ * Existe para que nadie lo vuelva a escribir a mano. Estaba puesto literal en
+ * media aplicación —la nota de seguridad, la página de enlaces, las plantillas
+ * de WhatsApp— y el sitio de Filandia se presentaba como CaliSolidario.
+ */
+export const SITIO = MUNICIPIO.marca.join('');

@@ -1,4 +1,4 @@
-import { MUNICIPIO } from '@/config/municipios';
+import { SITIO } from '@/config/municipios';
 import { whatsappLink } from '@/lib/site';
 
 /**
@@ -8,12 +8,10 @@ import { whatsappLink } from '@/lib/site';
  * cargarlo. Sin eso llegan mensajes de una línea ("hay un punto en Siloé") que
  * obligan a tres idas y vueltas antes de poder publicar nada.
  *
- * El nombre del sitio se arma con la marca del municipio y no está escrito a
- * mano: antes decía "CaliSolidario" también en el sitio de Filandia, así que
- * a la alcaldía le llegaban reportes nombrando otra ciudad.
+ * El nombre del sitio sale de `SITIO` y no está escrito a mano: antes decía
+ * "CaliSolidario" también en el sitio de Filandia, así que a la alcaldía le
+ * llegaban reportes nombrando otra ciudad.
  */
-const SITIO = MUNICIPIO.marca.join('');
-
 const PLANTILLAS = {
   acopio: `Hola, quiero reportar un PUNTO DE ACOPIO para ${SITIO}:
 

@@ -4,10 +4,18 @@ import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { crearLugar, editarLugar, type EstadoLugar } from '@/app/gestion/actions';
 import { MUNICIPIO } from '@/config/municipios';
-import { SERVICE_CATEGORIES } from '@/lib/catalog';
-import type { Place } from '@/lib/place-utils';
+import { MAX_CONTACTOS, SERVICE_CATEGORIES } from '@/lib/catalog';
+import { contactosDe, type Place, type PlaceContact } from '@/lib/place-utils';
 
 const INICIAL: EstadoLugar = { error: null };
+
+/**
+ * Ranuras fijas en vez de un "＋ agregar contacto" dinámico. Tres cubre lo que
+ * hay en la práctica —el caso más cargado hoy son los tres abogados de Icesi—
+ * y un formulario sin estado se recupera solo si el envío falla. Cuando
+ * aparezca un lugar con cinco, esto se convierte en lista.
+ */
+const RANURAS = Array.from({ length: MAX_CONTACTOS }, (_, i) => i + 1);
 
 const TIPOS = [
   { value: 'acopio', label: 'Punto de acopio' },
@@ -22,6 +30,7 @@ export function LugarForm({ lugar }: { lugar?: Place }) {
     INICIAL,
   );
   const [kind, setKind] = useState<string>(lugar?.kind ?? 'acopio');
+  const contactos = lugar ? contactosDe(lugar) : [];
 
   return (
     <form action={accion} className="flex flex-col gap-4">
@@ -201,30 +210,17 @@ export function LugarForm({ lugar }: { lugar?: Place }) {
         </Campo>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <Campo label="Medio de contacto" id="contact_method">
-          <select
-            id="contact_method"
-            name="contact_method"
-            defaultValue={lugar?.contact_method ?? ''}
-            className="w-full rounded-xl border border-line bg-surface px-3"
-          >
-            <option value="">Ninguno</option>
-            <option value="whatsapp">WhatsApp</option>
-            <option value="telefono">Llamada</option>
-            <option value="otro">Otro</option>
-          </select>
-        </Campo>
-        <Campo label="Número o dato" id="contact_value">
-          <input
-            id="contact_value"
-            name="contact_value"
-            maxLength={120}
-            defaultValue={lugar?.contact_value ?? ''}
-            className="w-full rounded-xl border border-line bg-surface px-3"
-          />
-        </Campo>
-      </div>
+      <fieldset className="rounded-xl border border-line px-3 py-3">
+        <legend className="px-1 text-sm font-semibold">Contactos</legend>
+        <p className="text-xs leading-relaxed text-muted">
+          El primero es el principal: es el del botón grande en la tarjeta. Los
+          demás salen debajo. Deja vacío el número para quitar un contacto.
+        </p>
+
+        {RANURAS.map((i) => (
+          <RanuraContacto key={i} indice={i} contacto={contactos[i - 1]} />
+        ))}
+      </fieldset>
 
       <Campo label="Horario" id="schedule">
         <input
@@ -316,6 +312,48 @@ function Guardar({ nuevo }: { nuevo: boolean }) {
     >
       {pending ? 'Guardando…' : nuevo ? 'Crear lugar' : 'Guardar cambios'}
     </button>
+  );
+}
+
+function RanuraContacto({
+  indice,
+  contacto,
+}: {
+  indice: number;
+  contacto?: PlaceContact;
+}) {
+  return (
+    <div className="mt-3 border-t border-line pt-3 first:mt-2 first:border-0 first:pt-0">
+      <div className="grid grid-cols-[7rem_1fr] gap-2">
+        <select
+          name={`contact_method_${indice}`}
+          aria-label={`Medio del contacto ${indice}`}
+          defaultValue={contacto?.method ?? 'whatsapp'}
+          className="rounded-xl border border-line bg-surface px-2 text-sm"
+        >
+          <option value="whatsapp">WhatsApp</option>
+          <option value="telefono">Llamada</option>
+          <option value="otro">Otro</option>
+        </select>
+        <input
+          name={`contact_value_${indice}`}
+          inputMode="tel"
+          maxLength={120}
+          aria-label={`Número del contacto ${indice}`}
+          defaultValue={contacto?.value ?? ''}
+          placeholder={indice === 1 ? 'Número o dato' : 'Otro número (opcional)'}
+          className="w-full rounded-xl border border-line bg-surface px-3"
+        />
+      </div>
+      <input
+        name={`contact_label_${indice}`}
+        maxLength={60}
+        aria-label={`Quién contesta en el contacto ${indice}`}
+        defaultValue={contacto?.label ?? ''}
+        placeholder="Quién contesta (opcional)"
+        className="mt-2 w-full rounded-xl border border-line bg-surface px-3 text-sm"
+      />
+    </div>
   );
 }
 

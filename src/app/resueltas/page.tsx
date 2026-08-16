@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SITIO } from '@/config/municipios';
 import { CATEGORY_EMOJIS, CATEGORY_LABELS } from '@/lib/catalog';
 import { getResolved } from '@/lib/feed';
 import { describePlace } from '@/lib/place';
@@ -9,8 +10,7 @@ export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'Ayudas concretadas',
-  description:
-    'Necesidades que ya se resolvieron y ofertas que ya se entregaron gracias a CaliSolidario.',
+  description: `Necesidades que ya se resolvieron y ofertas que ya se entregaron gracias a ${SITIO}.`,
 };
 
 export default async function ResolvedPage() {
