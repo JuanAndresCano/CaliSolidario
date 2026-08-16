@@ -11,7 +11,7 @@ import { MUNICIPIO } from '@/config/municipios';
  * seguridad por si el webhook falla — sin él tocaría regenerar cada minuto
  * "por si acaso", que es justo el desperdicio que el webhook elimina.
  */
-export const revalidate = 300;
+export const revalidate = 900;
 
 export const metadata: Metadata = {
   title: 'Dónde dormir y dónde llevar la ayuda',

@@ -6,7 +6,11 @@ import { getResolved } from '@/lib/feed';
 import { describePlace } from '@/lib/place';
 import { timeAgo } from '@/lib/time';
 
-export const revalidate = 300;
+/**
+ * Una hora. Es un histórico: que una ayuda concretada aparezca ahora o dentro
+ * de un rato no le cambia la decisión a nadie.
+ */
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Ayudas concretadas',

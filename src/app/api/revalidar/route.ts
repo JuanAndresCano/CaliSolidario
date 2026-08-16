@@ -27,6 +27,25 @@ const RUTAS = [
 ];
 
 /**
+ * Qué rutas le importan a cada tabla.
+ *
+ * Antes se purgaban las siete siempre. Publicar un aviso regeneraba el mapa y
+ * la página de servicios, que no muestran avisos; mover un acopio regeneraba
+ * el tablero, que no muestra lugares. Cada regeneración es una escritura de
+ * ISR facturable, y el plan gratuito se quedó al 75% de su cupo.
+ *
+ * Una tabla que no esté aquí purga todo, que es el comportamiento seguro:
+ * ante la duda, dato fresco antes que escritura ahorrada.
+ */
+const RUTAS_POR_TABLA: Record<string, string[]> = {
+  posts: ['/', '/necesidades', '/ofertas', '/resueltas'],
+  places: ['/sitios', '/servicios', '/mapa'],
+  place_contacts: ['/sitios', '/servicios', '/mapa'],
+  // Solo cambia el botón de "¿conoces otro punto?", que vive en estas dos.
+  municipio_config: ['/sitios', '/servicios'],
+};
+
+/**
  * Comparación en tiempo constante. Un `===` normal corta en el primer carácter
  * distinto y filtra, por diferencias de milisegundos, cuánto del secreto se
  * acertó.
@@ -50,20 +69,28 @@ function secretoValido(recibido: string | null, esperado: string): boolean {
  * regeneración de más no le cuesta nada a nadie, pero un dato viejo en
  * pantalla sí.
  */
-async function municipioDelCambio(request: NextRequest): Promise<string | null> {
+async function leerCambio(
+  request: NextRequest,
+): Promise<{ municipio: string | null; rutas: string[] }> {
+  // El cuerpo solo se puede leer una vez, así que de aquí sale todo.
   try {
     const cuerpo = await request.json();
     const fila = cuerpo?.record ?? cuerpo?.old_record;
+    const tabla = typeof cuerpo?.table === 'string' ? cuerpo.table : '';
+    const rutas = RUTAS_POR_TABLA[tabla] ?? RUTAS;
 
     // Una ficha marcada como disponible en todos los municipios se ve en todos
     // los sitios, así que su cambio le importa a todos: se devuelve `null`
     // para que ninguno lo omita.
-    if (fila?.disponible_en_todos === true) return null;
+    if (fila?.disponible_en_todos === true) return { municipio: null, rutas };
 
     const municipio = fila?.municipio;
-    return typeof municipio === 'string' ? municipio : null;
+    return {
+      municipio: typeof municipio === 'string' ? municipio : null,
+      rutas,
+    };
   } catch {
-    return null;
+    return { municipio: null, rutas: RUTAS };
   }
 }
 
@@ -81,7 +108,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'no autorizado' }, { status: 401 });
   }
 
-  const municipio = await municipioDelCambio(request);
+  const { municipio, rutas } = await leerCambio(request);
 
   if (municipio !== null && municipio !== MUNICIPIO.id) {
     // El cambio es de otro municipio: este despliegue no muestra esa fila, así
@@ -93,11 +120,11 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  for (const ruta of RUTAS) revalidatePath(ruta);
+  for (const ruta of rutas) revalidatePath(ruta);
 
   return NextResponse.json({
     municipio: MUNICIPIO.id,
-    revalidado: RUTAS,
+    revalidado: rutas,
     en: new Date().toISOString(),
   });
 }

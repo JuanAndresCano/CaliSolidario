@@ -5,7 +5,7 @@ import { SERVICE_CATEGORIES } from '@/lib/catalog';
 import { getPlaces } from '@/lib/places';
 
 /** Red de seguridad; la frescura la da el webhook (/api/revalidar). */
-export const revalidate = 300;
+export const revalidate = 900;
 
 export const metadata: Metadata = {
   title: 'Servicios gratuitos',
