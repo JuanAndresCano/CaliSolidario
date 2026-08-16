@@ -40,6 +40,14 @@ export const CONTACT_METHODS = [
 
 export type ContactMethod = (typeof CONTACT_METHODS)[number]['value'];
 
+/**
+ * Cuántos contactos admite un lugar en el formulario de gestión.
+ *
+ * Vive aquí y no en las acciones porque un módulo 'use server' solo puede
+ * exportar funciones async: una constante ahí rompe el build.
+ */
+export const MAX_CONTACTOS = 3;
+
 export const COMMENT_KINDS = [
   {
     value: 'comment',

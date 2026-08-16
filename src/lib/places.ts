@@ -5,11 +5,13 @@ import type { Place, PlaceKind } from './place-utils';
 // El tipo y las utilidades puras viven en place-utils para que los componentes
 // de cliente no arrastren el cliente de Supabase al navegador. Se reexportan
 // por comodidad de los componentes de servidor.
-export type { Place, PlaceKind } from './place-utils';
-export { mapsUrl, contactUrl } from './place-utils';
+export type { Place, PlaceContact, PlaceKind } from './place-utils';
+export { mapsUrl, contactUrl, contactUrlDe, contactosDe } from './place-utils';
 
+// `contacts` es la tabla anidada: PostgREST la resuelve por la llave foránea
+// de place_contacts. Se ordena en el cliente, dentro de `contactosDe`.
 const COLUMNS =
-  'id, municipio, kind, name, org_name, description, service_category, address, comuna, lat, lng, contact_method, contact_value, website, image_url, schedule, supplies_needed, supplies_surplus, safety_note, is_full, is_verified, is_active, disponible_en_todos, confirmed_at';
+  'id, municipio, kind, name, org_name, description, service_category, address, comuna, lat, lng, contact_method, contact_value, website, image_url, schedule, supplies_needed, supplies_surplus, safety_note, is_full, is_verified, is_active, disponible_en_todos, confirmed_at, contacts:place_contacts(id, method, value, label, orden)';
 
 /**
  * Lugares curados por el equipo. Se consultan con el cliente anónimo desde

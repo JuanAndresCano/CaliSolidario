@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { MUNICIPIO } from '@/config/municipios';
+import { MUNICIPIO, SITIO } from '@/config/municipios';
 
 export const metadata: Metadata = {
   title: 'Otros recursos',
@@ -68,7 +68,7 @@ export default function EnlacesPage() {
     <div className="py-2">
       <h1 className="text-xl font-bold tracking-tight">Otros recursos</h1>
       <p className="mt-2 text-sm leading-relaxed text-muted">
-        CaliSolidario no hace todo. Estas plataformas cubren cosas que nosotros
+        {SITIO} no hace todo. Estas plataformas cubren cosas que nosotros
         deliberadamente no cubrimos, y las hacen mejor.
       </p>
 

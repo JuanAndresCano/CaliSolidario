@@ -22,6 +22,16 @@ export type PlaceKind =
   /** Barrio o punto al que no está llegando la ayuda. */
   | 'necesidad';
 
+export type PlaceContact = {
+  id: string;
+  method: ContactMethod;
+  value: string;
+  /** Quién contesta. Con tres números iguales es lo único que distingue. */
+  label: string | null;
+  /** El 0 es el principal: el del botón grande. */
+  orden: number;
+};
+
 export type Place = {
   id: string;
   /** Municipio dueño del lugar. La base es compartida entre despliegues. */
@@ -35,8 +45,18 @@ export type Place = {
   comuna: string | null;
   lat: number | null;
   lng: number | null;
+  /**
+   * Contacto principal. Se conserva sincronizado con el primer elemento de
+   * `contacts` mientras dure el traspaso a `place_contacts` (migración 0021);
+   * el mapa todavía lo lee. No lo uses en pantallas nuevas: usa `contactosDe`.
+   */
   contact_method: ContactMethod | null;
   contact_value: string | null;
+  /**
+   * Todos los contactos, cuando la consulta los trajo. Opcional porque el
+   * panel de gestión pide la fila sola, sin la tabla anidada.
+   */
+  contacts?: PlaceContact[];
   website: string | null;
   image_url: string | null;
   schedule: string | null;
@@ -69,13 +89,51 @@ export function mapsUrl(place: Place): string | null {
   return null;
 }
 
-/** Enlace de contacto directo según el medio declarado. */
-export function contactUrl(place: Place): string | null {
-  if (!place.contact_value) return null;
-  const digits = place.contact_value.replace(/\D/g, '');
+/**
+ * Contactos del lugar, ordenados, con el principal de primero.
+ *
+ * Si la consulta no trajo la tabla anidada —o el lugar es anterior al
+ * traspaso— cae a las columnas heredadas y devuelve uno solo. Así ninguna
+ * pantalla se queda sin contacto por el orden en que se apliquen la migración
+ * y el despliegue.
+ */
+export function contactosDe(place: Place): PlaceContact[] {
+  if (place.contacts && place.contacts.length > 0) {
+    return [...place.contacts].sort((a, b) => a.orden - b.orden);
+  }
+
+  if (place.contact_method && place.contact_value) {
+    return [
+      {
+        id: `${place.id}-heredado`,
+        method: place.contact_method,
+        value: place.contact_value,
+        label: null,
+        orden: 0,
+      },
+    ];
+  }
+
+  return [];
+}
+
+/** Enlace directo según el medio. `otro` no es accionable: no da enlace. */
+export function contactUrlDe(contacto: PlaceContact): string | null {
+  const digits = contacto.value.replace(/\D/g, '');
   const intl = digits.length === 10 ? `57${digits}` : digits;
 
-  if (place.contact_method === 'whatsapp') return `https://wa.me/${intl}`;
-  if (place.contact_method === 'telefono') return `tel:+${intl}`;
+  if (contacto.method === 'whatsapp') return `https://wa.me/${intl}`;
+  if (contacto.method === 'telefono') return `tel:+${intl}`;
   return null;
+}
+
+/**
+ * Enlace del contacto principal.
+ *
+ * Lo conserva el mapa, donde el globo es demasiado pequeño para una lista y
+ * un solo botón es lo correcto.
+ */
+export function contactUrl(place: Place): string | null {
+  const [principal] = contactosDe(place);
+  return principal ? contactUrlDe(principal) : null;
 }

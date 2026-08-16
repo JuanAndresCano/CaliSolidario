@@ -1,10 +1,27 @@
 import { SERVICE_CATEGORY_MAP } from '@/lib/catalog';
-import { contactUrl, mapsUrl, type Place } from '@/lib/places';
+import {
+  contactUrlDe,
+  contactosDe,
+  mapsUrl,
+  type Place,
+  type PlaceContact,
+} from '@/lib/places';
 import { timeAgo } from '@/lib/time';
+
+/** Cómo se llama el botón según el medio. */
+const VERBO: Record<PlaceContact['method'], string> = {
+  whatsapp: 'WhatsApp',
+  telefono: 'Llamar',
+  otro: 'Contactar',
+};
 
 export function PlaceCard({ place }: { place: Place }) {
   const maps = mapsUrl(place);
-  const contact = contactUrl(place);
+
+  // Solo los que se pueden abrir. Un contacto de tipo "otro" no tiene enlace,
+  // y un botón que no hace nada estorba más de lo que informa.
+  const contactos = contactosDe(place).filter((c) => contactUrlDe(c) !== null);
+  const [principal, ...secundarios] = contactos;
   const service = place.service_category
     ? SERVICE_CATEGORY_MAP[place.service_category]
     : null;
@@ -136,7 +153,7 @@ export function PlaceCard({ place }: { place: Place }) {
         Confirmado {timeAgo(place.confirmed_at)}
       </p>
 
-      {(maps || contact || place.website) && (
+      {(maps || principal || place.website) && (
         <div className="mt-3 flex flex-wrap gap-2">
           {/* Si además hay WhatsApp o teléfono, ese es el canal real para
               agendar y el sitio pasa a ser secundario: dos botones diciendo
@@ -148,12 +165,12 @@ export function PlaceCard({ place }: { place: Place }) {
               rel="noopener noreferrer"
               role="button"
               className={
-                contact
+                principal
                   ? 'flex flex-1 items-center justify-center rounded-xl border border-line px-3 text-sm font-semibold'
                   : 'flex flex-1 items-center justify-center rounded-xl bg-brand px-3 text-sm font-semibold text-brand-ink'
               }
             >
-              {contact ? 'Ver su página' : 'Agendar'}
+              {principal ? 'Ver su página' : 'Agendar'}
             </a>
           )}
           {maps && (
@@ -167,18 +184,45 @@ export function PlaceCard({ place }: { place: Place }) {
               Cómo llegar
             </a>
           )}
-          {contact && (
+          {principal && (
             <a
-              href={contact}
+              href={contactUrlDe(principal) ?? '#'}
               target="_blank"
               rel="noopener noreferrer"
               role="button"
               className="flex flex-1 items-center justify-center rounded-xl bg-brand px-3 text-sm font-semibold text-brand-ink"
             >
-              {place.contact_method === 'whatsapp' ? 'WhatsApp' : 'Llamar'}
+              {VERBO[principal.method]}
+              {/* El nombre solo cuando hay más de uno: con un contacto único
+                  no aporta nada y alarga el botón. */}
+              {secundarios.length > 0 && principal.label
+                ? ` · ${principal.label}`
+                : ''}
             </a>
           )}
         </div>
+      )}
+
+      {/* Los demás van apilados y a lo ancho, no en la fila de arriba: tres
+          botones repartidos en una pantalla de celular quedan ilegibles, y
+          aquí lo que hay que leer es a quién se le escribe. */}
+      {secundarios.length > 0 && (
+        <ul className="mt-2 flex flex-col gap-2">
+          {secundarios.map((contacto) => (
+            <li key={contacto.id}>
+              <a
+                href={contactUrlDe(contacto) ?? '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                role="button"
+                className="flex min-h-11 w-full items-center justify-center rounded-xl border border-brand px-3 text-sm font-semibold"
+              >
+                {VERBO[contacto.method]}
+                {contacto.label ? ` · ${contacto.label}` : ` · ${contacto.value}`}
+              </a>
+            </li>
+          ))}
+        </ul>
       )}
     </li>
   );

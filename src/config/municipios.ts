@@ -40,7 +40,14 @@ export type Municipio = {
     etiqueta: string;
     opciones: readonly string[];
   };
-  /** WhatsApp al que se reportan puntos nuevos. Solo dígitos, con indicativo. */
+  /**
+   * WhatsApp al que se reportan puntos nuevos. Solo dígitos, con indicativo.
+   *
+   * OJO: esto ya NO es la fuente de verdad. El valor vigente vive en la tabla
+   * `municipio_config`, porque quien responde rota y la alcaldía tiene que
+   * poder cambiarlo sin un despliegue (migración 0020). Lo de aquí es el
+   * respaldo para cuando la tabla no tiene fila o la consulta falla.
+   */
   whatsappReportes: string;
   /** URL pública, para metadatos y enlaces absolutos. */
   url: string;
@@ -91,10 +98,9 @@ export const MUNICIPIOS: Record<string, Municipio> = {
     // formulario pide la zona como texto libre, que es preferible a ofrecer
     // una división inventada.
     divisiones: { etiqueta: 'Vereda', opciones: [] },
-    // Temporal: es el número de Juan, para no lanzar sin canal de reportes.
-    // Cambiar en cuanto la alcaldía delegue a alguien de Filandia — quien
-    // responda debe estar allá, no a 150 km.
-    whatsappReportes: '573113179404',
+    // Respaldo. El número que se usa de verdad se cambia desde /gestion, y
+    // ahí es donde la alcaldía pone el suyo.
+    whatsappReportes: '573207259924',
     url: 'https://filandiasolidario.triadaaliados.com',
   },
 };
@@ -108,3 +114,12 @@ export const MUNICIPIOS: Record<string, Municipio> = {
 const seleccionado = process.env.NEXT_PUBLIC_MUNICIPIO ?? 'cali';
 
 export const MUNICIPIO: Municipio = MUNICIPIOS[seleccionado] ?? MUNICIPIOS.cali;
+
+/**
+ * Cómo se llama el sitio: "CaliSolidario", "FilandiaSolidario".
+ *
+ * Existe para que nadie lo vuelva a escribir a mano. Estaba puesto literal en
+ * media aplicación —la nota de seguridad, la página de enlaces, las plantillas
+ * de WhatsApp— y el sitio de Filandia se presentaba como CaliSolidario.
+ */
+export const SITIO = MUNICIPIO.marca.join('');

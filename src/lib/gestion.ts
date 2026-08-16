@@ -88,11 +88,37 @@ export async function lugaresDelMunicipio(
   return (data ?? []) as Place[];
 }
 
-export async function lugarPorId(id: string): Promise<Place | null> {
+export type MunicipioConfig = {
+  municipio: string;
+  whatsapp_reportes: string | null;
+  responsable: string | null;
+  updated_at: string;
+};
+
+/**
+ * Ajustes que la alcaldía mantiene por su cuenta. Puede no existir la fila si
+ * el municipio se desplegó antes de darle de alta en `municipio_config`; el
+ * panel lo muestra como pendiente en vez de fingir que está configurado.
+ */
+export async function configDelMunicipio(
+  municipio: string,
+): Promise<MunicipioConfig | null> {
   const supabase = await createClient();
   const { data } = await supabase
+    .from('municipio_config')
+    .select('municipio, whatsapp_reportes, responsable, updated_at')
+    .eq('municipio', municipio)
+    .maybeSingle();
+
+  return (data as MunicipioConfig | null) ?? null;
+}
+
+export async function lugarPorId(id: string): Promise<Place | null> {
+  const supabase = await createClient();
+  // Con los contactos anidados: el formulario los tiene que precargar.
+  const { data } = await supabase
     .from('places')
-    .select('*')
+    .select('*, contacts:place_contacts(id, method, value, label, orden)')
     .eq('id', id)
     .maybeSingle();
 
