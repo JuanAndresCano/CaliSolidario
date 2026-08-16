@@ -5,7 +5,8 @@ import { SafetyNote } from '@/components/SafetyNote';
 import { getFeed } from '@/lib/feed';
 import { MUNICIPIO } from '@/config/municipios';
 
-export const revalidate = 60;
+/** Red de seguridad; la frescura la da el webhook. Ver el comentario en `/`. */
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'Necesidades',

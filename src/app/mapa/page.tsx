@@ -4,7 +4,12 @@ import { MapaCargador } from '@/components/MapaCargador';
 import { getPlaces } from '@/lib/places';
 import { MUNICIPIO } from '@/config/municipios';
 
-export const revalidate = 300;
+/**
+ * Una hora. El mapa se alimenta de `places`, que son fichas curadas a mano:
+ * cambian unas pocas veces al día y cada cambio ya dispara el webhook. Un
+ * reloj corto aquí solo gastaba escrituras regenerando lo mismo.
+ */
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Mapa',

@@ -6,11 +6,19 @@ import { MUNICIPIO, SITIO } from '@/config/municipios';
 import { countResolved, getFeed } from '@/lib/feed';
 
 /**
- * Una consulta a Postgres por minuto sirve a todos los visitantes: esta página
- * se renderiza en el servidor y se cachea. Es lo que mantiene el tablero
- * dentro del plan gratuito aunque el enlace se difunda por WhatsApp.
+ * Una sola consulta a Postgres sirve a todos los visitantes: esta página se
+ * renderiza en el servidor y se cachea. Es lo que mantiene el tablero dentro
+ * del plan gratuito aunque el enlace se difunda por WhatsApp.
+ *
+ * Estos 300 son la RED DE SEGURIDAD, no el mecanismo de frescura: cuando se
+ * publica un aviso, el webhook purga la caché en segundos. Estaba en 60 y eso
+ * son 1.440 regeneraciones diarias de esta sola página, con o sin cambios.
+ * Entre las siete rutas cacheadas iban camino de 165.000 escrituras al mes y
+ * el plan gratuito se quedó al 75% de su cupo. Bajar la frecuencia del reloj
+ * no le quita frescura a nada mientras el webhook funcione; si el webhook
+ * falla, lo peor que pasa es que un aviso tarde cinco minutos en salir.
  */
-export const revalidate = 60;
+export const revalidate = 300;
 
 export default async function HomePage() {
   const [posts, resolvedCount] = await Promise.all([getFeed(), countResolved()]);
