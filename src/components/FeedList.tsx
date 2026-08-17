@@ -78,7 +78,10 @@ export function FeedList({ posts }: { posts: FeedPost[] }) {
       </label>
 
       {usedCategories.length > 1 && (
-        <div className="-mx-4 mb-3 overflow-x-auto px-4">
+        /* `.fila-desplazable` oculta la barra horizontal, que en Windows se
+           queda pintada bajo los filtros. Misma utilidad que usa el índice de
+           puntos de /sitios. */
+        <div className="fila-desplazable -mx-4 mb-3 overflow-x-auto px-4">
           <div className="flex w-max gap-2 pb-1">
             <Chip
               active={category === ''}

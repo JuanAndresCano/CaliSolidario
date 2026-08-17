@@ -1,3 +1,4 @@
+import { CircleCheck } from 'lucide-react';
 import Link from 'next/link';
 import { FeedList } from '@/components/FeedList';
 import { FeedTabs } from '@/components/FeedTabs';
@@ -39,6 +40,15 @@ export default async function HomePage() {
           href="/publicar?tipo=necesito"
           className="flex min-h-24 flex-col items-center justify-center gap-1 rounded-2xl bg-need px-3 py-4 text-center text-white active:opacity-80"
         >
+          {/*
+            Emoji y no icono, a propósito y a contracorriente del resto del
+            sitio. Estos dos botones son la decisión que todo el mundo toma al
+            entrar, y el color del emoji es parte de lo que hace que salten a
+            la vista. Un icono monocromo sobre fondo de color se apaga.
+
+            Se probó con iconos de lucide y se revirtió: aquí manda que se
+            noten, no la coherencia del sistema de iconos.
+          */}
           <span aria-hidden className="text-3xl leading-none">🙋</span>
           <span className="text-base font-bold leading-tight">
             Necesito ayuda
@@ -51,6 +61,13 @@ export default async function HomePage() {
           href="/publicar?tipo=ofrezco"
           className="flex min-h-24 flex-col items-center justify-center gap-1 rounded-2xl bg-brand px-3 py-4 text-center text-brand-ink active:opacity-80"
         >
+          {/*
+            OJO: 🤝 es Unicode 9, por encima del techo de 8 que este proyecto
+            se puso tras ver cuadros vacíos. Se queda porque lleva más de una
+            semana en producción, con más de mil visitantes y sin un solo
+            reporte, así que el riesgo es teórico. Si alguna vez aparece un
+            recuadro, el reemplazo compatible es 🎁 (Unicode 6).
+          */}
           <span aria-hidden className="text-3xl leading-none">🤝</span>
           <span className="text-base font-bold leading-tight">
             Quiero ayudar
@@ -66,7 +83,7 @@ export default async function HomePage() {
           href="/resueltas"
           className="mb-4 flex items-center gap-2 rounded-xl bg-offer-bg px-3 py-2.5"
         >
-          <span aria-hidden className="text-lg">✓</span>
+          <CircleCheck aria-hidden className="size-5 shrink-0 text-offer" />
           <span className="text-sm font-semibold text-offer">
             {resolvedCount === 1
               ? '1 ayuda ya se concretó'
