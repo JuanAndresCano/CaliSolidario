@@ -88,6 +88,37 @@ export async function lugaresDelMunicipio(
   return (data ?? []) as Place[];
 }
 
+/**
+ * Si quien está viendo puede confirmar entregas ajenas en este municipio.
+ *
+ * Es una facultad distinta a la de gestor: la alcaldía autoriza los puntos de
+ * acopio pero no le da cuenta a quien trabaja en ellos, así que quien confirma
+ * una entrega no suele ser quien mantiene las fichas de lugares. Ver la
+ * migración 0023.
+ *
+ * Esto decide qué se MUESTRA. Quien decide qué se puede escribir es RLS.
+ */
+export async function puedeConfirmarEntregas(
+  municipio: string,
+): Promise<boolean> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return false;
+
+  const { data } = await supabase
+    .from('profiles')
+    .select('is_admin, confirma_entregas_municipio')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (!data) return false;
+  return (
+    Boolean(data.is_admin) || data.confirma_entregas_municipio === municipio
+  );
+}
+
 export type MunicipioConfig = {
   municipio: string;
   whatsapp_reportes: string | null;

@@ -45,8 +45,11 @@ export default async function AdminPage() {
   // mostraría también las alertas de Filandia.
   const { data } = await supabase
     .from('post_comments')
+    // La llave foránea va nombrada: `post_comments` apunta a `profiles` dos
+    // veces (author_id y hidden_by) y sin nombrarla PostgREST responde 300 y
+    // la consulta falla entera. Ver el comentario largo en lib/comments.ts.
     .select(
-      '*, profiles(display_name), posts!inner(id, title, status, author_id, municipio)',
+      '*, profiles!post_comments_author_id_fkey(display_name), posts!inner(id, title, status, author_id, municipio)',
     )
     .eq('kind', 'warning')
     .eq('posts.municipio', MUNICIPIO.id)

@@ -121,7 +121,10 @@ export async function reopenPost(formData: FormData) {
   const supabase = await createClient();
   const { error } = await supabase
     .from('posts')
-    .update({ status: 'open', fulfilled_at: null })
+    // `fulfilled_by` también se limpia: si el aviso vuelve a estar abierto, la
+    // entrega que alguien confirmó ya no vale, y dejar su nombre ahí lo
+    // haría responsable de algo que se deshizo.
+    .update({ status: 'open', fulfilled_at: null, fulfilled_by: null })
     .eq('id', postId);
 
   if (error) {
