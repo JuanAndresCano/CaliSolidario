@@ -15,9 +15,21 @@ export async function getComments(
   postId: string,
   userId: string,
 ): Promise<CommentWithMeta[]> {
+  /*
+   * La llave foránea va NOMBRADA a propósito.
+   *
+   * `post_comments` apunta a `profiles` dos veces —`author_id` y `hidden_by`—
+   * así que `profiles(display_name)` a secas es ambiguo: PostgREST responde
+   * 300 con PGRST201 y la consulta falla ENTERA. Como el error se registraba y
+   * se devolvía una lista vacía, la pantalla decía "todavía no hay
+   * comentarios" y el fallo pasó desapercibido desde que se lanzó la función.
+   *
+   * Si algún día se agrega otra columna que referencie a `profiles`, esto
+   * sigue funcionando precisamente por estar nombrado.
+   */
   const { data, error } = await supabase
     .from('post_comments')
-    .select('*, profiles(display_name)')
+    .select('*, profiles!post_comments_author_id_fkey(display_name)')
     .eq('post_id', postId)
     .order('created_at', { ascending: true });
 

@@ -6,6 +6,8 @@ import { ConflictBadge } from '@/components/ConflictBadge';
 import { SafetyNote } from '@/components/SafetyNote';
 import { getComments } from '@/lib/comments';
 import { CATEGORY_EMOJIS, CATEGORY_LABELS } from '@/lib/catalog';
+import { puedeConfirmarEntregas } from '@/lib/gestion';
+import { ConfirmarEntrega } from '@/components/ConfirmarEntrega';
 import { createClient } from '@/lib/supabase/server';
 import { timeAgo } from '@/lib/time';
 import type { Post, PostContact } from '@/lib/types';
@@ -52,6 +54,18 @@ export default async function PostPage({ params }: PageProps<'/aviso/[id]'>) {
 
   const isNeed = typedPost.kind === 'need';
   const isClosed = typedPost.status !== 'open';
+
+  /*
+   * El botón de confirmar la entrega sale aquí y no en /mis-avisos porque
+   * quien confirma no es el autor: llega al aviso desde el tablero o desde un
+   * enlace, no desde su propia lista. Solo se pregunta cuando hace falta —el
+   * aviso está abierto y quien mira no es el autor— para no gastar una
+   * consulta a `profiles` en cada visita.
+   */
+  const puedeConfirmar =
+    Boolean(user) && !isClosed && typedPost.author_id !== user?.id
+      ? await puedeConfirmarEntregas(MUNICIPIO.id)
+      : false;
 
   return (
     <article className="py-2">
@@ -150,6 +164,10 @@ export default async function PostPage({ params }: PageProps<'/aviso/[id]'>) {
           </div>
         )}
       </div>
+
+      {puedeConfirmar && (
+        <ConfirmarEntrega postId={typedPost.id} esNecesidad={isNeed} />
+      )}
 
       <CommentSection
         postId={typedPost.id}

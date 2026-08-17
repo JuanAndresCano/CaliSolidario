@@ -46,7 +46,20 @@ export async function addComment(
     .insert({ post_id: postId, author_id: user.id, kind, body });
 
   if (error) {
-    console.error('[comments] no se pudo guardar:', error.message);
+    console.error('[comments] no se pudo guardar:', error.code, error.message);
+
+    /*
+     * P0001 es `raise exception` de plpgsql, o sea uno de NUESTROS mensajes:
+     * están escritos en español y para que los lea una persona. El resto de
+     * códigos son fallos de Postgres y no se enseñan.
+     *
+     * Antes se tapaban todos con "No se pudo publicar. Intenta de nuevo.", así
+     * que quien topaba el límite de comentarios por hora no tenía forma de
+     * saber que existía un límite: leía que la función estaba rota. Es lo que
+     * nos reportaron como "los comentarios no funcionan".
+     */
+    if (error.code === 'P0001') return { error: error.message };
+
     return { error: 'No se pudo publicar. Intenta de nuevo.' };
   }
 
