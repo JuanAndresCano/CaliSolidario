@@ -1,3 +1,4 @@
+import { BadgeCheck, BedDouble, Clock, MapPin, TriangleAlert } from 'lucide-react';
 import { SERVICE_CATEGORY_MAP } from '@/lib/catalog';
 import {
   contactUrlDe,
@@ -82,13 +83,15 @@ export function PlaceCard({ place }: { place: Place }) {
       <div className="flex items-start justify-between gap-2">
         <div className="flex flex-wrap items-center gap-1.5">
           {place.kind === 'necesidad' && (
-            <span className="rounded-full bg-need px-2.5 py-1 text-xs font-bold text-white">
-              ⚠ No está llegando ayuda
+            <span className="flex items-center gap-1 rounded-full bg-need px-2.5 py-1 text-xs font-bold text-white">
+              <TriangleAlert aria-hidden className="size-3.5 shrink-0" />
+              No está llegando ayuda
             </span>
           )}
           {place.kind === 'albergue' && (
-            <span className="rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-brand-ink">
-              🛏 Albergue
+            <span className="flex items-center gap-1 rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-brand-ink">
+              <BedDouble aria-hidden className="size-3.5 shrink-0" />
+              Albergue
             </span>
           )}
           {service && (
@@ -110,8 +113,9 @@ export function PlaceCard({ place }: { place: Place }) {
             </span>
           )}
           {place.is_verified && (
-            <span className="rounded-full bg-offer-bg px-2.5 py-1 text-xs font-bold text-offer">
-              ✓ Verificado
+            <span className="flex items-center gap-1 rounded-full bg-offer-bg px-2.5 py-1 text-xs font-bold text-offer">
+              <BadgeCheck aria-hidden className="size-3.5 shrink-0" />
+              Verificado
             </span>
           )}
         </div>
@@ -152,20 +156,36 @@ export function PlaceCard({ place }: { place: Place }) {
       {place.safety_note && (
         <p
           role="alert"
-          className="mt-2.5 border-l-2 border-need pl-3 text-sm leading-relaxed text-need"
+          className="mt-2.5 flex gap-2 border-l-2 border-need pl-3 text-sm leading-relaxed text-need"
         >
-          {place.safety_note}
+          <TriangleAlert aria-hidden className="mt-0.5 size-4 shrink-0" />
+          <span>{place.safety_note}</span>
         </p>
       )}
 
       {/* Dónde y cuándo, en una línea. Es lo que se lee de un vistazo para
           descartar un punto sin abrirlo. */}
+      {/* `mt-0.5` en los iconos para que la primera línea del texto quede
+          alineada con ellos cuando la dirección ocupa dos renglones. */}
       {(place.address || place.comuna || place.schedule) && (
-        <p className="mt-2 text-xs leading-relaxed text-muted">
-          {place.address ? `📍 ${place.address}` : null}
-          {place.comuna ? ` · ${place.comuna}` : null}
-          {place.schedule ? ` · 🕐 ${place.schedule}` : null}
-        </p>
+        <div className="mt-2 flex flex-col gap-1 text-xs leading-relaxed text-muted">
+          {(place.address || place.comuna) && (
+            <p className="flex gap-1.5">
+              <MapPin aria-hidden className="mt-0.5 size-3.5 shrink-0" />
+              <span>
+                {place.address}
+                {place.address && place.comuna ? ' · ' : null}
+                {place.comuna}
+              </span>
+            </p>
+          )}
+          {place.schedule && (
+            <p className="flex gap-1.5">
+              <Clock aria-hidden className="mt-0.5 size-3.5 shrink-0" />
+              <span>{place.schedule}</span>
+            </p>
+          )}
+        </div>
       )}
 
       {extensa ? (

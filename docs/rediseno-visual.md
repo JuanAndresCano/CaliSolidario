@@ -108,11 +108,17 @@ tarjetas ya tienen `id` y `scroll-mt` porque el mapa las usa.
 **`lucide-react`**, como pide el prompt original, con una salvedad que el
 original no menciona:
 
-- **Solo desde Server Components.** Ahí React los renderiza a SVG dentro del
-  HTML y no se envía nada de JavaScript al navegador.
-- **Nunca desde componentes de cliente** — `Mapa.tsx`, `LugarForm.tsx`,
-  `FeedTabs.tsx`, `GoogleSignInButton.tsx`. Ahí sí viajarían al paquete. Si
-  hace falta un icono en uno de esos, va como SVG en línea escrito a mano.
+- **Desde Server Components no cuestan nada.** React los renderiza a SVG
+  dentro del HTML y no se envía JavaScript al navegador. Comprobado: en los
+  paquetes de cliente solo aparece la cadena "lucide" una vez, en un mapa de
+  módulos, sin el código de los iconos.
+- **Desde componentes de cliente sí viajan, pero menos de lo que temíamos.**
+  La regla original de este documento los prohibía y era demasiado estricta:
+  los seis iconos de `BottomNav` no movieron el tamaño de los paquetes ni un
+  kilobyte medible (1.116 KB antes y después). Cada icono es una lista corta
+  de trazos y el empaquetador descarta el resto.
+- **La regla que queda:** en un componente de cliente, unos pocos iconos están
+  bien; un puñado obliga a volver a medir antes de darlo por bueno.
 
 Mapear uno por uno los emoji actuales. Los que hay hoy: `⚠ 🛏 ✓ 🔴 📍 🕐 ＋ ⚙`
 más los de `CATEGORIES` y `SERVICE_CATEGORIES` en `src/lib/catalog.ts`.
