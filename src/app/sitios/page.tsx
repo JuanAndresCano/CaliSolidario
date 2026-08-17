@@ -7,11 +7,11 @@ import { MUNICIPIO } from '@/config/municipios';
 
 /**
  * La frescura real la da el webhook de Supabase (/api/revalidar): al editar
- * una fila, la caché se purga en segundos. Estos 300 son solo la red de
+ * una fila, la caché se purga en segundos. Esta hora es solo la red de
  * seguridad por si el webhook falla — sin él tocaría regenerar cada minuto
  * "por si acaso", que es justo el desperdicio que el webhook elimina.
  */
-export const revalidate = 900;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Dónde dormir y dónde llevar la ayuda',

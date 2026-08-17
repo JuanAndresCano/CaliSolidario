@@ -6,7 +6,7 @@ import { getFeed } from '@/lib/feed';
 import { MUNICIPIO } from '@/config/municipios';
 
 /** Red de seguridad; la frescura la da el webhook. Ver el comentario en `/`. */
-export const revalidate = 300;
+export const revalidate = 900;
 
 export const metadata: Metadata = {
   title: 'Ofertas',
