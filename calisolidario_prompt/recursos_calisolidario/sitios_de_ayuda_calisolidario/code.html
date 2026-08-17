@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CaliSolidaria - Sitios</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#0055ff",
+                        "on-primary-fixed": "#001551",
+                        "on-background": "#1b1c1e",
+                        "outline": "#737688",
+                        "on-secondary-fixed-variant": "#005227",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#faf9fb",
+                        "primary-fixed": "#dce1ff",
+                        "on-tertiary": "#ffffff",
+                        "background": "#faf9fb",
+                        "on-secondary-container": "#007439",
+                        "on-primary-fixed-variant": "#0039b3",
+                        "surface-tint": "#004dea",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#ffe1dc",
+                        "surface-container": "#efedf0",
+                        "outline-variant": "#c3c5d9",
+                        "surface": "#faf9fb",
+                        "on-primary-container": "#e3e6ff",
+                        "on-tertiary-fixed": "#410000",
+                        "on-tertiary-fixed-variant": "#930100",
+                        "secondary-fixed": "#8afaa7",
+                        "on-secondary-fixed": "#00210c",
+                        "accent-warm": "#FFEADB",
+                        "inverse-on-surface": "#f2f0f3",
+                        "surface-container-low": "#f5f3f6",
+                        "surface-container-highest": "#e3e2e4",
+                        "surface-variant": "#e3e2e4",
+                        "tertiary": "#a40100",
+                        "tertiary-container": "#d20000",
+                        "tertiary-fixed-dim": "#ffb4a8",
+                        "secondary-fixed-dim": "#6edd8d",
+                        "on-surface": "#1b1c1e",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#8afaa7",
+                        "on-surface-variant": "#434656",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#e9e7ea",
+                        "inverse-surface": "#303032",
+                        "surface-dim": "#dbd9dc",
+                        "inverse-primary": "#b6c4ff",
+                        "surface-white": "#FFFFFF",
+                        "error-container": "#ffdad6",
+                        "primary": "#0041c8",
+                        "secondary": "#006d35",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "tertiary-fixed": "#ffdad4",
+                        "background-subtle": "#F7F7F5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Geist"],
+                        "label-md": ["Geist"],
+                        "label-sm": ["Geist"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Geist"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background-subtle text-on-background font-body-md antialiased pt-20">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface-white/80 dark:bg-inverse-surface/80 backdrop-blur-md border-b border-outline-variant/30 transition-all">
+<div class="flex justify-between items-center h-16 px-margin-desktop max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="volunteer_activism">volunteer_activism</span>
+<a class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary" href="/">CaliSolidaria</a>
+</div>
+<nav class="hidden md:flex items-center gap-6 font-label-md text-label-md">
+<a class="text-on-surface-variant hover:text-primary transition-colors py-1" href="/servicios">Servicios</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors py-1" href="/guias">Guías</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors py-1" href="/informes">Informes</a>
+<a class="text-secondary font-bold border-b-2 border-secondary pb-1" href="/mapas">Mapas</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="font-label-md text-label-md text-primary border border-primary px-4 py-2 rounded-lg hover:bg-surface-container-low transition-all duration-200 active:scale-95">Unirse</button>
+<button class="font-label-md text-label-md bg-secondary text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200 active:scale-95">Donar</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 space-y-16">
+<!-- Header Section -->
+<section class="text-center space-y-6 max-w-3xl mx-auto">
+<h1 class="font-display-lg text-display-lg text-on-surface">Dónde dormir y dónde llevar la ayuda</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Si te quedaste sin casa, los albergues van de primeros. Si vas a donar, mira qué le falta a cada punto antes de salir.</p>
+<a class="inline-flex items-center justify-center gap-2 bg-primary text-white font-label-md text-label-md px-6 py-3 rounded-lg hover:opacity-90 transition-all shadow-sm active:scale-95" href="/mapa">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+                Ver el mapa (13 sitios ubicados en Cali)
+            </a>
+</section>
+<!-- Section 1: Dónde dormir -->
+<section class="space-y-8">
+<div class="space-y-2 border-b border-outline-variant/30 pb-4">
+<h2 class="font-headline-lg text-headline-lg flex items-center gap-2">
+<span class="text-2xl">🛏</span> Dónde dormir
+                </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Albergues abiertos para quien se quedó sin vivienda. Llama antes de desplazarte: los cupos cambian de un momento a otro.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-white rounded-xl border border-outline-variant/50 p-6 flex flex-col gap-4 hover:shadow-md hover:border-b-2 hover:border-b-primary transition-all">
+<div class="flex justify-between items-start">
+<span class="inline-flex items-center gap-1 bg-accent-warm text-on-surface px-2 py-1 rounded-md font-label-sm text-label-sm">
+<span>🛏</span> Albergue
+                        </span>
+<span class="text-xs text-on-surface-variant flex items-center gap-1 bg-surface-container px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> Confirmado hace 1 día
+                        </span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md">Colegio Lacordaire</h3>
+<p class="text-sm text-on-surface-variant mt-2">Albergue de pasadía. Ofrecen alimentación, servicio médico y atención psicológica, y funcionan también como punto de acopio. Otro número de contacto: 310 489 1835.</p>
+</div>
+<div class="flex items-start gap-2 mt-auto pt-4 border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-outline" data-icon="location_on">location_on</span>
+<p class="font-body-md text-body-md text-on-surface">Calle 5 #80-70</p>
+</div>
+<div class="flex gap-2 mt-4">
+<a class="flex-1 text-center font-label-md text-label-md border border-outline-variant rounded-lg py-2 hover:bg-surface-container-low transition-colors" href="https://www.google.com/maps/search/?api=1&amp;query=Calle%205%20%2380-70%2C%20Cali%2C%20Valle%20del%20Cauca%2C%20Colombia" target="_blank">Cómo llegar</a>
+<a class="flex-1 text-center font-label-md text-label-md bg-green-50 text-secondary border border-secondary/20 rounded-lg py-2 hover:bg-secondary hover:text-white transition-colors" href="https://wa.me/573228419549" target="_blank">WhatsApp</a>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-white rounded-xl border border-outline-variant/50 p-6 flex flex-col gap-4 hover:shadow-md hover:border-b-2 hover:border-b-primary transition-all">
+<div class="flex justify-between items-start">
+<span class="inline-flex items-center gap-1 bg-accent-warm text-on-surface px-2 py-1 rounded-md font-label-sm text-label-sm">
+<span>🛏</span> Albergue
+                        </span>
+<span class="text-xs text-on-surface-variant flex items-center gap-1 bg-surface-container px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> Confirmado hace 1 día
+                        </span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md">Coliseo de Hockey Miguel Calero</h3>
+<p class="text-sm text-on-surface-variant mt-2">Unidad Deportiva Jaime Aparicio.</p>
+</div>
+<div class="flex items-start gap-2 mt-auto pt-4 border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-outline" data-icon="location_on">location_on</span>
+<p class="font-body-md text-body-md text-on-surface">Av. Joaquín Borrero Sinisterra #38-47, Calle 9 con Cra. 37A/39</p>
+</div>
+<div class="flex gap-2 mt-4">
+<a class="flex-1 text-center font-label-md text-label-md border border-outline-variant rounded-lg py-2 hover:bg-surface-container-low transition-colors" href="https://www.google.com/maps/search/?api=1&amp;query=Av.%20Joaqu%C3%ADn%20Borrero%20Sinisterra%20%2338-47%2C%20Calle%209%20con%20Cra.%2037A%2F39%2C%20Cali%2C%20Valle%20del%20Cauca%2C%20Colombia" target="_blank">Cómo llegar</a>
+<a class="flex-1 text-center font-label-md text-label-md bg-blue-50 text-primary border border-primary/20 rounded-lg py-2 hover:bg-primary hover:text-white transition-colors" href="tel:+573122813334">Llamar</a>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-white rounded-xl border border-outline-variant/50 p-6 flex flex-col gap-4 hover:shadow-md hover:border-b-2 hover:border-b-primary transition-all">
+<div class="flex justify-between items-start">
+<span class="inline-flex items-center gap-1 bg-accent-warm text-on-surface px-2 py-1 rounded-md font-label-sm text-label-sm">
+<span>🛏</span> Albergue
+                        </span>
+<span class="text-xs text-on-surface-variant flex items-center gap-1 bg-surface-container px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> Confirmado hace 1 día
+                        </span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md">Hotel California — Yumbo</h3>
+<p class="text-sm text-on-surface-variant mt-2">Queda en Yumbo, fuera de Cali. Llama antes de desplazarte.</p>
+</div>
+<div class="flex items-start gap-2 mt-auto pt-4 border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-outline" data-icon="location_on">location_on</span>
+<p class="font-body-md text-body-md text-on-surface">Calle 10 #30-155, Arroyo Hondo, Yumbo</p>
+</div>
+<div class="flex gap-2 mt-4">
+<a class="flex-1 text-center font-label-md text-label-md border border-outline-variant rounded-lg py-2 hover:bg-surface-container-low transition-colors" href="https://www.google.com/maps/search/?api=1&amp;query=Calle%2010%20%2330-155%2C%20Arroyo%20Hondo%2C%20Yumbo%2C%20Cali%2C%20Valle%20del%20Cauca%2C%20Colombia" target="_blank">Cómo llegar</a>
+<a class="flex-1 text-center font-label-md text-label-md bg-blue-50 text-primary border border-primary/20 rounded-lg py-2 hover:bg-primary hover:text-white transition-colors" href="tel:+573178220607">Llamar</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Critical Zones -->
+<section class="space-y-8">
+<div class="space-y-2 border-b border-error/30 pb-4">
+<h2 class="font-headline-lg text-headline-lg text-error flex items-center gap-2">
+<span class="text-2xl">⚠</span> No está llegando ayuda
+                </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Sitios a los que no está llegando la ayuda organizada. Si puedes llegar hasta allá, aquí es donde más falta haces.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Critical Card 1 -->
+<div class="bg-error-container/10 border border-error/30 rounded-xl p-6 flex flex-col gap-4 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-error"></div>
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-error-container-on">Barrio Chiminangos — Torres H, I y J</h3>
+<span class="text-xs text-on-surface-variant flex items-center gap-1 bg-surface-white px-2 py-1 rounded shadow-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> Hace 1 día
+                        </span>
+</div>
+<p class="text-sm text-on-surface">A este sector no están llegando las ayudas. Óscar recibe las donaciones en el centro de acopio del Sector 3; escríbele antes de ir, para que las reciba o te indique dónde dejarlas.</p>
+<div class="bg-surface-white rounded-lg p-4 border border-error/10 mt-2">
+<h4 class="font-label-md text-label-md text-error mb-2">Necesitan:</h4>
+<p class="text-sm text-on-surface-variant">Agua embotellada, alimentos no perecederos, artículos de aseo personal, pañales de niño y de adulto, ropa en buen estado, cobijas y medicamentos básicos.</p>
+</div>
+<div class="flex items-start gap-2 mt-auto pt-4">
+<span class="material-symbols-outlined text-error" data-icon="location_on">location_on</span>
+<p class="font-body-md text-body-md text-on-surface">Calle 62B1 A9 250, Chiminangos 2</p>
+</div>
+<div class="flex gap-3 mt-4">
+<a class="inline-flex items-center justify-center gap-2 bg-surface-white border border-outline-variant text-on-surface font-label-md px-4 py-2 rounded-lg hover:bg-surface-container-low transition-colors" href="https://www.google.com/maps/search/?api=1&amp;query=Calle%2062B1%20A9%20250%2C%20Chiminangos%202%2C%20Cali%2C%20Valle%20del%20Cauca%2C%20Colombia" target="_blank">
+<span class="material-symbols-outlined text-[18px]" data-icon="directions">directions</span> Cómo llegar
+                        </a>
+<a class="inline-flex items-center justify-center gap-2 bg-secondary text-white font-label-md px-4 py-2 rounded-lg hover:opacity-90 transition-colors" href="https://wa.me/573172868989" target="_blank">
+                            WhatsApp
+                        </a>
+</div>
+</div>
+<!-- Critical Card 2 -->
+<div class="bg-error-container/10 border border-error/30 rounded-xl p-6 flex flex-col gap-4 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-error"></div>
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-md text-headline-md text-error-container-on">Edificio Vanessa</h3>
+<span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 border border-blue-200">
+<span class="material-symbols-outlined text-[12px]" data-icon="check_circle">check_circle</span> Verificado
+                             </span>
+</div>
+<span class="text-xs text-on-surface-variant flex items-center gap-1 bg-surface-white px-2 py-1 rounded shadow-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> Hace 1 día
+                        </span>
+</div>
+<div class="bg-error/10 text-error p-3 rounded-lg text-sm border border-error/20 flex gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="warning">warning</span>
+<div>
+<strong class="block mb-1">Antes de ir, lee esto</strong>
+                            No vayas por tu cuenta a mover escombros. La zona es vulnerable a más derrumbes... Hay sospecha de tres personas con vida.
+                        </div>
+</div>
+<div class="bg-surface-white rounded-lg p-4 border border-error/10 mt-2">
+<h4 class="font-label-md text-label-md text-error mb-2">Necesitan:</h4>
+<p class="text-sm text-on-surface-variant">
+<strong class="text-tertiary">PRIORIDAD:</strong> Desfibrilador, pipa de oxígeno, monitor de signos vitales y carpa.<br/>
+<strong>TAMBIÉN:</strong> Linternas y guantes. Motobomba (ya no es lo más urgente).
+                        </p>
+</div>
+<div class="flex items-start gap-2 mt-auto pt-4">
+<span class="material-symbols-outlined text-error" data-icon="location_on">location_on</span>
+<p class="font-body-md text-body-md text-on-surface">Carrera 44 #9-55 · Comuna 10</p>
+</div>
+<div class="flex gap-3 mt-4">
+<a class="inline-flex items-center justify-center gap-2 bg-surface-white border border-outline-variant text-on-surface font-label-md px-4 py-2 rounded-lg hover:bg-surface-container-low transition-colors" href="https://www.google.com/maps/search/?api=1&amp;query=3.416626,-76.5399127" target="_blank">
+<span class="material-symbols-outlined text-[18px]" data-icon="directions">directions</span> Cómo llegar
+                        </a>
+<a class="inline-flex items-center justify-center gap-2 bg-secondary text-white font-label-md px-4 py-2 rounded-lg hover:opacity-90 transition-colors" href="https://wa.me/573218469901" target="_blank">
+                            WhatsApp
+                        </a>
+</div>
+</div>
+</div>
+<div class="text-center mt-6">
+<a class="inline-flex items-center gap-2 text-primary font-label-md hover:underline bg-surface-container px-4 py-2 rounded-full" href="https://wa.me/573113179404" target="_blank">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_circle">add_circle</span>
+                    ¿Sabes de una zona a la que no está llegando ayuda? Escríbenos
+                </a>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-background border-t border-outline-variant/20 mt-12 w-full">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter py-margin-desktop px-margin-desktop max-w-container-max mx-auto">
+<div>
+<span class="font-headline-sm text-headline-sm font-bold text-primary dark:text-inverse-primary block mb-2">CaliSolidaria</span>
+<p class="font-body-md text-body-md text-primary dark:text-inverse-primary opacity-80 hover:opacity-100 transition-opacity">© 2024 Red de Solidaridad Cali. Impulsando el cambio comunitario.</p>
+</div>
+<div class="flex gap-4 md:justify-end items-center font-body-md text-body-md">
+<a class="text-on-surface-variant hover:text-on-surface hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:text-primary transition-colors" href="#">Términos</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:text-primary transition-colors" href="#">Contacto</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:text-primary transition-colors" href="#">Ayuda</a>
+</div>
+</div>
+</footer>
+</body></html>

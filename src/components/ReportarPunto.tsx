@@ -1,3 +1,4 @@
+import { Plus } from 'lucide-react';
 import { SITIO } from '@/config/municipios';
 import { whatsappLink } from '@/lib/site';
 
@@ -74,9 +75,7 @@ export async function ReportarPunto({
       rel="noopener noreferrer"
       className="mt-3 flex items-center gap-3 rounded-2xl border border-dashed border-line bg-surface px-4 py-3.5 active:opacity-70"
     >
-      <span aria-hidden className="text-2xl leading-none">
-        ＋
-      </span>
+      <Plus aria-hidden className="size-6 shrink-0" />
       <span>
         <span className="block text-sm font-semibold">{TITULOS[tipo]}</span>
         <span className="mt-0.5 block text-xs leading-snug text-muted">

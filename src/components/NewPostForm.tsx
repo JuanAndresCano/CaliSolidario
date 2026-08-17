@@ -7,6 +7,7 @@ import {
   CATEGORIES,
   CONTACT_METHODS,
   KINDS,
+  MAX_AVISOS_ABIERTOS,
   type Kind,
 } from '@/lib/catalog';
 import { createPost, type CreatePostState } from '@/app/publicar/actions';
@@ -227,8 +228,8 @@ export function NewPostForm({ initialKind }: { initialKind?: Kind }) {
       <SubmitButton />
 
       <p className="text-xs leading-relaxed text-muted">
-        Tu aviso se archiva solo a los 7 días. Puedes tener 3 avisos abiertos a
-        la vez.
+        Tu aviso se archiva solo a los 7 días. Puedes tener{' '}
+        {MAX_AVISOS_ABIERTOS} avisos abiertos a la vez.
       </p>
     </form>
   );

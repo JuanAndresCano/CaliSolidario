@@ -4,7 +4,11 @@ import { redirect } from 'next/navigation';
 import { deletePost, reopenPost } from '@/app/publicar/actions';
 import { MUNICIPIO } from '@/config/municipios';
 import { ResolveButton } from '@/components/ResolveButton';
-import { CATEGORY_EMOJIS, CATEGORY_LABELS } from '@/lib/catalog';
+import {
+  CATEGORY_EMOJIS,
+  CATEGORY_LABELS,
+  MAX_AVISOS_ABIERTOS,
+} from '@/lib/catalog';
 import { permisosDeGestion } from '@/lib/gestion';
 import { describePlace } from '@/lib/place';
 import { createClient } from '@/lib/supabase/server';
@@ -108,8 +112,8 @@ export default async function MyPostsPage({
       )}
 
       <p className="mt-2 text-sm text-muted">
-        {openCount} de 3 avisos activos. Cierra uno solo cuando ya hayas
-        recibido o entregado la ayuda.
+        {openCount} de {MAX_AVISOS_ABIERTOS} avisos activos. Cierra uno solo
+        cuando ya hayas recibido o entregado la ayuda.
       </p>
 
       {posts.length === 0 ? (

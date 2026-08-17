@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guías - CaliSolidaria</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#1b1c1e",
+                        "secondary": "#006d35",
+                        "on-surface-variant": "#434656",
+                        "on-primary-fixed-variant": "#0039b3",
+                        "on-secondary-fixed-variant": "#005227",
+                        "secondary-fixed": "#8afaa7",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001551",
+                        "outline-variant": "#c3c5d9",
+                        "tertiary-fixed": "#ffdad4",
+                        "surface": "#faf9fb",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#00210c",
+                        "tertiary-fixed-dim": "#ffb4a8",
+                        "background": "#faf9fb",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#e3e6ff",
+                        "tertiary-container": "#d20000",
+                        "inverse-on-surface": "#f2f0f3",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f5f3f6",
+                        "primary-container": "#0055ff",
+                        "surface-tint": "#004dea",
+                        "surface-variant": "#e3e2e4",
+                        "inverse-primary": "#b6c4ff",
+                        "on-tertiary-fixed-variant": "#930100",
+                        "on-secondary-container": "#007439",
+                        "outline": "#737688",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#303032",
+                        "surface-container-highest": "#e3e2e4",
+                        "background-subtle": "#F7F7F5",
+                        "on-tertiary-container": "#ffe1dc",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#efedf0",
+                        "on-surface": "#1b1c1e",
+                        "surface-bright": "#faf9fb",
+                        "on-tertiary-fixed": "#410000",
+                        "surface-dim": "#dbd9dc",
+                        "secondary-container": "#8afaa7",
+                        "on-error-container": "#93000a",
+                        "accent-warm": "#FFEADB",
+                        "tertiary": "#a40100",
+                        "surface-white": "#FFFFFF",
+                        "primary-fixed": "#dce1ff",
+                        "surface-container-high": "#e9e7ea",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "primary": "#0041c8",
+                        "secondary-fixed-dim": "#6edd8d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Geist"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "label-md": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-sm": ["Geist"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-subtle text-on-background min-h-screen font-body-md antialiased pb-20 md:pb-0">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface-white/80 dark:bg-inverse-surface/80 backdrop-blur-md fixed top-0 w-full z-50 transition-all duration-300" style="border-bottom: 1px solid rgba(195, 197, 217, 0.3);">
+<div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Brand -->
+<a class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                CaliSolidaria
+            </a>
+<!-- Desktop Navigation (Hidden on mobile per rules) -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Servicios</a>
+<a class="text-secondary font-bold border-b-2 border-secondary pb-1 font-label-md text-label-md" href="#">Guías</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Informes</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Mapas</a>
+</nav>
+<!-- Actions (Visible on all, adjusted for mobile) -->
+<div class="flex items-center gap-3">
+<button class="hidden sm:flex font-label-md text-label-md border border-primary text-primary px-4 py-2 rounded-full hover:bg-surface-container-low transition-all duration-200">
+                    Unirse
+                </button>
+<button class="font-label-md text-label-md bg-secondary text-on-secondary px-4 py-2 rounded-full shadow-sm hover:opacity-90 transition-all duration-200">
+                    Donar
+                </button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pt-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto min-h-screen">
+<!-- Header Section -->
+<section class="mb-8">
+<h1 class="font-headline-lg text-headline-lg text-on-background mb-2">Guías Prácticas</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+                {{DATA:DOCUMENT:DOCUMENT_11}}
+            </p>
+</section>
+<!-- Vertical List of Cards (Mobile Optimized) -->
+<div class="flex flex-col gap-4 mb-12">
+<!-- Card 1 -->
+<article class="bg-surface-white border border-outline-variant/30 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-300 relative group overflow-hidden flex gap-4 items-start">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container-low border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist 3D illustration of stacked books and a glowing lightbulb representing education and knowledge. Rendered in bright, high-key lighting with a crisp white background and subtle primary blue accents. The style is modern, professional corporate vector art suitable for a SaaS platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuPYmHkK-N3XN2bI5ZqpGkDbkpu2_Q3g8mLZBpWA-JYv_S5BBCV7xOlnifC0B3DF8sP9p0eJ2DyrrWLvCMrKkBRvH2sJgI8QDOuMYUEqILZio1EKPL3WKFVeV6bagnQ2ZOEQ9o-PFwMQrODmX7N5XI4H5N_rjFiU0f3oQFMYpzT--3thoI73ZCHO7D3GkL0UJhTugDJ6KS8ZL1jphs95LRrGyduiLdCrAyku-SOk-yvxXN2hVPkzWzkg"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<span class="inline-block px-2 py-0.5 rounded-full bg-accent-warm text-on-background font-label-sm text-label-sm mb-2">Educación</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded-md">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 5 min
+                        </span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-background text-lg leading-tight mb-1 group-hover:text-primary transition-colors line-clamp-2">
+                        Cómo organizar una jornada de lectura barrial
+                    </h2>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm line-clamp-2">
+                        Pasos esenciales para movilizar voluntarios y recolectar materiales educativos para niños en zonas vulnerables.
+                    </p>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="bg-surface-white border border-outline-variant/30 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-300 relative group overflow-hidden flex gap-4 items-start">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container-low border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="A minimal geometric illustration of a community garden with stylized plants and a watering can. The color palette features clean whites, fresh greens, and subtle primary blues. High contrast, well-lit, conveying growth and sustainability in a modern UI style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM3s84eOY70GoZeLP-qhEpNtJOcwac2ONtPKx5cLIm7hdVXhIoJzsOSJP8LO3w-3AAb_HuUEUZf2AkowZxp87OJWqGKM0GO-jnR82FZpB-Wk9CxxAA8ejpqSpxq4qfwGUTDbzMki19n-UnjwAjdiLuPlN4lN8PFYsjf04hisSnJt8tbO3vWBkQ8UhvDdXEc3DnhYPCUd2mAzQO2TmcEWhEpM7VN8J5OxYuCEIs1LfyYM6Ckr333zaD3g"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<span class="inline-block px-2 py-0.5 rounded-full bg-surface-container-high text-on-background font-label-sm text-label-sm mb-2">Medio Ambiente</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded-md">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 8 min
+                        </span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-background text-lg leading-tight mb-1 group-hover:text-primary transition-colors line-clamp-2">
+                        Creación de huertas comunitarias sostenibles
+                    </h2>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm line-clamp-2">
+                        Guía técnica y comunitaria para transformar espacios grises en fuentes de alimento y cohesión social.
+                    </p>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="bg-surface-white border border-outline-variant/30 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-300 relative group overflow-hidden flex gap-4 items-start">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container-low border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="A sleek, abstract representation of a food care package, utilizing simple flat shapes, clean lines, and a light mode aesthetic. The image uses extensive white space, accented with primary blue and a touch of red for urgency. The mood is organized and helpful." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc6uImFFX6-v5BXkj6z1hXt_xpkWVOBUK3oYY7oYHHBiM1LkvKcRtLhS-x-UfKPPCD_Lh_gHzYaJH_51HcQl-7OjSw6JPNqXF6lGb2PBqSssz6s_Fgw_QFY5ZM3nubUsNWK_Hh45FsC1RFhB3zt6tGwiRyQ6wbmZPdtFwpunWBjajkNuBLxXdm0bTSCV_WwXrP-ziuyHCVwDPjK6-RTt9y2FHUmSev---WDjoqzKekdDpMFi3ek4-4Rg"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<span class="inline-block px-2 py-0.5 rounded-full bg-accent-warm text-on-background font-label-sm text-label-sm mb-2">Nutrición</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded-md">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 3 min
+                        </span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-background text-lg leading-tight mb-1 group-hover:text-primary transition-colors line-clamp-2">
+                        Protocolo de donación de alimentos perecederos
+                    </h2>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm line-clamp-2">
+                        Normativas y mejores prácticas para garantizar la inocuidad y distribución eficiente de alimentos frescos.
+                    </p>
+</div>
+</article>
+</div>
+</main>
+<!-- Footer (Shared Component - kept for completeness, though often pushed down on mobile) -->
+<footer class="bg-surface-container-lowest dark:bg-background border-t border-outline-variant/20 w-full mb-16 md:mb-0">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter py-margin-desktop px-margin-desktop max-w-container-max mx-auto">
+<div>
+<a class="font-headline-sm text-headline-sm font-bold text-primary mb-4 inline-block" href="#">CaliSolidaria</a>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 Red de Solidaridad Cali. Impulsando el cambio comunitario.</p>
+</div>
+<div class="flex flex-wrap gap-4 md:justify-end items-center">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:text-primary transition-colors" href="#">Términos</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:text-primary transition-colors" href="#">Contacto</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:text-primary transition-colors" href="#">Ayuda</a>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile Shell Pattern) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-white border-t border-outline-variant/20 flex justify-around items-center h-16 pb-safe z-50 px-2 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]">volunteer_activism</span>
+<span class="font-label-sm text-[10px] font-medium">Servicios</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-secondary transition-colors relative" href="#">
+<!-- Active Indicator Pill -->
+<div class="absolute top-1 bg-secondary/10 w-12 h-8 rounded-full -z-10"></div>
+<span class="material-symbols-outlined mb-1 text-[24px]" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+<span class="font-label-sm text-[10px] font-bold">Guías</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]">bar_chart</span>
+<span class="font-label-sm text-[10px] font-medium">Informes</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]">map</span>
+<span class="font-label-sm text-[10px] font-medium">Mapas</span>
+</a>
+</nav>
+</body></html>

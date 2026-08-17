@@ -43,9 +43,17 @@ function icono(place: Place): L.DivIcon {
     ? '#62676e' // saturado: gris, no es a donde hay que ir
     : place.kind === 'necesidad'
       ? '#b4501a' // no le está llegando ayuda
-      : '#0f6f5c'; // acopio recibiendo
+      : place.kind === 'albergue'
+        ? '#1d4ed8' // dónde dormir
+        : '#0f6f5c'; // acopio recibiendo
 
-  const simbolo = place.kind === 'necesidad' ? '!' : '';
+  /*
+   * El símbolo distingue los albergues del resto sin depender del color: hay
+   * quien no diferencia el azul del verde, y aquí la confusión manda a alguien
+   * que perdió su casa a un punto de donaciones.
+   */
+  const simbolo =
+    place.kind === 'necesidad' ? '!' : place.kind === 'albergue' ? '⌂' : '';
 
   return L.divIcon({
     className: '',

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CaliSolidaria - Mapas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#1b1c1e",
+                        "secondary": "#006d35",
+                        "on-surface-variant": "#434656",
+                        "on-primary-fixed-variant": "#0039b3",
+                        "on-secondary-fixed-variant": "#005227",
+                        "secondary-fixed": "#8afaa7",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001551",
+                        "outline-variant": "#c3c5d9",
+                        "tertiary-fixed": "#ffdad4",
+                        "surface": "#faf9fb",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#00210c",
+                        "tertiary-fixed-dim": "#ffb4a8",
+                        "background": "#faf9fb",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#e3e6ff",
+                        "tertiary-container": "#d20000",
+                        "inverse-on-surface": "#f2f0f3",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f5f3f6",
+                        "primary-container": "#0055ff",
+                        "surface-tint": "#004dea",
+                        "surface-variant": "#e3e2e4",
+                        "inverse-primary": "#b6c4ff",
+                        "on-tertiary-fixed-variant": "#930100",
+                        "on-secondary-container": "#007439",
+                        "outline": "#737688",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#303032",
+                        "surface-container-highest": "#e3e2e4",
+                        "background-subtle": "#F7F7F5",
+                        "on-tertiary-container": "#ffe1dc",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#efedf0",
+                        "on-surface": "#1b1c1e",
+                        "surface-bright": "#faf9fb",
+                        "on-tertiary-fixed": "#410000",
+                        "surface-dim": "#dbd9dc",
+                        "secondary-container": "#8afaa7",
+                        "on-error-container": "#93000a",
+                        "accent-warm": "#FFEADB",
+                        "tertiary": "#a40100",
+                        "surface-white": "#FFFFFF",
+                        "primary-fixed": "#dce1ff",
+                        "surface-container-high": "#e9e7ea",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "primary": "#0041c8",
+                        "secondary-fixed-dim": "#6edd8d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Geist"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "label-md": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-sm": ["Geist"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Geist', sans-serif; }
+        .hanken { font-family: 'Hanken Grotesk', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(195, 197, 217, 0.3);
+        }
+        
+        /* Map Placeholders */
+        .map-marker {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: absolute;
+            transform: translate(-50%, -50%);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 65, 200, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 65, 200, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 65, 200, 0); }
+        }
+    </style>
+</head>
+<body class="bg-background-subtle text-on-background min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation (Mobile Friendly) -->
+<header class="bg-surface-white/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-outline-variant/30 flex justify-between items-center h-16 px-margin-mobile">
+<div class="font-headline-md text-headline-md font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">volunteer_activism</span>
+            CaliSolidaria
+        </div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 mt-16 pb-20 relative flex flex-col h-[calc(100vh-4rem)]">
+<!-- Interactive Map Container -->
+<div class="relative flex-1 bg-surface-variant w-full h-full overflow-hidden">
+<!-- Map Background Image -->
+<div class="absolute inset-0 bg-cover bg-center w-full h-full opacity-80" data-alt="A stylized, modern vector map of Cali, Colombia, optimized for a mobile app interface. The map uses a light theme color palette with subtle roads in pale gray, parks in soft green, and the Cauca river in light blue. The style is clean, uncluttered, and resembles a high-end SaaS application map view." data-location="Cali, Colombia" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCun0Py6CVse7br1WhssZb_iYQzqoA5LIzNZSOnN7hkNW6jUn9_2ZENnwi2LygzcKEGVnGPiHt6jwlmHjRftsWRPrmmuCYUKPBVyxSloBo2Tox5erXknqnOhzU7k725umns7whNYL8yscfU7ZgymU1qrP3Lh1kkzPDKuIdsV4YHSUQ2rV5BrirFxNq8LVDqOymRfAMHyvRfx86Fz02GfCaWgE-et6UQX0eeT1pQt47NSiwFZFFMakraeQ')"></div>
+<!-- Map Markers (Simulated) -->
+<div class="map-marker bg-primary" style="top: 30%; left: 40%;"></div>
+<div class="map-marker bg-secondary" style="top: 45%; left: 60%;"></div>
+<div class="map-marker bg-tertiary" style="top: 60%; left: 30%;"></div>
+<div class="map-marker bg-primary" style="top: 75%; left: 50%;"></div>
+<div class="map-marker bg-secondary" style="top: 20%; left: 70%;"></div>
+<!-- Floating Controls -->
+<div class="absolute right-4 top-4 flex flex-col gap-2">
+<button class="bg-surface-white p-2 rounded-full shadow-sm border border-outline-variant/30 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<button class="bg-surface-white p-2 rounded-full shadow-sm border border-outline-variant/30 text-on-surface-variant hover:text-primary transition-colors mt-4">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="bg-surface-white p-2 rounded-full shadow-sm border border-outline-variant/30 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+<!-- Legend Overlay -->
+<div class="absolute left-4 top-4 glass-panel rounded-lg p-3 shadow-sm">
+<h3 class="font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-wider">Categorías</h3>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="font-body-md text-sm text-on-surface">Educación</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<span class="font-body-md text-sm text-on-surface">Nutrición</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-tertiary"></div>
+<span class="font-body-md text-sm text-on-surface">Salud</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Panel (Stats & List preview) -->
+<div class="glass-panel rounded-t-xl -mt-4 relative z-10 p-margin-mobile shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<div class="w-12 h-1.5 bg-outline-variant/50 rounded-full mx-auto mb-4"></div>
+<div class="flex justify-between items-end mb-4">
+<div>
+<h2 class="font-headline-md text-xl text-on-background">Puntos Activos</h2>
+<p class="font-body-md text-sm text-on-surface-variant">Iniciativas en tu área</p>
+</div>
+<div class="text-right">
+<span class="font-display-lg text-3xl text-primary">42</span>
+</div>
+</div>
+<!-- Bento Grid style preview cards -->
+<div class="grid grid-cols-2 gap-3 mb-2">
+<div class="bg-surface-white p-3 rounded-lg border border-outline-variant/30 flex flex-col gap-1">
+<span class="material-symbols-outlined text-secondary text-xl">school</span>
+<span class="font-label-md text-on-surface line-clamp-1">Tutorías Centro</span>
+<span class="font-label-sm text-on-surface-variant text-xs">A 1.2 km</span>
+</div>
+<div class="bg-surface-white p-3 rounded-lg border border-outline-variant/30 flex flex-col gap-1">
+<span class="material-symbols-outlined text-tertiary text-xl">restaurant</span>
+<span class="font-label-md text-on-surface line-clamp-1">Comedor Comunitario</span>
+<span class="font-label-sm text-on-surface-variant text-xs">A 2.5 km</span>
+</div>
+</div>
+<button class="w-full py-3 mt-2 bg-surface-container-low text-primary font-label-md rounded-lg border border-primary/20 hover:bg-primary-container hover:text-on-primary-container transition-colors">
+                Ver lista completa
+            </button>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="fixed bottom-0 w-full bg-surface-white border-t border-outline-variant/20 flex justify-around items-center h-20 pb-safe z-50">
+<a class="flex flex-col items-center gap-1 p-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-[10px]">Inicio</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">list_alt</span>
+<span class="font-label-sm text-[10px]">Proyectos</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-secondary font-bold" href="#">
+<div class="bg-secondary/10 px-4 py-1 rounded-full flex flex-col items-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">map</span>
+</div>
+<span class="font-label-sm text-[10px] mt-1">Mapas</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-[10px]">Perfil</span>
+</a>
+</nav>
+</body></html>

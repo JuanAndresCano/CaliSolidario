@@ -48,6 +48,15 @@ export type ContactMethod = (typeof CONTACT_METHODS)[number]['value'];
  */
 export const MAX_CONTACTOS = 3;
 
+/**
+ * Cuántos avisos abiertos puede tener una persona a la vez.
+ *
+ * Esto es solo para los textos de la interfaz. Quien impone el límite de
+ * verdad es la base, con `limite_avisos_abiertos()` (migración 0022): si los
+ * dos números se separan, el texto miente pero el límite se sigue cumpliendo.
+ */
+export const MAX_AVISOS_ABIERTOS = 10;
+
 export const COMMENT_KINDS = [
   {
     value: 'comment',

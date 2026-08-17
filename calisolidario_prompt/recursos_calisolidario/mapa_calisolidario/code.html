@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CaliSolidaria - Mapas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#8afaa7",
+                      "surface-container-high": "#e9e7ea",
+                      "outline": "#737688",
+                      "surface-container-highest": "#e3e2e4",
+                      "tertiary-container": "#d20000",
+                      "surface-bright": "#faf9fb",
+                      "background": "#faf9fb",
+                      "surface-dim": "#dbd9dc",
+                      "outline-variant": "#c3c5d9",
+                      "surface-container": "#efedf0",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#8afaa7",
+                      "on-secondary": "#ffffff",
+                      "surface-variant": "#e3e2e4",
+                      "inverse-primary": "#b6c4ff",
+                      "primary-fixed-dim": "#b6c4ff",
+                      "secondary": "#006d35",
+                      "on-tertiary-fixed-variant": "#930100",
+                      "on-surface": "#1b1c1e",
+                      "on-secondary-fixed-variant": "#005227",
+                      "primary": "#0041c8",
+                      "error": "#ba1a1a",
+                      "tertiary-fixed": "#ffdad4",
+                      "tertiary": "#a40100",
+                      "surface-white": "#FFFFFF",
+                      "surface-container-low": "#f5f3f6",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#007439",
+                      "inverse-surface": "#303032",
+                      "background-subtle": "#F7F7F5",
+                      "on-primary-fixed": "#001551",
+                      "on-tertiary-fixed": "#410000",
+                      "on-primary-container": "#e3e6ff",
+                      "inverse-on-surface": "#f2f0f3",
+                      "on-tertiary-container": "#ffe1dc",
+                      "accent-warm": "#FFEADB",
+                      "surface": "#faf9fb",
+                      "primary-container": "#0055ff",
+                      "secondary-fixed-dim": "#6edd8d",
+                      "primary-fixed": "#dce1ff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-fixed-variant": "#0039b3",
+                      "on-error": "#ffffff",
+                      "on-secondary-fixed": "#00210c",
+                      "error-container": "#ffdad6",
+                      "on-surface-variant": "#434656",
+                      "tertiary-fixed-dim": "#ffb4a8",
+                      "surface-tint": "#004dea",
+                      "on-background": "#1b1c1e",
+                      "on-tertiary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "margin-desktop": "40px",
+                      "container-max": "1280px",
+                      "unit": "8px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Hanken Grotesk"],
+                      "body-md": ["Geist"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "label-md": ["Geist"],
+                      "body-lg": ["Geist"],
+                      "headline-lg": ["Hanken Grotesk"],
+                      "label-sm": ["Geist"]
+              },
+              "fontSize": {
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-background-subtle text-on-background min-h-screen font-body-md flex flex-col pt-16">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface-white/80 backdrop-blur-md border-b border-outline-variant/30 flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop mx-auto max-w-full">
+<div class="flex items-center gap-6 w-full max-w-container-max mx-auto justify-between">
+<div class="flex items-center gap-8">
+<a class="font-headline-md text-headline-md font-bold text-primary" href="#">CaliSolidaria</a>
+<nav class="hidden md:flex gap-6 items-center font-label-md text-label-md">
+<a class="text-on-surface-variant hover:text-primary transition-colors py-1" href="#">Servicios</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors py-1" href="#">Guías</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors py-1" href="#">Informes</a>
+<a class="text-secondary font-bold border-b-2 border-secondary pb-1 py-1" href="#">Mapas</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex relative text-on-surface-variant focus-within:text-primary">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2" style="font-variation-settings: 'FILL' 0;">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Buscar..." type="text"/>
+</div>
+<div class="flex gap-2">
+<button class="font-label-md text-label-md px-4 py-2 rounded-full border border-primary text-primary hover:bg-primary-container hover:text-on-primary-container transition-colors">Unirse</button>
+<button class="font-label-md text-label-md px-4 py-2 rounded-full bg-secondary text-on-secondary hover:bg-on-secondary-container transition-colors">Donar</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-gutter flex flex-col gap-8 relative">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-background mb-2">Mapa de Solidaridad</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Visualiza los puntos de acopio y áreas que necesitan asistencia inmediata en Cali.</p>
+</div>
+<button class="font-label-md text-label-md px-6 py-3 rounded-full bg-primary text-on-primary hover:bg-on-primary-fixed-variant transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined">add</span>
+                Publicar Nuevo
+            </button>
+</div>
+<!-- Map Section -->
+<section class="w-full h-[60vh] bg-surface-white rounded-xl border border-outline-variant/30 overflow-hidden relative shadow-sm flex flex-col">
+<!-- Map Legend (Overlay on desktop, inline on mobile) -->
+<div class="absolute top-4 left-4 z-10 bg-surface-white/90 backdrop-blur-sm p-4 rounded-lg border border-outline-variant/50 shadow-sm flex flex-col gap-3 max-w-xs w-[90%] md:w-auto">
+<h3 class="font-label-md text-label-md text-on-background uppercase tracking-wider">Estado de Puntos</h3>
+<div class="flex flex-col gap-2 font-body-md text-body-md">
+<div class="flex items-center gap-3">
+<span class="w-4 h-4 rounded-full bg-tertiary shadow-sm"></span>
+<span class="text-on-surface">No llega ayuda</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="w-4 h-4 rounded-full bg-primary shadow-sm"></span>
+<span class="text-on-surface">Acopio recibiendo</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="w-4 h-4 rounded-full bg-outline shadow-sm"></span>
+<span class="text-on-surface">Lleno por ahora</span>
+</div>
+</div>
+</div>
+<!-- Map Container -->
+<div class="flex-grow w-full bg-surface-container-low" data-location="Cali, Colombia" style="">
+<!-- Placeholder for actual map implementation -->
+<div class="w-full h-full bg-cover bg-center" data-alt="A highly detailed overhead map view of Cali, Colombia, shown in a clean, modern SaaS aesthetic. The map features subtle gray and white tones for roads and terrain, with distinct, vibrant markers in primary blue, intense red, and subtle gray scattered across the city grid. Soft, high-key lighting creates a professional, trustworthy mood. The visual style is minimal, vector-like, and optimized for an interactive digital interface, avoiding clutter while emphasizing the points of interest." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBz1CjKqBdQI2zjMRj_Q98UWYeQ_Mh_PzCklhYlJ98vZ8t1uih_MuWxiDdVnDhELdLIpYEk9Q-meBbhuUjU7e_Wywa3GTWQXdcTsuOd_P84psr7bfXSJhyvoVnS8JPDJYqcbkIRsjeLM2wq4hQWBaWaUhefdvo7zzD4JMzx0w4yFFqRxYDNgX1HUa7XHI07NtqYjEIZq_MSlHxBx_3DLmc5JckkGo0jP42LSgzp0LxBiHM8pZ-O30shEA')"></div>
+</div>
+</section>
+<!-- Unlocated Sites & Actions -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 bg-surface-white rounded-xl p-6 border border-outline-variant/30 shadow-sm">
+<div class="flex items-center gap-3 mb-6 border-b border-outline-variant/20 pb-4">
+<span class="material-symbols-outlined text-outline" style="font-variation-settings: 'FILL' 1;">location_off</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Todavía sin ubicar en el mapa</h2>
+</div>
+<ul class="flex flex-col gap-4 font-body-lg text-body-lg text-on-surface-variant mb-8">
+<li class="flex items-start gap-3 p-3 hover:bg-surface-container-low rounded-lg transition-colors border border-transparent hover:border-outline-variant/20">
+<span class="material-symbols-outlined text-tertiary mt-1" style="font-variation-settings: 'FILL' 1;">error</span>
+<div>
+<span class="font-bold text-on-surface block">Barrio Chiminangos</span>
+<span class="text-body-md">Torres H, I y J</span>
+</div>
+</li>
+<li class="flex items-start gap-3 p-3 hover:bg-surface-container-low rounded-lg transition-colors border border-transparent hover:border-outline-variant/20">
+<span class="material-symbols-outlined text-tertiary mt-1" style="font-variation-settings: 'FILL' 1;">error</span>
+<div>
+<span class="font-bold text-on-surface block">FENADECO Icesi</span>
+<span class="text-body-md">Cañas Gordas</span>
+</div>
+</li>
+</ul>
+<div class="mt-auto">
+<button class="w-full font-label-md text-label-md px-6 py-3 rounded-lg border-2 border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors flex justify-center items-center gap-2">
+                        Ver la lista completa
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Quick Stats / Info Widget -->
+<div class="bg-surface-white rounded-xl p-6 border border-outline-variant/30 shadow-sm flex flex-col justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Resumen de Puntos</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Actualizado hace 15 minutos</p>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface-container-low p-4 rounded-lg border border-outline-variant/20">
+<span class="font-display-lg text-display-lg text-primary block mb-1">42</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Acopios Activos</span>
+</div>
+<div class="bg-error-container/30 p-4 rounded-lg border border-error-container">
+<span class="font-display-lg text-display-lg text-tertiary block mb-1">18</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Alta Prioridad</span>
+</div>
+</div>
+</div>
+<div class="bg-accent-warm/50 p-4 rounded-lg">
+<div class="flex gap-2 items-center mb-2">
+<span class="material-symbols-outlined text-on-surface">campaign</span>
+<span class="font-label-md text-label-md text-on-surface">Llamado a la acción</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Se necesitan voluntarios con vehículos para transporte desde la zona sur.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-surface-container-lowest border-t border-outline-variant/20 py-margin-desktop px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter max-w-container-max mx-auto">
+<div>
+<a class="font-headline-sm text-headline-sm font-bold text-primary block mb-4" href="#">CaliSolidaria</a>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-80 hover:opacity-100 transition-opacity">
+                    © 2024 Red de Solidaridad Cali. Impulsando el cambio comunitario.
+                </p>
+</div>
+<div class="flex flex-wrap md:justify-end gap-6 font-body-md text-body-md">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Términos</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Contacto</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Ayuda</a>
+</div>
+</div>
+</footer>
+</body></html>
