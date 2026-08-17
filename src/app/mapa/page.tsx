@@ -14,16 +14,23 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Mapa',
   description:
-    `Mapa de ${MUNICIPIO.nombre} con los puntos de acopio y las zonas a las que no está llegando ayuda.`,
+    `Mapa de ${MUNICIPIO.nombre} con los albergues, los puntos de acopio y las zonas a las que no está llegando ayuda.`,
 };
 
 export default async function MapaPage() {
-  const [acopios, zonas] = await Promise.all([
+  const [albergues, acopios, zonas] = await Promise.all([
+    getPlaces('albergue'),
     getPlaces('acopio'),
     getPlaces('necesidad'),
   ]);
 
-  const todos = [...zonas, ...acopios];
+  /*
+   * Los albergues van de primeros, igual que en /sitios y por la misma razón:
+   * quien perdió su casa es quien tiene la necesidad más urgente de esta
+   * página. Antes el mapa ni siquiera los cargaba, así que esa persona entraba
+   * y no veía un solo sitio donde dormir.
+   */
+  const todos = [...albergues, ...zonas, ...acopios];
   const ubicados = todos.filter((p) => p.lat !== null && p.lng !== null);
   const sinUbicar = todos.filter((p) => p.lat === null || p.lng === null);
 
@@ -59,6 +66,7 @@ export default async function MapaPage() {
       </p>
 
       <div className="mt-3 flex flex-wrap gap-3 text-xs">
+        <Leyenda color="#1d4ed8" texto="Dónde dormir" />
         <Leyenda color="#b4501a" texto="No llega ayuda" />
         <Leyenda color="#0f6f5c" texto="Acopio recibiendo" />
         <Leyenda color="#62676e" texto="Lleno por ahora" />

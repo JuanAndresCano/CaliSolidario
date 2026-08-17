@@ -76,6 +76,19 @@ export type Place = {
   confirmed_at: string;
 };
 
+/**
+ * Nombre recortado para el índice de puntos.
+ *
+ * Los nombres cargados traen una aclaración detrás de una raya o un paréntesis
+ * —"Universidad Icesi — insumos médicos y bienestar animal"— que en la tarjeta
+ * sirve y en una fila de atajos no cabe. Se corta por ahí, y si aun así es
+ * largo, se recorta con puntos suspensivos.
+ */
+export function nombreCorto(nombre: string, max = 26): string {
+  const base = nombre.split(/\s+[—–·|(]/)[0].trim() || nombre.trim();
+  return base.length > max ? `${base.slice(0, max - 1).trimEnd()}…` : base;
+}
+
 /** Enlace a Maps: usa coordenadas si las hay, y si no la dirección escrita. */
 export function mapsUrl(place: Place): string | null {
   if (place.lat !== null && place.lng !== null) {

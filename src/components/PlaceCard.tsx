@@ -15,16 +15,47 @@ const VERBO: Record<PlaceContact['method'], string> = {
   otro: 'Contactar',
 };
 
+/**
+ * A partir de cuántos caracteres el contenido se pliega.
+ *
+ * Con 17 puntos cargados, `/sitios` era imposible de recorrer: una tarjeta con
+ * la lista de medicamentos de un acopio ocupaba la pantalla entera, así que
+ * cabían una o dos por vista. El umbral está calibrado para que las tarjetas
+ * que ya eran cortas —la mayoría de albergues y servicios— NO cambien: solo se
+ * pliegan las que causaban el problema.
+ */
+const LARGO_TEXTO = 140;
+
 export function PlaceCard({ place }: { place: Place }) {
   const maps = mapsUrl(place);
+  const service = place.service_category
+    ? SERVICE_CATEGORY_MAP[place.service_category]
+    : null;
 
   // Solo los que se pueden abrir. Un contacto de tipo "otro" no tiene enlace,
   // y un botón que no hace nada estorba más de lo que informa.
   const contactos = contactosDe(place).filter((c) => contactUrlDe(c) !== null);
   const [principal, ...secundarios] = contactos;
-  const service = place.service_category
-    ? SERVICE_CATEGORY_MAP[place.service_category]
-    : null;
+
+  // Sin dos puntos: ahora es un rótulo en versalitas, no el principio de una
+  // frase.
+  const etiquetaInsumos = place.kind === 'necesidad' ? 'Necesitan' : 'Les falta';
+
+  // ¿Esta tarjeta es de las que revientan la lista? Se decide una sola vez y
+  // gobierna todo el cuerpo, para no tener tres criterios distintos de
+  // truncado conviviendo en la misma tarjeta.
+  // Se mide el texto SUMADO y no cada campo por su cuenta: había tarjetas de
+  // 545 px con una descripción y una lista que, por separado, pasaban el
+  // umbral por poco y no se plegaban ni una ni otra.
+  const extensa =
+    (place.description?.length ?? 0) +
+      (place.supplies_needed?.length ?? 0) +
+      (place.supplies_surplus?.length ?? 0) >
+    LARGO_TEXTO;
+
+  // Lo que se ve sin desplegar. Se prefiere lo que hace falta sobre la
+  // descripción: quien está decidiendo a dónde ir necesita saber qué llevar.
+  const resumen = place.supplies_needed ?? place.description ?? '';
 
   return (
     // El id permite llegar directo desde el mapa con /sitios#<id>. El
@@ -32,44 +63,58 @@ export function PlaceCard({ place }: { place: Place }) {
     // justo después de saltar.
     <li
       id={place.id}
+      /*
+       * `flex flex-col` para que, cuando la rejilla estire la tarjeta a la
+       * altura de su fila, el sobrante se lo lleve el bloque de acciones con
+       * `mt-auto` y los botones queden alineados de lado a lado. Sin eso, la
+       * tarjeta corta de una fila quedaba con un hueco blanco al final y
+       * parecía rota en vez de deliberada.
+       */
       className={
         place.is_full
-          ? 'tarjeta-lugar scroll-mt-24 rounded-2xl border border-line bg-surface px-4 py-3.5 opacity-60'
-          : 'tarjeta-lugar scroll-mt-24 rounded-2xl border border-line bg-surface px-4 py-3.5'
+          ? 'tarjeta-lugar flex scroll-mt-24 flex-col rounded-2xl border border-line bg-surface px-4 py-3.5 opacity-60'
+          : 'tarjeta-lugar flex scroll-mt-24 flex-col rounded-2xl border border-line bg-surface px-4 py-3.5'
       }
     >
-      <div className="flex flex-wrap items-center gap-2">
-        {place.kind === 'necesidad' && (
-          <span className="rounded-full bg-need px-2.5 py-1 text-xs font-bold text-white">
-            ⚠ No está llegando ayuda
-          </span>
-        )}
-        {place.kind === 'albergue' && (
-          <span className="rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-brand-ink">
-            🛏 Albergue
-          </span>
-        )}
-        {place.is_verified && (
-          <span className="rounded-full bg-offer-bg px-2.5 py-1 text-xs font-bold text-offer">
-            ✓ Verificado
-          </span>
-        )}
-        {service && (
-          <span className="text-xs text-muted">
-            {service.emoji} {service.label}
-          </span>
-        )}
-        {place.is_full && (
-          <span className="rounded-full bg-need-bg px-2.5 py-1 text-xs font-bold text-need">
-            🔴 Lleno por ahora
-          </span>
-        )}
-        {/* Explica por qué una organización de otra ciudad aparece aquí. */}
-        {place.disponible_en_todos && (
-          <span className="rounded-full border border-line px-2.5 py-1 text-xs font-bold text-muted">
-            Atención virtual
-          </span>
-        )}
+      {/* Una sola fila: a la izquierda qué es, a la derecha en qué estado
+          está. Antes eran hasta seis insignias apiladas que empujaban el
+          nombre del lugar fuera de la primera pantalla. */}
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-1.5">
+          {place.kind === 'necesidad' && (
+            <span className="rounded-full bg-need px-2.5 py-1 text-xs font-bold text-white">
+              ⚠ No está llegando ayuda
+            </span>
+          )}
+          {place.kind === 'albergue' && (
+            <span className="rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-brand-ink">
+              🛏 Albergue
+            </span>
+          )}
+          {service && (
+            <span className="rounded-full border border-line px-2.5 py-1 text-xs font-semibold text-muted">
+              {service.emoji} {service.label}
+            </span>
+          )}
+          {place.disponible_en_todos && (
+            <span className="rounded-full border border-line px-2.5 py-1 text-xs font-semibold text-muted">
+              Atención virtual
+            </span>
+          )}
+        </div>
+
+        <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
+          {place.is_full && (
+            <span className="rounded-full bg-need-bg px-2.5 py-1 text-xs font-bold text-need">
+              {place.kind === 'albergue' ? 'Sin cupo' : 'Lleno'}
+            </span>
+          )}
+          {place.is_verified && (
+            <span className="rounded-full bg-offer-bg px-2.5 py-1 text-xs font-bold text-offer">
+              ✓ Verificado
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Con miniatura queda como la tarjeta que arma WhatsApp al compartir un
@@ -95,63 +140,131 @@ export function PlaceCard({ place }: { place: Place }) {
         </div>
       </div>
 
-      {/* Va antes que la descripción y con el color más fuerte de la tarjeta:
-          es lo único que no se puede leer por encima. */}
-      {place.safety_note && (
-        <div
-          role="alert"
-          className="mt-3 rounded-xl border-2 border-need bg-need-bg px-3 py-3"
-        >
-          <p className="text-sm font-bold uppercase tracking-wide text-need">
-            ⚠ Antes de ir, lee esto
-          </p>
-          <p className="mt-1 text-sm font-medium leading-relaxed text-need">
-            {place.safety_note}
-          </p>
-        </div>
-      )}
+      {/*
+        Sigue sin plegarse —es lo único que alguien no se puede permitir no
+        leer— pero ya no es una caja roja con borde de 2 px y rótulo en
+        mayúsculas. Una regla roja al margen y el texto en rojo dicen lo mismo
+        sin gritar, y la tarjeta baja 40 px.
 
-      {place.description && (
-        <p className="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-muted">
-          {place.description}
+        Si un aviso concreto dejó de aplicar, lo que sobra es el dato, no el
+        campo: se limpia en la base y la tarjeta deja de mostrarlo sola.
+      */}
+      {place.safety_note && (
+        <p
+          role="alert"
+          className="mt-2.5 border-l-2 border-need pl-3 text-sm leading-relaxed text-need"
+        >
+          {place.safety_note}
         </p>
       )}
 
-      {(place.supplies_needed || place.supplies_surplus) && (
-        <div className="mt-3 flex flex-col gap-1.5">
-          {/* `whitespace-pre-line` respeta los saltos: las listas largas se
-              cargan agrupadas (MEDICAMENTOS / INSUMOS) y así se pueden leer en
-              un móvil en vez de ser un párrafo corrido. */}
-          {place.supplies_needed && (
-            <div className="rounded-xl bg-need-bg px-3 py-2 text-sm text-need">
-              <p className="font-bold">
-                {place.kind === 'necesidad' ? 'Necesitan:' : 'Les falta:'}
+      {/* Dónde y cuándo, en una línea. Es lo que se lee de un vistazo para
+          descartar un punto sin abrirlo. */}
+      {(place.address || place.comuna || place.schedule) && (
+        <p className="mt-2 text-xs leading-relaxed text-muted">
+          {place.address ? `📍 ${place.address}` : null}
+          {place.comuna ? ` · ${place.comuna}` : null}
+          {place.schedule ? ` · 🕐 ${place.schedule}` : null}
+        </p>
+      )}
+
+      {extensa ? (
+        /*
+         * `<details>` nativo: se pliega sin una línea de JavaScript, funciona
+         * antes de que hidrate nada y el navegador ya lo hace accesible por su
+         * cuenta. Con `group-open` el resumen se cambia por "ocultar" al
+         * abrir, así el texto no aparece dos veces.
+         */
+        /*
+         * Sin caja de color. El rótulo en versalitas y una línea divisoria
+         * bastan para separar la sección, y así el rojo queda reservado para
+         * el aviso de seguridad — que es lo único que de verdad debe gritar.
+         * Cuando todo grita, nada se oye.
+         */
+        <details className="group mt-3 border-t border-line pt-2.5">
+          {/* `list-none` más la regla de webkit quitan el triangulito del
+              navegador, que se ve distinto en cada uno. A cambio hay que poner
+              un indicador propio: sin él nadie sabe que esto se abre. */}
+          <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span className="block text-xs font-bold uppercase tracking-wide text-muted">
+              {etiquetaInsumos}
+            </span>
+            {/* OJO: nada de `block` aquí. `line-clamp-2` funciona poniendo
+                `display: -webkit-box`, y cualquier utilidad de display
+                posterior lo pisa: el recorte deja de aplicarse en silencio y
+                la tarjeta pasa de 300 a 970 px sin que nada falle. */}
+            <span className="mt-0.5 line-clamp-2 text-sm leading-relaxed group-open:hidden">
+              {resumen}
+            </span>
+            {/* Sin `min-h-[44px]`: el área táctil es el `<summary>` completo, que
+                ya pasa de 44 px. Dársela también a esta línea añadía 30 px a
+                cada tarjeta de la lista sin ganar nada. */}
+            <span className="mt-1 block text-xs font-semibold underline underline-offset-4">
+              <span className="group-open:hidden">Ver la lista completa</span>
+              <span className="hidden group-open:inline">Ocultar la lista</span>
+            </span>
+          </summary>
+
+          <div className="mt-2 flex flex-col gap-3">
+            {place.supplies_needed && (
+              <p className="whitespace-pre-line text-sm leading-relaxed">
+                {place.supplies_needed}
               </p>
-              <p className="mt-0.5 whitespace-pre-line leading-relaxed">
+            )}
+            {place.supplies_surplus && (
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wide text-muted">
+                  Ya tienen de sobra
+                </p>
+                <p className="mt-0.5 whitespace-pre-line text-sm leading-relaxed text-muted">
+                  {place.supplies_surplus}
+                </p>
+              </div>
+            )}
+            {place.description && (
+              <p className="whitespace-pre-line text-sm leading-relaxed text-muted">
+                {place.description}
+              </p>
+            )}
+          </div>
+        </details>
+      ) : (
+        /* Tarjeta corta: se queda exactamente como estaba. La gente que ya
+           conoce el sitio no debería notar ningún cambio aquí. */
+        <>
+          {place.description && (
+            <p className="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-muted">
+              {place.description}
+            </p>
+          )}
+          {/* Mismo tratamiento que en la versión plegable, para que las dos
+              clases de tarjeta se lean como la misma cosa. */}
+          {place.supplies_needed && (
+            <div className="mt-3 border-t border-line pt-2.5">
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">
+                {etiquetaInsumos}
+              </p>
+              <p className="mt-0.5 whitespace-pre-line text-sm leading-relaxed">
                 {place.supplies_needed}
               </p>
             </div>
           )}
           {place.supplies_surplus && (
-            <div className="rounded-xl bg-offer-bg px-3 py-2 text-sm text-offer">
-              <p className="font-bold">Ya tienen de sobra:</p>
-              <p className="mt-0.5 whitespace-pre-line leading-relaxed">
+            <div className="mt-2">
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">
+                Ya tienen de sobra
+              </p>
+              <p className="mt-0.5 whitespace-pre-line text-sm leading-relaxed text-muted">
                 {place.supplies_surplus}
               </p>
             </div>
           )}
-        </div>
+        </>
       )}
 
-      <p className="mt-2.5 text-xs text-muted">
-        {place.address ? `📍 ${place.address}` : null}
-        {place.comuna ? ` · ${place.comuna}` : null}
-        {place.schedule ? ` · 🕐 ${place.schedule}` : null}
-      </p>
-
-      <p className="mt-1 text-xs text-muted" suppressHydrationWarning>
-        Confirmado {timeAgo(place.confirmed_at)}
-      </p>
+      {/* `mt-auto` empuja las acciones al fondo. En la rejilla de escritorio
+          eso alinea los botones de todas las tarjetas de una misma fila. */}
+      <div className="mt-auto" />
 
       {(maps || principal || place.website) && (
         <div className="mt-3 flex flex-wrap gap-2">
@@ -215,7 +328,7 @@ export function PlaceCard({ place }: { place: Place }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 role="button"
-                className="flex min-h-11 w-full items-center justify-center rounded-xl border border-brand px-3 text-sm font-semibold"
+                className="flex min-h-[44px] w-full items-center justify-center rounded-xl border border-brand px-3 text-sm font-semibold"
               >
                 {VERBO[contacto.method]}
                 {contacto.label ? ` · ${contacto.label}` : ` · ${contacto.value}`}
@@ -224,6 +337,12 @@ export function PlaceCard({ place }: { place: Place }) {
           ))}
         </ul>
       )}
+
+      {/* Al final y en pequeño: importa, pero no es lo primero que hay que
+          leer para decidir si ir. */}
+      <p className="mt-2 text-xs text-muted" suppressHydrationWarning>
+        Confirmado {timeAgo(place.confirmed_at)}
+      </p>
     </li>
   );
 }

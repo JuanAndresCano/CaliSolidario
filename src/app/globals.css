@@ -66,13 +66,40 @@ body {
   overscroll-behavior-y: none;
 }
 
-/* Todo lo tocable respeta el mínimo de 44px de alto. */
+/*
+ * Todo lo tocable respeta el mínimo de 44px de alto.
+ *
+ * En píxeles y no en `rem`: la raíz es `clamp(15px, 4vw, 17px)`, así que
+ * `2.75rem` —que es lo que había— daba 41,25px en un celular estrecho. El
+ * mínimo táctil se mide en píxeles reales contra el dedo de alguien, no
+ * contra el tamaño de la fuente.
+ *
+ * OJO con la especificidad: `a[role="button"]` gana a una clase suelta, así
+ * que poner `min-h-[44px]` en un componente NO sobreescribe esto. Si algún
+ * día hace falta un control más bajo, hay que excluirlo aquí.
+ */
 button,
 a[role="button"],
 input,
 select,
 textarea {
-  min-height: 2.75rem;
+  min-height: 44px;
+}
+
+/*
+ * Fila que se desplaza a lo ancho, sin barra a la vista.
+ *
+ * En Windows y Linux la barra horizontal se queda pintada bajo el contenido y
+ * se ve pésima. En móvil —que es donde esta fila hace falta— no se muestra
+ * nunca, y el contenido cortado contra el borde ya avisa de que hay más.
+ */
+.fila-desplazable {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.fila-desplazable::-webkit-scrollbar {
+  display: none;
 }
 
 /* iOS hace zoom al enfocar un campo con fuente menor a 16px. */

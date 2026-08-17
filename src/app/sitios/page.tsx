@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { BotonMapa } from '@/components/BotonMapa';
+import { IndicePuntos } from '@/components/IndicePuntos';
 import { PlaceCard } from '@/components/PlaceCard';
 import { ReportarPunto } from '@/components/ReportarPunto';
 import { getPlaces } from '@/lib/places';
@@ -66,7 +67,8 @@ export default async function AcopioPage() {
               Albergues abiertos para quien se quedó sin vivienda. Llama antes
               de desplazarte: los cupos cambian de un momento a otro.
             </p>
-            <ul className="flex flex-col gap-2.5">
+            <IndicePuntos lugares={albergues} etiqueta="Ir a un albergue" />
+            <ul className="grid gap-2.5 md:grid-cols-2">
               {albergues.map((a) => (
                 <PlaceCard key={a.id} place={a} />
               ))}
@@ -93,7 +95,7 @@ export default async function AcopioPage() {
               Sitios a los que no está llegando la ayuda organizada. Si puedes
               llegar hasta allá, aquí es donde más falta haces.
             </p>
-            <ul className="flex flex-col gap-2.5">
+            <ul className="grid gap-2.5 md:grid-cols-2">
               {zonas.map((zona) => (
                 <PlaceCard key={zona.id} place={zona} />
               ))}
@@ -120,7 +122,14 @@ export default async function AcopioPage() {
             </p>
           ) : (
             <>
-              <ul className="flex flex-col gap-2.5">
+              {/* Incluye los llenos, que están más abajo en su propia lista:
+                  quien busca uno concreto quiere llegar a él aunque hoy no
+                  esté recibiendo. En el índice salen atenuados. */}
+              <IndicePuntos
+                lugares={[...open, ...full]}
+                etiqueta="Ir a un punto de acopio"
+              />
+              <ul className="grid gap-2.5 md:grid-cols-2">
                 {open.map((place) => (
                   <PlaceCard key={place.id} place={place} />
                 ))}
@@ -134,7 +143,7 @@ export default async function AcopioPage() {
                   <p className="mb-3 mt-1 px-1 text-sm text-muted">
                     No vayas todavía. Suelen volver a recibir en unas horas.
                   </p>
-                  <ul className="flex flex-col gap-2.5">
+                  <ul className="grid gap-2.5 md:grid-cols-2">
                     {full.map((place) => (
                       <PlaceCard key={place.id} place={place} />
                     ))}

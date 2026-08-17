@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { IndicePuntos } from '@/components/IndicePuntos';
 import { PlaceCard } from '@/components/PlaceCard';
 import { ReportarPunto } from '@/components/ReportarPunto';
 import { SERVICE_CATEGORIES } from '@/lib/catalog';
@@ -53,11 +54,17 @@ export default async function ServiciosPage() {
           Todavía no hay servicios publicados.
         </p>
       ) : (
-        <ul className="mt-4 flex flex-col gap-2.5">
-          {places.map((place) => (
-            <PlaceCard key={place.id} place={place} />
-          ))}
-        </ul>
+        <>
+          <IndicePuntos lugares={places} etiqueta="Ir a un servicio" />
+          {/* Dos columnas de tablet en adelante. En el celular sigue siendo
+              una sola, que es donde está el 84% de la gente y donde el diseño
+              ya estaba resuelto. */}
+          <ul className="mt-4 grid gap-2.5 md:grid-cols-2">
+            {places.map((place) => (
+              <PlaceCard key={place.id} place={place} />
+            ))}
+          </ul>
+        </>
       )}
 
       <ReportarPunto tipo="servicio" />

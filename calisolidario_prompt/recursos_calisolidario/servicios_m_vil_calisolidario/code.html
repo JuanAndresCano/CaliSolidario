@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Servicios Gratuitos - CaliSolidaria</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#1b1c1e",
+                        "secondary": "#006d35",
+                        "on-surface-variant": "#434656",
+                        "on-primary-fixed-variant": "#0039b3",
+                        "on-secondary-fixed-variant": "#005227",
+                        "secondary-fixed": "#8afaa7",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001551",
+                        "outline-variant": "#c3c5d9",
+                        "tertiary-fixed": "#ffdad4",
+                        "surface": "#faf9fb",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#00210c",
+                        "tertiary-fixed-dim": "#ffb4a8",
+                        "background": "#faf9fb",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#e3e6ff",
+                        "tertiary-container": "#d20000",
+                        "inverse-on-surface": "#f2f0f3",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f5f3f6",
+                        "primary-container": "#0055ff",
+                        "surface-tint": "#004dea",
+                        "surface-variant": "#e3e2e4",
+                        "inverse-primary": "#b6c4ff",
+                        "on-tertiary-fixed-variant": "#930100",
+                        "on-secondary-container": "#007439",
+                        "outline": "#737688",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#303032",
+                        "surface-container-highest": "#e3e2e4",
+                        "background-subtle": "#F7F7F5",
+                        "on-tertiary-container": "#ffe1dc",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#efedf0",
+                        "on-surface": "#1b1c1e",
+                        "surface-bright": "#faf9fb",
+                        "on-tertiary-fixed": "#410000",
+                        "surface-dim": "#dbd9dc",
+                        "secondary-container": "#8afaa7",
+                        "on-error-container": "#93000a",
+                        "accent-warm": "#FFEADB",
+                        "tertiary": "#a40100",
+                        "surface-white": "#FFFFFF",
+                        "primary-fixed": "#dce1ff",
+                        "surface-container-high": "#e9e7ea",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "primary": "#0041c8",
+                        "secondary-fixed-dim": "#6edd8d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Geist"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "label-md": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-sm": ["Geist"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-subtle antialiased text-on-surface">
+<!-- Desktop TopNavBar (Hidden on Mobile) -->
+<header class="fixed top-0 w-full z-50 bg-surface-white/80 backdrop-blur-md hidden md:flex justify-between items-center h-16 px-margin-desktop max-w-container-max mx-auto shadow-sm">
+<div class="font-headline-md text-headline-md font-bold text-primary">
+            CaliSolidaria
+        </div>
+<nav class="flex gap-6">
+<!-- Active State -->
+<a class="text-secondary font-bold border-b-2 border-secondary pb-1 font-label-md text-label-md" href="#">Servicios</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Guías</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Informes</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Mapas</a>
+</nav>
+<div class="flex gap-4 items-center">
+<button class="font-label-md text-label-md text-primary border border-primary px-4 py-2 rounded-lg hover:bg-primary-container-low transition-all duration-200">Unirse</button>
+<button class="font-label-md text-label-md bg-secondary text-on-secondary px-4 py-2 rounded-lg hover:bg-on-secondary-container transition-all duration-200">Donar</button>
+</div>
+</header>
+<!-- Mobile Top App Bar (Branding only for mobile view) -->
+<div class="md:hidden flex items-center justify-center h-14 bg-surface-white border-b border-outline-variant/20 sticky top-0 z-40">
+<span class="font-headline-md text-[20px] font-bold text-primary">CaliSolidaria</span>
+</div>
+<!-- Main Content Canvas -->
+<main class="pt-6 pb-24 md:pt-24 md:pb-12 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto min-h-screen">
+<!-- Header Section -->
+<div class="mb-8 text-center md:text-left">
+<h1 class="font-headline-lg text-headline-lg md:font-display-lg md:text-display-lg text-on-surface mb-2">Servicios Gratuitos</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+                Accede a recursos comunitarios diseñados para apoyar tu bienestar y el de tu entorno. Iniciativas ciudadanas al alcance de tu mano.
+            </p>
+</div>
+<!-- Services Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Card 1: Apoyo Emocional -->
+<article class="bg-surface-white border border-outline-variant/30 rounded-xl overflow-hidden hover:shadow-md transition-shadow duration-300 group flex flex-col">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A bright, modern community center room in a light mode aesthetic. Two people sit comfortably on modern chairs, engaged in a supportive and empathetic conversation. Soft, diffused natural light streams through a large window, creating a warm, inviting, and safe atmosphere. The color palette features clean whites, soft grays, and subtle touches of calming blue and green. A professional yet highly accessible environment representing emotional support." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOFB4FLrPyECRLcKz7CzralQ9AeMt3HHMK7EO_VFsPNjY-62q052iSXW6x5WGwPNfu5aZulkjn8nah_jEsQEwh0lpqAGZkmd0NdFIkpKHgsYNXag4VxfUK0EjpYW8fCsZHb81yTJ7QLztiDD2LSAiFIXxop0gFj6byq67hLpDJ_OU-JiEu3N8mwCEMwX_T9wmZqA68MuAZ6yXWI5ocZ1fd78RVdi4_4rWSwB1pnaAH0_b1Q0PXuItwhg"/>
+<div class="absolute top-4 left-4">
+<span class="bg-accent-warm text-on-surface font-label-sm text-label-sm px-3 py-1 rounded-full shadow-sm">Salud Mental</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<h2 class="font-headline-md text-[20px] text-on-surface mb-2">Apoyo Emocional y Escucha</h2>
+<p class="font-body-md text-body-md text-on-surface-variant flex-grow mb-6">
+                        Espacios seguros y confidenciales con profesionales voluntarios para contención emocional y primeros auxilios psicológicos.
+                    </p>
+<div class="flex flex-col gap-3 mt-auto">
+<button class="w-full flex items-center justify-center gap-2 bg-secondary text-on-secondary py-3 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat</span>
+                            Contactar por WhatsApp
+                        </button>
+<button class="w-full flex items-center justify-center gap-2 border border-outline-variant text-on-surface py-3 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+                            Ver Detalles del Servicio
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Interactive bottom border indicator -->
+<div class="h-1 w-full bg-transparent group-hover:bg-primary transition-colors"></div>
+</article>
+<!-- Card 2: Cámaras Térmicas -->
+<article class="bg-surface-white border border-outline-variant/30 rounded-xl overflow-hidden hover:shadow-md transition-shadow duration-300 group flex flex-col">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up shot of a modern, high-tech handheld thermal camera resting on a clean white table in a brightly lit, modern office or civic center environment. The camera's screen displays a vibrant heat map, contrasting sharply with the minimalist, corporate aesthetic of the surrounding room. The lighting is crisp and even, emphasizing safety, structural prevention, and the availability of professional community resources. The overall palette relies on stark whites, light grays, and a touch of vibrant primary blue." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDip8Gn65VA-yye1gxl1f20Wveyu7cZQ25wOasmsR7Ymxg_Hyri84mouuHpeHbgxfYEUF6hFRqZ57KgpGfxOxlJcWWSRHaQep2FBd7L-NYCfSGa2A9uBLidbrutr-j0praGL3RxkMDRIJFx3KwAkPhM3ncqEFzoWSwCzso79Csb16bIb4EpgTd-Uo9L5SXauFgZjvPzq3kbeaQt7-J_BlwX7Ara5PS2z4fRjUxTvvrttOMY9nmI8vcIpw"/>
+<div class="absolute top-4 left-4">
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm px-3 py-1 rounded-full shadow-sm">Prevención</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<h2 class="font-headline-md text-[20px] text-on-surface mb-2">Préstamo de Cámaras Térmicas</h2>
+<p class="font-body-md text-body-md text-on-surface-variant flex-grow mb-6">
+                        Equipos especializados disponibles para la revisión preventiva de estructuras comunitarias y detección de anomalías térmicas.
+                    </p>
+<div class="flex flex-col gap-3 mt-auto">
+<button class="w-full flex items-center justify-center gap-2 bg-secondary text-on-secondary py-3 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+                            Agendar Préstamo
+                        </button>
+<button class="w-full flex items-center justify-center gap-2 border border-outline-variant text-on-surface py-3 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+                            Ver Manual de Uso
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Interactive bottom border indicator -->
+<div class="h-1 w-full bg-transparent group-hover:bg-primary transition-colors"></div>
+</article>
+</div>
+</main>
+<!-- Desktop Footer (from JSON) -->
+<footer class="w-full bg-surface-container-lowest border-t border-outline-variant/20 hidden md:block">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter py-margin-desktop px-margin-desktop max-w-container-max mx-auto items-center">
+<div class="font-headline-sm text-[20px] font-bold text-primary mb-4 md:mb-0">
+                CaliSolidaria
+            </div>
+<div class="flex gap-6 md:justify-end font-body-md text-body-md">
+<a class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Privacidad</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Términos</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Contacto</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Ayuda</a>
+</div>
+<div class="col-span-1 md:col-span-2 text-center mt-8 font-body-md text-body-md text-on-surface-variant">
+                © 2024 Red de Solidaridad Cali. Impulsando el cambio comunitario.
+            </div>
+</div>
+</footer>
+<!-- Mobile Bottom Navigation Bar -->
+<nav class="md:hidden fixed bottom-0 w-full bg-surface-white border-t border-outline-variant/20 z-50 pb-safe">
+<div class="flex justify-around items-center h-16">
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-[10px] mt-1">Inicio</span>
+</a>
+<!-- Active State -->
+<a class="flex flex-col items-center justify-center w-full h-full text-secondary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">volunteer_activism</span>
+<span class="font-label-sm text-[10px] mt-1 font-bold">Servicios</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-sm text-[10px] mt-1">Mapas</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-[10px] mt-1">Perfil</span>
+</a>
+</div>
+</nav>
+<!-- Support for iOS safe area bottom -->
+<style>
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .pb-safe {
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+        }
+    </style>
+</body></html>

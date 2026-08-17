@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guías - CaliSolidaria</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container": "#efedf0",
+                      "surface": "#faf9fb",
+                      "on-primary-container": "#e3e6ff",
+                      "on-secondary-fixed": "#00210c",
+                      "outline": "#737688",
+                      "tertiary-container": "#d20000",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#001551",
+                      "tertiary-fixed-dim": "#ffb4a8",
+                      "surface-dim": "#dbd9dc",
+                      "background": "#faf9fb",
+                      "primary-fixed-dim": "#b6c4ff",
+                      "on-tertiary-container": "#ffe1dc",
+                      "on-secondary-fixed-variant": "#005227",
+                      "surface-container-highest": "#e3e2e4",
+                      "surface-container-high": "#e9e7ea",
+                      "on-secondary": "#ffffff",
+                      "primary-container": "#0055ff",
+                      "surface-white": "#FFFFFF",
+                      "secondary-fixed": "#8afaa7",
+                      "surface-container-low": "#f5f3f6",
+                      "on-error-container": "#93000a",
+                      "primary-fixed": "#dce1ff",
+                      "inverse-primary": "#b6c4ff",
+                      "on-surface-variant": "#434656",
+                      "on-error": "#ffffff",
+                      "tertiary": "#a40100",
+                      "on-tertiary": "#ffffff",
+                      "inverse-surface": "#303032",
+                      "on-tertiary-fixed-variant": "#930100",
+                      "surface-tint": "#004dea",
+                      "tertiary-fixed": "#ffdad4",
+                      "on-surface": "#1b1c1e",
+                      "secondary-container": "#8afaa7",
+                      "surface-bright": "#faf9fb",
+                      "error": "#ba1a1a",
+                      "error-container": "#ffdad6",
+                      "accent-warm": "#FFEADB",
+                      "inverse-on-surface": "#f2f0f3",
+                      "surface-container-lowest": "#ffffff",
+                      "primary": "#0041c8",
+                      "secondary-fixed-dim": "#6edd8d",
+                      "on-secondary-container": "#007439",
+                      "on-tertiary-fixed": "#410000",
+                      "outline-variant": "#c3c5d9",
+                      "on-primary-fixed-variant": "#0039b3",
+                      "surface-variant": "#e3e2e4",
+                      "secondary": "#006d35",
+                      "background-subtle": "#F7F7F5",
+                      "on-background": "#1b1c1e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "8px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-desktop": "40px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Geist"
+                      ],
+                      "label-md": [
+                              "Geist"
+                      ],
+                      "body-md": [
+                              "Geist"
+                      ],
+                      "label-sm": [
+                              "Geist"
+                      ],
+                      "display-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background-subtle text-on-surface font-body-md min-h-screen flex flex-col pt-16">
+<!-- TopNavBar -->
+<header class="bg-surface-white/80 dark:bg-inverse-surface/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-outline-variant/30 flex justify-between items-center h-16 px-margin-desktop max-w-container-max mx-auto left-0 right-0">
+<div class="flex items-center gap-8">
+<a class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary tracking-tight" href="/">CaliSolidaria</a>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors py-2 hover:bg-surface-container-low transition-all duration-200 px-3 rounded-lg" href="/servicios">Servicios</a>
+<a class="font-label-md text-label-md text-secondary font-bold border-b-2 border-secondary pb-1 px-3 py-2" href="/guias">Guías</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors py-2 hover:bg-surface-container-low transition-all duration-200 px-3 rounded-lg" href="/informes">Informes</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors py-2 hover:bg-surface-container-low transition-all duration-200 px-3 rounded-lg" href="/mapas">Mapas</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="font-label-md text-label-md text-primary border border-primary px-4 py-2 rounded-lg hover:bg-primary-container/10 transition-colors hidden md:block">Donar</button>
+<button class="font-label-md text-label-md bg-primary text-on-primary px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors shadow-sm">Unirse</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-16">
+<!-- Hero Section -->
+<div class="mb-12 max-w-3xl">
+<h1 class="font-display-lg text-display-lg text-on-surface mb-4">Guías</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Información práctica, corta y verificada. Ninguna reemplaza a un profesional, pero sirven para saber qué hacer mientras llega.</p>
+</div>
+<!-- Guides Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<a class="block bg-surface-white rounded-[16px] border border-outline-variant/30 p-6 hover:shadow-[0_4px_20px_-4px_rgba(0,65,200,0.1)] hover:border-b-2 hover:border-b-primary transition-all duration-200 group" href="/guias/cuidarte-si-vas-a-la-zona">
+<div class="flex items-start gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="masks">masks</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[20px] leading-[28px] font-semibold text-on-surface mb-2 group-hover:text-primary transition-colors">Cuidarte si vas a la zona afectada</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">Qué protege de verdad, qué es un mito que está circulando, y por qué a veces la mejor ayuda es no ir.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-4 pt-4 border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span class="font-label-sm text-label-sm text-outline">4 min de lectura</span>
+</div>
+</a>
+<!-- Card 2 -->
+<a class="block bg-surface-white rounded-[16px] border border-outline-variant/30 p-6 hover:shadow-[0_4px_20px_-4px_rgba(0,65,200,0.1)] hover:border-b-2 hover:border-b-tertiary transition-all duration-200 group" href="/guias/que-tu-donacion-llegue">
+<div class="flex items-start gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-container/10 flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="inventory_2">inventory_2</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[20px] leading-[28px] font-semibold text-on-surface mb-2 group-hover:text-primary transition-colors">Que tu donación llegue a quien la necesita</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">Ya hay gente revendiendo lo donado. Cómo marcar lo que entregas y cómo decidir a quién darle plata.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-4 pt-4 border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span class="font-label-sm text-label-sm text-outline">4 min de lectura</span>
+</div>
+</a>
+<!-- Card 3 -->
+<a class="block bg-surface-white rounded-[16px] border border-outline-variant/30 p-6 hover:shadow-[0_4px_20px_-4px_rgba(0,65,200,0.1)] hover:border-b-2 hover:border-b-primary transition-all duration-200 group" href="/guias/primeros-auxilios-emocionales">
+<div class="flex items-start gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="forum">forum</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[20px] leading-[28px] font-semibold text-on-surface mb-2 group-hover:text-primary transition-colors">Primeros auxilios emocionales</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">Qué decir y qué callar cuando alguien está en el dolor. No hay que ser psicólogo para acompañar bien.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-4 pt-4 border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span class="font-label-sm text-label-sm text-outline">5 min de lectura</span>
+</div>
+</a>
+<!-- Card 4 -->
+<a class="block bg-surface-white rounded-[16px] border border-outline-variant/30 p-6 hover:shadow-[0_4px_20px_-4px_rgba(0,65,200,0.1)] hover:border-b-2 hover:border-b-tertiary transition-all duration-200 group" href="/guias/los-duelos-que-deja-un-terremoto">
+<div class="flex items-start gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-container/10 flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="heart_broken">heart_broken</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[20px] leading-[28px] font-semibold text-on-surface mb-2 group-hover:text-primary transition-colors">Los duelos que deja un terremoto</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">Por un familiar, por una mascota, por lo material. Los tres son reales y ninguno necesita permiso para doler.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-4 pt-4 border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span class="font-label-sm text-label-sm text-outline">4 min de lectura</span>
+</div>
+</a>
+<!-- Card 5 -->
+<a class="block bg-surface-white rounded-[16px] border border-outline-variant/30 p-6 hover:shadow-[0_4px_20px_-4px_rgba(0,65,200,0.1)] hover:border-b-2 hover:border-b-accent-warm transition-all duration-200 group" href="/guias/herramientas-para-acompanar-en-familia">
+<div class="flex items-start gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-accent-warm flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="family_home">family_home</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[20px] leading-[28px] font-semibold text-on-surface mb-2 group-hover:text-primary transition-colors">Herramientas para acompañar en familia</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">Ejercicios concretos para hacer en casa: respiración, diario familiar, caja de recuerdos, rituales y autocuidado.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-4 pt-4 border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span class="font-label-sm text-label-sm text-outline">6 min de lectura</span>
+</div>
+</a>
+<!-- Card 6 -->
+<a class="block bg-surface-white rounded-[16px] border border-outline-variant/30 p-6 hover:shadow-[0_4px_20px_-4px_rgba(0,65,200,0.1)] hover:border-b-2 hover:border-b-secondary transition-all duration-200 group" href="/guias/acompanar-a-ninos-y-adolescentes">
+<div class="flex items-start gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="backpack">backpack</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[20px] leading-[28px] font-semibold text-on-surface mb-2 group-hover:text-primary transition-colors">Acompañar a niñas, niños y adolescentes</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">Ellos también sufren, aunque no lo digan igual que un adulto. Cómo explicarles, escucharlos y darles seguridad.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-4 pt-4 border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span class="font-label-sm text-label-sm text-outline">3 min de lectura</span>
+</div>
+</a>
+<!-- Card 7 -->
+<a class="block bg-surface-white rounded-[16px] border border-outline-variant/30 p-6 hover:shadow-[0_4px_20px_-4px_rgba(0,65,200,0.1)] hover:border-b-2 hover:border-b-primary transition-all duration-200 group" href="/guias/comunidad-y-sentido">
+<div class="flex items-start gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="handshake">handshake</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[20px] leading-[28px] font-semibold text-on-surface mb-2 group-hover:text-primary transition-colors">La comunidad que sostiene</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">Después de un terremoto los recursos más importantes no son los materiales, sino los humanos.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-4 pt-4 border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span class="font-label-sm text-label-sm text-outline">3 min de lectura</span>
+</div>
+</a>
+</div>
+</main>
+<!-- Floating Action Button (FAB) - Visible on all screens for adding content -->
+<a class="fixed bottom-24 md:bottom-8 right-margin-mobile md:right-margin-desktop bg-secondary text-on-secondary rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 z-40 flex items-center gap-2 px-6 py-4" href="/publicar">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="font-label-md text-label-md hidden md:inline-block">Publicar</span>
+</a>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full bg-surface-white/90 backdrop-blur-md border-t border-outline-variant/30 z-50">
+<div class="flex justify-around items-center h-16 px-2">
+<a class="flex flex-col items-center justify-center w-full h-full text-secondary" href="/guias">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="menu_book" data-weight="fill" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+<span class="font-label-sm text-[10px]">Guías</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary transition-colors" href="/servicios">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="favorite">favorite</span>
+<span class="font-label-sm text-[10px]">Servicios</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary transition-colors relative" href="/">
+<div class="absolute -top-6 bg-surface-white rounded-full p-2 border border-outline-variant/20 shadow-sm">
+<span class="material-symbols-outlined text-3xl text-primary" data-icon="home">home</span>
+</div>
+<span class="font-label-sm text-[10px] mt-6">Tablero</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary transition-colors" href="/sitios">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="location_on">location_on</span>
+<span class="font-label-sm text-[10px]">Sitios</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary transition-colors" href="/enlaces">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="link">link</span>
+<span class="font-label-sm text-[10px]">Enlaces</span>
+</a>
+</div>
+</nav>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-background border-t border-outline-variant/20 w-full mt-auto pb-20 md:pb-0">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter py-margin-desktop px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="flex flex-col gap-4">
+<span class="font-headline-sm text-[20px] leading-[28px] font-bold text-primary">CaliSolidaria</span>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 Red de Solidaridad Cali. Impulsando el cambio comunitario.</p>
+</div>
+<div class="flex flex-wrap gap-4 md:justify-end items-center">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="/privacidad">Privacidad</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="/terminos">Términos</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="/contacto">Contacto</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="/ayuda">Ayuda</a>
+</div>
+</div>
+</footer>
+</body></html>
