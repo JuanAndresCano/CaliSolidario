@@ -120,10 +120,9 @@ export const MUNICIPIOS: Record<string, Municipio> = {
     // formulario pide la zona como texto libre, que es preferible a ofrecer
     // una división inventada. Igual que se hizo con Filandia.
     divisiones: { etiqueta: 'Comuna', opciones: [] },
-    // PENDIENTE: el número de quien vaya a atender en Buga. Este es el de
-    // Juan, para no lanzar sin canal de reportes. Es solo el respaldo: el que
-    // se usa de verdad se cambia desde /gestion sin desplegar.
-    whatsappReportes: '573113179404',
+    // Respaldo. El número que se usa de verdad vive en `municipio_config` y se
+    // cambia desde /gestion sin desplegar.
+    whatsappReportes: '573186444763',
     url: 'https://bugasolidario.triadaaliados.com',
   },
 };

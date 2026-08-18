@@ -10,8 +10,11 @@
 -- las URL de redirección de Supabase y los webhooks. Está todo en
 -- docs/alta-de-municipio.md.
 
+-- `do nothing` y no `do update`: si alguien ya cambió el número desde el panel
+-- de gestión, volver a correr esto no debe pisárselo. La contrapartida es que
+-- para CORREGIR la fila hay que hacer un update aparte; el insert no sirve.
 insert into municipio_config (municipio, whatsapp_reportes, responsable)
-values ('buga', '573113179404', 'Pendiente: alcaldía de Buga')
+values ('buga', '573186444763', 'Diego Carrillo')
 on conflict (municipio) do nothing;
 
 -- ---------------------------------------------------------------------------
