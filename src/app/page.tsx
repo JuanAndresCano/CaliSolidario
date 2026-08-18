@@ -11,15 +11,24 @@ import { countResolved, getFeed } from '@/lib/feed';
  * renderiza en el servidor y se cachea. Es lo que mantiene el tablero dentro
  * del plan gratuito aunque el enlace se difunda por WhatsApp.
  *
- * Estos 300 son la RED DE SEGURIDAD, no el mecanismo de frescura: cuando se
- * publica un aviso, el webhook purga la caché en segundos. Estaba en 60 y eso
- * son 1.440 regeneraciones diarias de esta sola página, con o sin cambios.
- * Entre las siete rutas cacheadas iban camino de 165.000 escrituras al mes y
- * el plan gratuito se quedó al 75% de su cupo. Bajar la frecuencia del reloj
- * no le quita frescura a nada mientras el webhook funcione; si el webhook
- * falla, lo peor que pasa es que un aviso tarde cinco minutos en salir.
+ * Estos 900 son la RED DE SEGURIDAD, no el mecanismo de frescura: cuando se
+ * publica un aviso, el webhook purga la caché en segundos y la acción del
+ * servidor también.
+ *
+ * Historia del número, porque va a dar ganas de bajarlo otra vez:
+ *   60  — el original. 1.440 regeneraciones diarias de esta sola página, con
+ *         o sin cambios. Entre las siete rutas cacheadas, camino de 165.000
+ *         escrituras al mes; el plan gratuito llegó al 75% de su cupo.
+ *   300 — primera corrección.
+ *   900 — esta. Al 83% del cupo y con un tercer municipio en camino, con un
+ *         consumo que además no logramos explicar del todo.
+ *
+ * Es la página más visitada y la que más regenera, así que es donde el reloj
+ * más cuesta. El único efecto real de subirlo es el modo de falla: si el
+ * webhook se cae, un aviso nuevo tarda quince minutos en salir en vez de
+ * cinco. Mientras el webhook funcione, nadie nota la diferencia.
  */
-export const revalidate = 300;
+export const revalidate = 900;
 
 export default async function HomePage() {
   const [posts, resolvedCount] = await Promise.all([getFeed(), countResolved()]);
