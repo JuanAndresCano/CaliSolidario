@@ -103,6 +103,28 @@ export const MUNICIPIOS: Record<string, Municipio> = {
     whatsappReportes: '573207259924',
     url: 'https://filandiasolidario.triadaaliados.com',
   },
+
+  buga: {
+    id: 'buga',
+    nombre: 'Buga',
+    marca: ['Buga', 'Solidario'],
+    // El nombre oficial es Guadalajara de Buga, y así hay que buscarlo en el
+    // mapa: "Buga" a secas también existe en otros países. En los textos del
+    // sitio se usa el nombre corto, que es como le dice la gente.
+    contextoMapa: 'Guadalajara de Buga, Valle del Cauca, Colombia',
+    // PENDIENTE DE CONFIRMAR. Centro aproximado del casco urbano; solo decide
+    // la vista inicial del mapa, no la ubicación de ningún punto. Ábrelo antes
+    // de lanzar y ajústalo si abre torcido.
+    centroMapa: { lat: 3.9008, lng: -76.2978, zoom: 14 },
+    // PENDIENTE: la lista de comunas y corregimientos de Buga. Vacía, el
+    // formulario pide la zona como texto libre, que es preferible a ofrecer
+    // una división inventada. Igual que se hizo con Filandia.
+    divisiones: { etiqueta: 'Comuna', opciones: [] },
+    // Respaldo. El número que se usa de verdad vive en `municipio_config` y se
+    // cambia desde /gestion sin desplegar.
+    whatsappReportes: '573186444763',
+    url: 'https://bugasolidario.triadaaliados.com',
+  },
 };
 
 /**
