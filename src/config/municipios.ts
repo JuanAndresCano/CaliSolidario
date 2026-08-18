@@ -125,6 +125,28 @@ export const MUNICIPIOS: Record<string, Municipio> = {
     whatsappReportes: '573186444763',
     url: 'https://bugasolidario.triadaaliados.com',
   },
+
+  cartago: {
+    id: 'cartago',
+    nombre: 'Cartago',
+    marca: ['Cartago', 'Solidario'],
+    // Con departamento y país porque hay otra Cartago en Costa Rica, y sin
+    // eso Maps manda a la gente a otro continente.
+    contextoMapa: 'Cartago, Valle del Cauca, Colombia',
+    // PENDIENTE DE CONFIRMAR. Centro aproximado del casco urbano; solo decide
+    // la vista inicial del mapa, no la ubicación de ningún punto. Ábrelo antes
+    // de lanzar y ajústalo si abre torcido.
+    centroMapa: { lat: 4.7466, lng: -75.9116, zoom: 14 },
+    // PENDIENTE: la lista de comunas y corregimientos de Cartago. Vacía, el
+    // formulario pide la zona como texto libre, que es preferible a ofrecer
+    // una división inventada.
+    divisiones: { etiqueta: 'Comuna', opciones: [] },
+    // PENDIENTE: el número de quien vaya a atender en Cartago. Este es el de
+    // Juan, para no lanzar sin canal de reportes. Es solo el respaldo: el que
+    // se usa de verdad se cambia desde /gestion sin desplegar.
+    whatsappReportes: '573113179404',
+    url: 'https://cartagosolidario.triadaaliados.com',
+  },
 };
 
 /**

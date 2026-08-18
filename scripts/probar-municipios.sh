@@ -51,5 +51,6 @@ probar() {
 probar cali 3100
 probar filandia 3101
 probar buga 3102
+probar cartago 3103
 detener
 rm -f /tmp/home.html
